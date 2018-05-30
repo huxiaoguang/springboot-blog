@@ -1,0 +1,219 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>添加文章</title>
+</head>
+
+<body>
+<div class="layui-body p-15" layout:fragment="content">
+		<div class="layui-breadcrumb"> 
+			<a href="/admin/article/list">系统管理</a> <a><cite>文章管理</cite></a> <a><cite th:text="${info}?'编辑文章':'添加文章'"></cite></a>
+		</div>
+		<hr></hr>
+		<fieldset class="layui-elem-field layui-field-title mt-20">
+			<legend th:text="${info}?'编辑文章':'添加文章'"></legend>
+		</fieldset>
+		
+		<form class="layui-form layui-form-pane" id="article-save-form" enctype="multipart/form-data">
+			<div class="layui-row">
+			  <div class="layui-col-xs8">
+				  <div class="layui-col-xs9">
+				  	
+					<div class="layui-form-item">
+						<label class="layui-form-label">文章标题</label>
+						<div class="layui-input-block">
+							<input name="title" autocomplete="off" placeholder="请输入文章标题" class="layui-input" type="text" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">文章作者</label>
+						<div class="layui-input-block">
+							 <input name="author" autocomplete="off"  placeholder="请输入文章作者" class="layui-input" type="text" />
+						</div>
+				 	</div>
+				 
+					<div class="layui-form-item">
+						<label class="layui-form-label">文章来源</label>
+						<div class="layui-input-block">
+							 <input name="from" autocomplete="off" placeholder="请输入文章来源" class="layui-input" type="text" />
+						</div>
+				 	</div>
+				  </div>
+				  
+				  <div class="layui-col-xs3 pl-10">
+				  	<div class="layui-form-item layui-upload">
+						 <div class="layui-upload-drag" id="upload-drag">
+							<i class="layui-icon">&#xe67c;</i>
+							<p style="padding-top:8px;">点击上传缩略图</p>
+						 </div>
+						 <input id="image" name="image" type="hidden" />
+					</div>
+				  </div>
+				  
+				  <div class="layui-form-item layui-form-text mr-10 mt-10">
+						<label class="layui-form-label">文章简介</label>
+						<div class="layui-input-block">
+							<textarea style="height:106px" placeholder="请输入文章简介" class="layui-textarea" name="description"></textarea>
+						</div>
+				  </div>
+			  </div>
+			  
+			  <div class="layui-col-xs4">
+			  	<div class="layui-form-item">
+					<label class="layui-form-label">文章分类</label>
+					<div class="layui-input-block">
+				      <select name="category_id">
+				        <option   value="0">请选择分类</option>
+				        <th:block th:each="vo:${list}">
+				        <option   th:value="${vo.id}" th:text="${vo.name}"></option>
+				        </th:block>
+				      </select>
+				    </div>
+				</div>
+			  	
+				<div class="layui-form-item">
+					<label class="layui-form-label">标&emsp;&emsp;签</label>
+					<div class="layui-input-block">
+				      	<div class="layui-col-xs10">
+				      		<input name=keywords autocomplete="off" readonly="true" placeholder="请选择标签" class="layui-input" type="text"  />
+				      	</div>
+				      	<div class="layui-col-xs2 fr">
+				      		<button class="layui-btn ml-10" type="button" onclick="showBox('选择标签',600,600,1,'/admin/tag/index?type=1')">选 择</button>
+				      	</div>
+				    </div>
+				</div>
+				
+				<div class="layui-form-item" pane="">
+					<label class="layui-form-label">允许评论</label>
+					<div class="layui-input-block">
+						<input id="iscomment" type="hidden" name="iscomment"  value="normal" />
+						<input lay-filter="switch-status"   lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
+					</div>
+				 </div>
+				 
+				 <div class="layui-form-item" pane="">
+					<label class="layui-form-label">是否发布</label>
+					<div class="layui-input-block">
+						<input id="status" type="hidden"   name="status" value="normal" />
+						<input lay-filter="switch-status"  lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
+					</div>
+				 </div>
+				 
+				 <div class="layui-form-item" pane="">
+					<label class="layui-form-label">是否置顶</label>
+					<div class="layui-input-block">
+						<input id="istop" type="hidden"    name="istop" value="normal" />
+						<input lay-filter="switch-status"  lay-skin="switch" lay-text="是|否" type="checkbox" />
+					</div>
+				 </div>
+				 
+				 <div class="layui-form-item">
+					<label class="layui-form-label">发布时间</label>
+					<div class="layui-input-block">
+						<input id="createtime" name="createtime" th:value="${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd HH:mm:ss')}" autocomplete="off" placeholder="请选择发布时间" class="layui-input" type="text">
+					</div>
+				 </div>
+			  </div>
+			</div>
+			
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">文章内容</label>
+				<div class="layui-input-block">
+					<textarea id="content" name="content" style="display:none"></textarea>
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<button class="layui-btn" type="button" lay-submit="article-save" lay-filter="article-save">提 交</button>
+				<button type="reset" class="layui-btn layui-btn-primary">重 置</button>
+			</div>
+	</form>		
+</div>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	layui.use(['jquery', 'form', 'layer','layedit'], function() 
+	{
+		var $ = layui.jquery; layer = layui.layer, form = layui.form,layedit = layui.layedit;
+		var laydate = layui.laydate; upload  = layui.upload;
+		
+		//发布时间
+		laydate.render({
+			elem: '#createtime',
+			type: 'datetime'
+		});
+		
+		//普通图片上传
+		upload.render({
+		    elem  : '#upload-drag',
+		    accept: 'images',
+		    url   : '/admin/article/upload',
+		    done  : function(result)
+		    {
+		    	if(result.status)
+		    	{
+		    		$(".layui-upload #image").val(result.data.savename);
+		    		$(".layui-upload #upload-drag").empty().append("<img src="+result.data.savename+" />");
+		    	}else{
+		    		layer.msg("上传图片错误");
+		    	}	
+		    },
+		    error: function(err)
+		    {
+		    	layer.msg("网络异常，请重新上传");
+		    }
+		});
+		
+		//建立编辑器
+	    var contIndex = layedit.build('content',{tool: ['strong', 'italic','underline','del','|','left','center','right','|','link','unlink','face','image','|','code']});
+	    
+	    $(".layui-layedit").mouseleave(function()
+   		{
+   			if(layedit.getText(contIndex))
+   			{
+   				$("#content").text(layedit.getContent(contIndex));
+   			}else{
+   				$("#content").text('');
+   			}
+   		})
+	    	
+		//监听指定开关
+		form.on('switch(switch-status)', 
+		function(data)
+		{		
+			if(this.checked)
+			{
+				$("#status").val('normal');
+			}else{
+				$("#status").val('hidden');
+			}
+		});
+		
+		ajaxform('article-save', '/admin/article/save', 'article-save-form',
+		function(json)
+		{
+			if(json.status)
+			{
+				layer.msg(json.msg,	function()
+				{
+					window.location.href = json.url;
+				})
+			}else{
+				layer.msg(json.msg);
+			}
+		})
+		
+		change = function(tag)
+		{
+			var tags = $("input[name=keywords]").val();
+			
+			if(!tags)
+			{
+				$("input[name=keywords]").val(tag);
+			}else{
+				$("input[name=keywords]").val(tags+','+tag);
+			}
+			layer.closeAll();
+		}
+	});
+</script>
+</body>
+</html>

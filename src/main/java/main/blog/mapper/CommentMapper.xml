@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.CommentMapper">
+	
+	<!--查询评论-->
+	<select id="listComment" resultType="main.blog.entity.CommentBean">
+    	select c.*,a.title,u.username from fa_comment c 
+    	left join fa_article a on c.aid = a.id
+    	left join fa_user 	 u on c.uid = u.id
+     	<where>
+	       	 <if test="keywords != null">
+	       	 	and	c.comment LIKE concat('%',#{keywords},'%')
+	       	 </if>
+		</where>
+    	order by cid desc
+    </select>
+    
+    <!--删除评论-->
+    <delete id="deleteComment" parameterType="int">
+    	delete from fa_comment where cid = #{id}
+    </delete>
+    
+    <!--统计文章评论数-->
+    <select id="countComment" parameterType="int" resultType="int">
+    	select count(*) from fa_comment where aid = #{id}
+    </select>
+    
+    <!--统计文章评总论数-->
+    <select id="numComment" resultType="int">
+    	select count(*) from fa_comment
+    </select>
+    
+    <!--文章的评论-->
+    <select id="getListComment" parameterType="int" resultType="main.blog.entity.CommentBean">
+    	select c.*, u.username from fa_comment c left join fa_user u on c.uid = u.id 
+    	where aid = #{id} order by c.cid desc
+    </select>
+</mapper>

@@ -1,0 +1,127 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>编辑文章</title>
+</head>
+
+<body class="layui-layout-body">
+	<div class="layui-body p-15" layout:fragment="content">
+		
+	<div class="layui-breadcrumb"> 
+		<a href="/admin/category/list">文章管理</a> <a><cite>栏目管理</cite></a> <a><cite>编辑分类</cite></a>
+	</div>
+	<hr />
+	
+	<fieldset class="layui-elem-field layui-field-title mt-20">
+		<legend>编辑分类</legend>
+	</fieldset>
+	
+	<form class="layui-form layui-form-pane" id="category-save-form">
+		<div class="layui-row">
+			<input name="id" type="hidden"  th:value="${info.id}" />
+			<div class="layui-form-item">
+				<label class="layui-form-label">栏目名称</label>
+				<div class="layui-input-block">
+					<input name="name" autocomplete="off" lay-verify="required" placeholder="请输入栏目名称" class="layui-input" type="text" th:value="${info.name}" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">英文名称</label>
+				<div class="layui-input-block">
+					<input name="diyname" autocomplete="off" lay-verify="required" placeholder="请输入英文名称" class="layui-input" type="text" th:value="${info.diyname}" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否导航</label>
+				<div class="layui-input-block">
+			      <select name="isnav" lay-verify="required">
+			       		<option value="0" th:selected="${info.isnav==0?true:false}">否</option>
+			       		<option value="1" th:selected="${info.isnav==1?true:false}">是</option>
+			      </select>
+			    </div>
+			</div>
+				
+			<div class="layui-form-item">
+				<label class="layui-form-label">上级栏目</label>
+				<div class="layui-input-block">
+			      <select name="pid" lay-verify="required">
+			        	<option value="0">顶级栏目</option>
+			       		<th:block th:each="vo:${list}">
+			       			<th:block   th:if="${info.id==vo.id}">
+			       				<option th:value="${vo.id}" disabled="true" th:selected="${info.pid==vo.id?true:false}" th:text="${vo.name}"></option>
+			       			</th:block>
+			       			<th:block   th:if="${info.id!=vo.id}">
+			       				<option th:value="${vo.id}" th:selected="${info.pid==vo.id?true:false}" th:text="${vo.name}"></option>
+			       			</th:block>
+			       		</th:block>
+			      </select>
+			    </div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">关&ensp;键&ensp;词</label>
+				<div class="layui-input-block">
+			      	<input name=keywords autocomplete="off" lay-verify="required" placeholder="请输入关键词用“,”隔开" class="layui-input" type="text" th:value="${info.keywords}" />
+			    </div>
+			</div>
+			
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">栏目描述</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入栏目描述" class="layui-textarea" lay-verify="required" name="description" th:utext="${info.description}"></textarea>
+				</div>
+			</div>
+			
+			<div class="layui-form-item" pane="">
+				<label class="layui-form-label">是否启用</label>
+				<div class="layui-input-block">
+					<input id="status" type="hidden"   name="status" th:value="${info.status=='hidden'?'hidden':'normal'}" />
+					<input lay-filter="switch-status"  lay-skin="switch" lay-text="是|否" th:checked="${info.status=='hidden'?false:true}" type="checkbox" />
+				</div>	
+			</div>
+		</div>
+	
+		<div class="layui-form-item">
+			<button class="layui-btn" type="button" lay-submit="category-save" lay-filter="category-save">提 交</button>
+			<button type="reset" class="layui-btn layui-btn-primary">重 置</button>
+		</div>
+	</form>
+</div>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	layui.use(['jquery', 'form', 'layer','layedit'], function() 
+	{
+		var $ = layui.jquery; layer = layui.layer, form = layui.form,layedit = layui.layedit;
+			  
+		//建立编辑器
+		layedit.build('content');
+		
+		//监听指定开关
+		form.on('switch(switch-status)', 
+		function(data)
+		{		
+			if(this.checked)
+			{
+				$("#status").val('normal');
+			}else{
+				$("#status").val('hidden');
+			}
+		});
+		
+		ajaxform('category-save', '/admin/category/save', 'category-save-form',
+		function(json)
+		{
+			if(json.status)
+			{
+				layer.msg(json.msg,	function()
+				{
+					window.location.href = json.url;
+				})
+			}else{
+				layer.msg(json.msg);
+			}
+		})
+	});
+</script>
+</body>
+</html>

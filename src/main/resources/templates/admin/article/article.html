@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>文章列表</title>
+</head>
+
+<body>
+<div class="layui-body p-15" layout:fragment="content">
+	<div class="layui-breadcrumb">
+		<a href="/admin/article/list">文章管理</a><a><cite>文章列表</cite></a>
+	</div>
+	<hr />
+	<form class="layui-form" lay-size="sm">
+		<div class="layui-inline fr">
+			<div class="layui-input-inline">
+				<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input"  th:value="${keywords}" type="text">
+			</div>
+			<button class="layui-btn layui-btn-sm">搜 索</button>
+		</div>
+		<div class="layui-inline">
+			<a th:href="@{'/admin/article/add'}" class="layui-btn layui-btn-search layui-btn-sm fr">+新增文章</a>
+		</div>
+	</form>
+	
+	<div class="layui-form">
+	  <table class="layui-table">
+	    <thead>
+	      <tr>
+	        <td>编号</td>
+	        <td width="20%">文章标题</td>
+	        <td width="8%">所属栏目</td>
+	        <td width="5%">状态</td>
+	        <td>查看数次</td>
+	        <td>回复次数</td>
+	        <td>发布时间</td>
+	        <td>更新时间</td>
+	        <td width="15%">关键词</td>
+	        <td>操作</td>
+	      </tr> 
+	    </thead>
+	    <tbody>
+	      <th:block th:each="vo:${list}">
+	      <tr>
+	        <td th:text="${vo.id}"></td>
+	        <td><a th:text="${vo.title}" th:href="@{'/article/'+${vo.id}+'.html'}" target="_blank"></a></td>
+	        <td th:text="${vo.cname}"></td>
+	        <td>
+				<input name="status" lay-skin="switch" lay-filter="is_status" lay-text="启用|禁用" type="checkbox"  th:checked="${vo.status=='normal'}?'true':'false'"  th:value="${vo.id}" />
+	        </td>
+	        <td th:text="${vo.views}"></td>
+	        <td th:text="${vo.comments}"></td>
+	        <td th:text="${#dates.format(vo.createtime,'yyyy-MM-dd HH:mm')}"></td>
+	        <td th:text="${#dates.format(vo.updatetime,'yyyy-MM-dd HH:mm')}"></td>
+	        <td th:text="${vo.keywords}"></td>
+	        <td>
+	        	<a th:href="@{'/article/'+${vo.id}+'.html'}" target="_blank">查看</a>&ensp;
+	        	<a th:href="@{'/admin/article/edit?id='+${vo.id}}">编辑</a>&ensp;
+	        	<a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/article/delete}+'\','+${vo.id}+')'">删除</a>
+	        </td>
+	      </tr>
+	      </th:block>
+	    </tbody>
+	  </table>
+	</div>
+	<div class="layui-center">
+		<div th:replace="admin/public/page::show('/admin/article/index')"></div>
+	</div>
+</div>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	/*<![CDATA[*/
+	layui.use(['jquery', 'form', 'layer'], function() 
+	{
+		var form = layui.form;
+		form.on('switch(is_status)', function(data)
+		{
+			var id     = data.value;
+			var status = data.elem.checked==true?'normal':'hidden';
+			updateData('/admin/article/updateStatus', id, status);
+		})
+	})
+	/*]]>*/
+</script>
+</body>
+</html>

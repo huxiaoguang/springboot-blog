@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.TagMapper">
+	
+	<!--查询标签-->
+	<select id="listTag" parameterType="map" resultType="main.blog.entity.TagBean">
+    	select * from fa_tag
+    	<where>
+	       	 <if test="tagname!= null">
+	       	 	and	tagname LIKE concat('%',#{tagname},'%')
+	       	 </if>
+		</where>
+    	order by id desc
+    </select>
+    
+    <!--新增标签-->
+    <insert id="addTag" parameterType="main.blog.entity.TagBean">
+    	insert into fa_tag (tagname, status, description) VALUES (#{tagname}, #{status}, #{description})
+    </insert>
+    
+    <!--获取标签-->
+    <select id="infoTag" parameterType="int" resultType="main.blog.entity.TagBean">
+    	select * from fa_tag where id = #{id} limit 1
+    </select>
+    
+    <!--编辑标签-->
+    <update id="editTag" parameterType="main.blog.entity.TagBean">
+    	update fa_tag set tagname = #{tagname}, status = #{status}, description = #{description} where id = #{id} 
+    </update>
+    
+    <!--删除标签 -->
+    <delete id="deleteTag" parameterType="int">
+    	delete from fa_tag where id = #{id}
+    </delete>
+    
+    <!--更新标签状态-->
+    <update id="updateTagStatus" parameterType="main.blog.entity.TagBean">
+    	update fa_tag set status = #{status} where id = #{id} 
+    </update>
+    
+    <!--外部调用-->
+	<select id="getListTag" parameterType="int" resultType="main.blog.entity.TagBean">
+    	select * from fa_tag order by id desc limit #{limit}
+    </select>
+</mapper>

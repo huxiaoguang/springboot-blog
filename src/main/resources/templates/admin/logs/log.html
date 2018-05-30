@@ -1,0 +1,77 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>管理员日志</title>
+</head>
+
+<body class="layui-layout-body">
+<div class="layui-body p-15" layout:fragment="content">
+	<div class="layui-breadcrumb">
+	  <a href="/article/article/list">系统管理</a>
+	  <a><cite>标签管理</cite></a>
+	</div>
+	<hr />
+	<form class="layui-form pjax-from" lay-size="sm" action="/admin/logs/index">
+	<div class="layui-inline">
+		<button class="layui-btn layui-btn-sm" type="button" onclick="reload()">
+					<i class="layui-icon f-20">ဂ</i>刷新
+				</button>
+			</div>
+			<div class="layui-inline fr">
+			<div class="layui-inline">
+				<label class="layui-form-label">关键词</label>
+				<div class="layui-input-inline">
+					<input name="keywords" placeholder="请输入关键词" autocomplete="off" class="layui-input" type="text" th:value="${keywords}" />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">用户名</label>
+				<div class="layui-input-inline">
+					<input name="username" placeholder="请输入用户名" autocomplete="off" class="layui-input" type="text" th:value="${user_name}" />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<label class="layui-form-label">IP地址</label>
+				<div class="layui-input-inline">
+					<input name="ip" placeholder="IP地址" autocomplete="off" class="layui-input" type="text" th:value="${ip}" />
+				</div>
+			</div>
+			<div class="layui-inline">
+				<button class="layui-btn layui-btn-sm">搜 索</button>
+			</div>
+		</div>
+	</form>
+			
+	<div class="layui-form">
+	  <table class="layui-table">
+	    <thead>
+	      	<tr>
+				<th width="5%">编号</th>
+				<th width="8%">操作者</th>
+				<th width="13%">操作日期</th>
+				<th width="8%">IP地址</th>
+				<th width="20%">请求地址</th>
+				<th>操作记录</th>
+			</tr>
+	    </thead>
+	    <tbody>
+		<th:block th:each="vo:(${list})">
+			<tr>
+				<td th:text="${vo.id}"></td>
+				<td th:text="${vo.username}"></td>
+				<td th:text="${#dates.format(vo.createtime * 1000,'yyyy-MM-dd HH:mm')}"></td>
+				<td th:text="${vo.ip}"></td>
+				<td th:text="${vo.url}"></td>
+				<td>
+					<div style="width:100%;word-break:break-all;" th:text="${vo.title}+'，参数：'+${vo.content}"></div>
+				</td>
+			</tr>
+		</th:block>
+	    </tbody>
+	  </table>
+	</div>
+	<div class="layui-center">
+		<div th:replace="admin/public/page::show('/admin/logs/index')"></div>
+	</div>
+</div>
+</body>
+</html>

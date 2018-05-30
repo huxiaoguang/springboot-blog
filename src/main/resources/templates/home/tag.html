@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>标签云 |船长的博客</title>
+<meta name="description" content="船长的博客">
+<meta name="keywords"    content="船长的博客">
+<meta name="viewport" 	 content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"	 href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet"	 href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet"	 href="https://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css">
+<link rel="stylesheet"	 href="https://cdn.bootcss.com/magnific-popup.js/1.0.0/magnific-popup.min.css">
+<link rel="stylesheet"   href="/home/screen.css">
+<script type="text/javascript" src="/home/ghost-url.js"></script>
+<script type="text/javascript">
+	ghost.init({
+		clientId : "ghost-frontend",
+		clientSecret : "721352203d6a"
+	});
+</script>
+<style id="fit-vids-style">
+.fluid-width-video-wrapper {
+	width: 100%;
+	position: relative;
+	padding: 0;
+}
+
+.fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object,
+	.fluid-width-video-wrapper embed {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+</style>
+</head>
+
+<body class="post-template">
+	<div th:replace="/public/header"></div>
+	<section class="content-wrap">
+		<div class="container">
+			<div class="row">
+				<main class="col-md-8 main-content">
+				<article class="post page">
+				    <header class="post-head">
+				        <h1 class="post-title">标签云</h1>
+				    </header>
+					
+				    <section class="post-content widget">
+				    	<div class="tag-cloud">
+				            <th:block th:each="vo:${list}">
+							<a th:href="@{'/tag/'+${vo.tagname}+'/'}" th:text="${vo.tagname}" th:title="${vo.tagname}" target="_blank"></a>
+							</th:block>
+				        </div>
+				    </section>
+				</article>
+                </main>
+				<div th:replace="/public/left"></div>
+			</div>
+		</div>
+	</section>
+	<div th:replace="/public/footer"></div>
+</body>
+</html>

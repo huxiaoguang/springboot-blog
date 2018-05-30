@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.ArticleMapper">
+	
+	<!--最新文章 -->
+	<select id="newArticle" parameterType="int" resultType="main.blog.entity.ArticleBean">
+		select * from fa_article where status = 'normal' order by id desc limit #{limit}
+	</select>
+	
+	<!-- 文章列表 -->
+	<select id="listArticle" parameterType="map" resultType="main.blog.entity.ArticleBean">
+		select a.*,c.name as cname from fa_article as a left join fa_category as c on a.category_id = c.id
+		<where>
+	       	 <if test="title != null">
+	       	 	and	a.title LIKE concat('%',#{title},'%') or a.keywords LIKE concat('%',#{title},'%') or a.description LIKE concat('%',#{title},'%')
+	       	 </if>
+	       	 <if test="keywords!=null">
+	       	 	and	a.keywords LIKE concat('%',#{keywords},'%')
+	       	 </if>
+	       	 <if test="cname != null">
+	       	 	and c.diyname='${cname}'
+	       	 </if>
+	       	 <if test="category_id != null">
+	       	 	and a.category_id=${category_id}
+	       	 </if>
+		</where>
+		order by a.id desc
+	</select>
+	
+	<!-- 文章详情 -->
+	<select id="detailArticle" parameterType="int" resultType="main.blog.entity.ArticleBean">
+		select * from fa_article where id = #{id}
+	</select>
+	
+	<!--文章删除 -->
+	<delete id="deleteArticle" parameterType="int">
+		delete from fa_article where id = #{id}
+	</delete>
+	
+	<!--更新文章查看次数 -->
+	<update id="updateViews" parameterType="int">
+		update fa_article set views = views+1 where id = #{id} 
+	</update>
+	
+	<!--新增文章-->
+	<insert id="addArticle" parameterType="main.blog.entity.ArticleBean">
+		insert into fa_article (`title`, `category_id`, `keywords`, `description`, `image`, `author`, `from`, `status`, `istop`, `iscomment`, `createtime`, `updatetime`, `content`) VALUES 
+		(#{title}, #{category_id}, #{keywords}, #{description}, #{image}, #{author}, #{from}, #{status}, #{istop}, #{iscomment}, #{createtime, javaType=DATE}, #{updatetime, javaType=DATE}, #{content})
+	</insert>
+	
+	<!--文章更新 -->
+	<update id="editArticle" parameterType="main.blog.entity.CategoryBean">
+		update fa_article set `title`=#{title}, `category_id`=#{category_id}, `image`=#{image}, `author`=#{author}, `from`=#{from}, `status`=#{status}, `istop`=#{istop}, `iscomment`=#{iscomment}, `keywords`=#{keywords}, `description`=#{description}, `createtime`=#{createtime, javaType=DATE}, `updatetime`=#{updatetime, javaType=DATE}, `content`=#{content} where `id`=#{id}
+	</update>
+	
+	<!--统计分类下文章数-->
+	<select id="countCategoryArticle" parameterType="int" resultType="int">
+		select count(*) from fa_article where category_id = #{value}
+	</select>
+	
+	<!--统计分类下子分类-->
+	<select id="countSubCategory" parameterType="int" resultType="int">
+		select count(*) from fa_category where pid = #{id}
+	</select>
+	
+	<!--更新文章状态-->
+    <update id="updateArticleStatus" parameterType="main.blog.entity.ArticleBean">
+    	update fa_article set status = #{status} where id = #{id} 
+    </update>
+    
+    <!--统计文章数 -->
+    <select id="countArticle" resultType="int">
+		select count(*) from fa_article where status = 'normal'
+	</select>
+	
+	<!--文章上一篇-->
+	<select id="preArticle" parameterType="int" resultType="main.blog.entity.ArticleBean">
+		select id,title from fa_article where id &lt; #{id} order by id desc limit 1
+	</select>
+	
+	<!--文章下一篇-->
+	<select id="nextArticle" parameterType="int" resultType="main.blog.entity.ArticleBean">
+		select id,title from fa_article where id &gt; #{id} order by id desc limit 1
+	</select>
+	
+	<!--按月统计-->
+	<select id="monthArticle" resultType="map">
+		select DATE_FORMAT(createtime,'%Y-%m') months, count(id) count from fa_article group by months 
+	</select>
+	
+	<!--按月统计-->
+	<select id="getMonthArticle" parameterType="string" resultType="main.blog.entity.ArticleBean">
+		select * from fa_article where DATE_FORMAT(createtime, '%Y-%m')=#{month}
+	</select>
+</mapper>

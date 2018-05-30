@@ -1,0 +1,111 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="/admin/layout">
+<head>
+	<title>LayBlog博客系统</title>
+</head>
+
+<body>
+	<div class="layui-body p-15" layout:fragment="content">
+		<blockquote class="layui-elem-quote">欢迎使用WeAdmin 后台模版！</blockquote>			
+		<div class="layui-col-lg12 layui-collapse" style="border: none;">
+			<div class="layui-col-lg6 layui-col-md12">
+				<!--统计信息展示-->
+				<fieldset class="layui-elem-field" style="padding:10px 10px 0 10px;">
+					<!--<legend>信息统计</legend>-->
+					<blockquote class="layui-elem-quote font16">信息统计</blockquote>
+					<div class="">
+						<table class="layui-table" lay-even="">
+							<thead>
+								<tr>
+									<th>统计</th>
+									<th>资讯库</th>
+									<th>图片库</th>
+									<th>产品库</th>
+									<th>用户</th>
+									<th>管理员</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>总数</td>
+									<td>92</td>
+									<td>9</td>
+									<td>0</td>
+									<td>8</td>
+									<td>20</td>
+								</tr>
+								<tr>
+									<td>今日</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<td>昨日</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<td>本周</td>
+									<td>2</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+								</tr>
+								<tr>
+									<td>本月</td>
+									<td>2</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+									<td>0</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</fieldset>
+			</div>
+			
+			<div class="layui-col-lg6 layui-col-md12">
+				<fieldset class="layui-elem-field we-changelog" style="padding:10px 10px 0 10px;">
+					<!--更新日志-->
+					<blockquote class="layui-elem-quote font16">服务器信息</blockquote>
+					<table class="layui-table">
+							<tbody>
+								<tr>
+									<th width="30%">服务器计算机名</th>
+									<td><span id="lbServerName">http://127.0.0.1/</span></td>
+								</tr>
+								<tr>
+									<td>服务器IP地址</td>
+									<td>192.168.1.1</td>
+								</tr>
+								<tr>
+									<td>服务器域名</td>
+									<td>github.com</td>
+								</tr>
+								<tr>
+									<td>服务器端口 </td>
+									<td>80</td>
+								</tr>
+								<tr>
+									<td>WeAdmin时间 </td>
+									<td id="firstTime">2018-01-01 13:14:00</td>
+								</tr>
+								<tr>
+									<td>上次更新时间 </td>
+									<td id="lastTime">4天前</td>
+								</tr>
+							</tbody>
+						</table>
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

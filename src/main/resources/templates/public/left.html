@@ -1,0 +1,35 @@
+<aside class="col-md-4 sidebar">
+
+		<div class="widget">
+			<h4 class="title">个人资料</h4>
+			<div class="content community">
+				<p><b>船长的博客</b>&ensp;● 上海-张江</p>
+				<p>文章数：<span th:text="${countArticle}"></span></p>
+				<p>评论数：<span th:text="${numComment}"></span></p>
+				<p>访问数：1000</p>
+			</div>
+		</div>
+		<!-- end tag cloud widget -->	
+		
+		<div class="widget">
+			<h4 class="title">技术归档</h4>
+			<div class="content community">
+				<th:block th:each="vo:${monthArticle}">
+					<p>
+						<a th:href="@{'/month/'+${vo.year}+'/'+${vo.month}}" th:text="${vo.year+'年'}+${vo.month+'月'}"></a>
+						<a th:href="@{'/month/'+${vo.year}+'/'+${vo.month}}" style="float:right" th:text="${vo.count+'篇'}"></a>
+					</p>
+				</th:block>
+			</div>
+		</div>
+		
+		<div class="widget">
+			<h4 class="title">标签云</h4>
+			<div class="content tag-cloud">
+				<th:block th:each="vo:${tag}">
+					<a th:href="@{'/tag/'+${vo.tagname}+'/'}" th:text="${vo.tagname}" th:title="${vo.tagname}" target="_blank"></a>
+				</th:block>
+				<a href="/tag-cloud/" target="_blank">...</a>
+			</div>
+		</div>
+</aside>

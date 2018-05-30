@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/fastadmin
+    username: root
+    password: root
+  thymeleaf:
+    mode: HTML
+    
+mybatis:
+  type-aliases-package: main.blog.entity
+  mapper-locations: classpath:mapper/*.xml
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

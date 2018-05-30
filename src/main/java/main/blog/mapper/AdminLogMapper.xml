@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.AdminLogMapper">
+	
+	<!--查询管理员操作日志 -->
+    <select id="listAdminLog" parameterType="map" resultType="main.blog.entity.AdminLogBean">
+        select * from fa_admin_log
+        <where>
+        	 <if test="ip!= null">
+	       	 	and	ip LIKE concat('%',#{ip},'%')
+	       	 </if>
+	       	 <if test="username!= null">
+	       	 	and	username LIKE concat('%',#{username},'%')
+	       	 </if>
+	       	 <if test="title!=null">
+	       	 	and	title LIKE concat('%',#{title},'%') or title LIKE concat('%',#{content},'%')
+	       	 </if>
+		</where>
+    </select>
+    
+    <!--删除管理员操作日志 -->
+    <delete id="deleteAdminLog" parameterType="int">
+    	delete from fa_admin_log where id = #{id}
+    </delete>
+</mapper>

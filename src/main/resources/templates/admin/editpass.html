@@ -1,0 +1,93 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改密码</title>
+	<link rel="stylesheet" href="/static/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/static/admin/css/main.css" />
+</head>
+
+<body class="mt-30 mr-30">
+<form id="password-form" class="layui-form" method="post">	
+	<div class="layui-form-item">
+		<label class="layui-form-label">原&ensp;密&ensp;码</label>
+		<div class="layui-input-block">
+			<input type="password" name="password" id="password" lay-verify="password" placeholder="请输入原密码" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">新&ensp;密&ensp;码</label>
+		<div class="layui-input-block">
+			<input type="password" name="newpass" id="newpass" lay-verify="newpass" placeholder="请输入新密码" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<label class="layui-form-label">重输密码</label>
+		<div class="layui-input-block">
+			<input type="password" name="renewpass" lay-verify="renewpass" placeholder="请输入重输新密码" error="两次输入的密码不一样" class="layui-input">
+		</div>
+	</div>
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn" type="button" lay-submit="submit" lay-filter="password-submit">提交</button>
+			<button type="reset" class="layui-btn layui-btn-primary" onclick="parent.layer.closeAll();">关闭</button>
+		</div>
+	</div>
+</form>
+	
+<script src="/static/admin/layui/layui.all.js"></script>
+<script src="/static/admin/js/common.js"></script>
+
+<script type="text/javascript">
+layui.use(['jquery', 'form', 'layer'], function() 
+{
+	var $ = layui.jquery,form = layui.form ,layer = layui.layer;
+	
+	//修改密码验证
+	form.verify({
+		password:function(value,dom)
+		{
+			if(!value)
+			{
+				return $(dom).attr('placeholder');
+			}
+		},
+		newpass:function(value,dom)
+		{
+			if(!value)
+			{
+				return $(dom).attr('placeholder');
+			}
+		},
+		renewpass:function(value,dom)
+		{
+			if(!value)
+			{
+				return $(dom).attr('placeholder');
+			}
+			
+			if(value!=$("#newpass").val())
+			{
+				return $(dom).attr('error');
+			}
+		}
+	})
+	
+	//提交表单
+	ajaxform('password-submit', '/admin/editPass', 'password-form',
+	function(json)
+	{
+		if(json.status)
+		{
+			layer.msg(json.msg,	function()
+			{
+				parent.layer.closeAll();
+			})
+		}else{
+			layer.msg(json.msg);
+		}
+	})
+})
+</script>
+</body>
+</html>
