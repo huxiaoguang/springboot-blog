@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,6 +20,7 @@ import main.blog.service.CommentService;
 import main.blog.service.LinkService;
 import main.blog.service.TagService;
 
+@Component
 public class BaseInterceptor implements HandlerInterceptor 
 {
 	@Resource
