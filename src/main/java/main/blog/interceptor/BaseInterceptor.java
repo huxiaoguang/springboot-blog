@@ -70,7 +70,7 @@ public class BaseInterceptor implements HandlerInterceptor
 		List<HashMap<String, String>> monthArticle = articleService.monthArticle();
 		request.setAttribute("monthArticle", monthArticle);
 		
-		//当前访问数
+		//当前访问量
 		int visitCount = visitService.getVisitCount();
 		request.setAttribute("visitCount", visitCount);
 		

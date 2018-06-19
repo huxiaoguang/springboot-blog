@@ -19,6 +19,6 @@
     
     <!--获取当前访问量-->
     <select id="getVisitCount" resultType="int">
-    	select count(distinct ip) from fa_visit group by ip;
+    	select count(distinct ip) from fa_visit group by ip
     </select>
 </mapper>

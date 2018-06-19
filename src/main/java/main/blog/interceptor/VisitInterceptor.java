@@ -26,11 +26,9 @@ public class VisitInterceptor implements HandlerInterceptor
 		String referer = WebUtil.getReferer(request);
 		
 		VisitBean visit = new VisitBean();
-		
 		visit.setIp(ip);
 		visit.setReferer(referer);
 		visit.setUrl(url);
-		
 		visitService.addVisit(visit);
 		
 		return true;

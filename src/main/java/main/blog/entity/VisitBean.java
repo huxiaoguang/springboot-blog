@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class VisitBean 
 {
+	
 	private int id;
 	private String url;
 	private String referer;

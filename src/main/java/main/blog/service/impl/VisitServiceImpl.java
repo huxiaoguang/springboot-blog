@@ -29,6 +29,7 @@ public class VisitServiceImpl implements VisitService
 		return true;
 	}
 	
+	
 	@Override
 	public  int getVisitCount() 
 	{

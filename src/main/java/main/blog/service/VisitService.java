@@ -2,8 +2,8 @@ package main.blog.service;
 
 import main.blog.entity.VisitBean;
 
-public interface VisitService {
-	
+public interface VisitService
+{	
 	//访问统计
 	public boolean addVisit(VisitBean visit);
 	
