@@ -14,6 +14,7 @@ mybatis:
   type-aliases-package: main.blog.entity
   mapper-locations: classpath:mapper/*.xml
 
+#开启logging myabtis语句打印
 logging:
   level:
     main.blog.mapper: trace
