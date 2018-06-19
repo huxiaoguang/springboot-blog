@@ -14,6 +14,10 @@ mybatis:
   type-aliases-package: main.blog.entity
   mapper-locations: classpath:mapper/*.xml
 
+logging:
+  level:
+    main.blog.mapper: trace
+    
 pagehelper:
   helperDialect: mysql
   reasonable: true

@@ -21,11 +21,18 @@ public class WebConfiguration implements WebMvcConfigurer {
 	@Autowired
 	private BaseInterceptor baseInter;
 	
+	/**
+	 * 访问统计拦截器
+	 */
+	@Autowired
+	private VisitInterceptor visitInter;
+	
     @Override
     public void addInterceptors(InterceptorRegistry registry) 
     {
     	InterceptorRegistration loginRegistry = registry.addInterceptor(loginInter);
     	InterceptorRegistration baseRegistry  = registry.addInterceptor(baseInter);
+    	InterceptorRegistration visitRegistry = registry.addInterceptor(visitInter);
     	
         //拦截以/admin/为前缀的 url路径
     	loginRegistry.addPathPatterns("/admin/**");
@@ -48,5 +55,13 @@ public class WebConfiguration implements WebMvcConfigurer {
     	baseRegistry.addPathPatterns("/tag-cloud/**");
     	baseRegistry.addPathPatterns("/article/**");
     	baseRegistry.addPathPatterns("/category/**");
+    	
+    	//拦截前端url
+    	visitRegistry.addPathPatterns("/");
+    	visitRegistry.addPathPatterns("/tag/**");
+    	visitRegistry.addPathPatterns("/month/**");
+    	visitRegistry.addPathPatterns("/tag-cloud/**");
+    	visitRegistry.addPathPatterns("/article/**");
+    	visitRegistry.addPathPatterns("/category/**");
     }
 }

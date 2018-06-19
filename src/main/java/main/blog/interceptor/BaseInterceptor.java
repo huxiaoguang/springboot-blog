@@ -19,6 +19,7 @@ import main.blog.service.CategoryService;
 import main.blog.service.CommentService;
 import main.blog.service.LinkService;
 import main.blog.service.TagService;
+import main.blog.service.VisitService;
 
 @Component
 public class BaseInterceptor implements HandlerInterceptor 
@@ -37,6 +38,9 @@ public class BaseInterceptor implements HandlerInterceptor
 	
 	@Resource
 	private TagService tagService;
+	
+	@Resource
+	private VisitService visitService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -65,6 +69,10 @@ public class BaseInterceptor implements HandlerInterceptor
 		//文章归档
 		List<HashMap<String, String>> monthArticle = articleService.monthArticle();
 		request.setAttribute("monthArticle", monthArticle);
+		
+		//当前访问数
+		int visitCount = visitService.getVisitCount();
+		request.setAttribute("visitCount", visitCount);
 		
 		return true;
 	}

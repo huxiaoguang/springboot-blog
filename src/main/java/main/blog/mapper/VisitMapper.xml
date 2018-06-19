@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.VisitMapper">
+	
+	<!--写入访问统计-->
+    <insert id="addVisit" parameterType="main.blog.entity.VisitBean">
+    	insert into fa_visit (url, referer, createtime, ip, num) values (#{url}, #{referer}, #{createtime ,javaType=DATE}, #{ip}, 1)
+    </insert>
+    
+    <!--判断访问统计-->
+    <select id="getVisitDay" parameterType="main.blog.entity.VisitBean" resultType="int">
+    	select count(num) from fa_visit where url = #{url} and createtime = curdate() and ip = #{ip}
+    </select>
+    
+    <!--更新访问统计-->
+    <update id="updateVisitNum" parameterType="main.blog.entity.VisitBean">
+    	update fa_visit set num = num+1 where  url = #{url} and createtime = curdate() and ip = #{ip}
+    </update>
+    
+    <!--获取当前访问量-->
+    <select id="getVisitCount" resultType="int">
+    	select count(distinct ip) from fa_visit group by ip;
+    </select>
+</mapper>

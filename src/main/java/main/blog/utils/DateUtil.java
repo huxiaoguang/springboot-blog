@@ -46,10 +46,21 @@ public class DateUtil{
 	 * @param time
 	 * @return 
 	 * @return 
+	 * @throws ParseException 
 	 */
-	public static Date NowString() 
+	public static Date getDate()
 	{
-		Date date = new Date();
+		SimpleDateFormat SimpleDate = new SimpleDateFormat("yyyy-MM-dd");
+		String simple  = SimpleDate.format(new Date());
+		Date   date = null;
+		
+		try {
+			date = SimpleDate.parse(simple);
+		} catch (ParseException e) 
+		{
+			e.printStackTrace();
+		}
+		
 		return date;
-	}
+    }
 }

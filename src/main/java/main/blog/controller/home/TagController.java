@@ -58,7 +58,6 @@ public class TagController extends HomeController{
 			param.put("keywords", keywords);
 			
 			PageInfo<ArticleBean> pageinfo = articleService.listArticle(param, page);
-			
 			model.addAttribute("list",     pageinfo.getList());
 			model.addAttribute("keywords", keywords);
 			model.addAttribute("page",     pageinfo);

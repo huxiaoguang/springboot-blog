@@ -12,7 +12,7 @@ public interface AdminLogMapper {
 	
 	//管理员操作日志
 	public List<AdminLogBean> listAdminLog(Map<String, Object> param);
-	
+		
 	//删除管理员日志
 	public boolean deleteAdminLog(int id);
 }
