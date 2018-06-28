@@ -18,7 +18,7 @@
     </update>
     
     <!--获取当前访问量-->
-    <select id="getVisitCount" resultType="int">
-    	select count(distinct ip) from fa_visit group by ip
+    <select id="getVisitCount" resultType="java.lang.Integer">
+    	select count(ip) from (select count(ip) as ip from fa_visit group by ip) visit
     </select>
 </mapper>
