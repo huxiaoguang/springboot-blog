@@ -5,31 +5,31 @@
 
 <body>
 <div class="layui-body p-15" layout:fragment="content">
-	
-	<div class="layui-breadcrumb"> 
+
+	<div class="layui-breadcrumb">
 		<a href="/article/article/list">系统管理</a> <a><cite>标签管理</cite></a> <a><cite>添加标签</cite></a>
 	</div>
 	<hr />
-	
+
 	<fieldset class="layui-elem-field layui-field-title">
 		<legend>添加标签</legend>
 	</fieldset>
-	
+
 	<form class="layui-form layui-form-pane" id="tag-save-form">
-		
+
 		<div class="layui-form-item">
 			<label class="layui-form-label">标签名称</label>
 			<div class="layui-input-block">
 				<input name="tagname" autocomplete="off" lay-verify="required" placeholder="请输入标签名称" class="layui-input" type="text" />
 			</div>
 		</div>
-		
+
 		<div class="layui-form-item" pane="">
 			<label class="layui-form-label">标签状态</label>
 			<div class="layui-input-block">
 				<input id="status" type="hidden" name="status" value="normal" />
 				<input lay-filter="switch-status"  lay-skin="switch" lay-text="启用|禁用" checked type="checkbox" />
-			</div>	
+			</div>
 		</div>
 
 		<div class="layui-form-item layui-form-text">
@@ -38,7 +38,7 @@
 				<textarea placeholder="请输入标签描述" class="layui-textarea" name="description"></textarea>
 			</div>
 		</div>
-		
+
 		<div class="layui-form-item">
 			<button class="layui-btn" type="button" lay-submit="tag-save" lay-filter="tag-save">提 交</button>
 			<button type="reset" class="layui-btn layui-btn-primary">重 置</button>
@@ -46,14 +46,14 @@
 	</form>
 </div>
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.use(['jquery', 'form', 'layer' ], function() 
+	layui.use(['jquery', 'form', 'layer' ], function()
 	{
 		var $ = layui.jquery; layer = layui.layer, form = layui.form;
-		
+
 		//监听指定开关
-		form.on('switch(switch-status)', 
+		form.on('switch(switch-status)',
 		function(data)
-		{		
+		{
 			if(this.checked)
 			{
 				$("#status").val('normal');
@@ -61,16 +61,18 @@
 				$("#status").val('hidden');
 			}
 		});
-		
+
 		ajaxform('tag-save', '/admin/tag/save', 'tag-save-form',
 		function(json)
 		{
-			if(json.status)
+			if(json.code==200)
 			{
-				layer.msg(json.msg,	function()
+				layer.msg(json.msg,	{time: 1000}, function()
 				{
-					window.location.href = json.url;
+					window.location.href = json.data;
 				})
+			}else{
+				layer.msg(json.msg);
 			}
 		})
 	});
