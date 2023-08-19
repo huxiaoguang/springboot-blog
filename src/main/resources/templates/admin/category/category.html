@@ -9,7 +9,7 @@
 		  <a><cite>栏目管理</cite></a>
 		</span>
 		<hr />
-		
+
 		<form class="layui-form" lay-size="sm">
 			<div class="layui-inline fr">
 				<div class="layui-input-inline">
@@ -21,7 +21,7 @@
 				<a href="/admin/category/add" class="layui-btn layui-btn-search layui-btn-sm fr">+添加栏目</a>
 			</div>
 		</form>
-		
+
 		<div class="layui-form">
 		  <table class="layui-table">
 		    <thead>
@@ -32,7 +32,7 @@
 		        <td>状态</td>
 		        <td>发布时间</td>
 		        <td>操作</td>
-		      </tr> 
+		      </tr>
 		    </thead>
 			<th:block th:each="vo:${list}">
 		    <tr>
@@ -42,7 +42,7 @@
 		        <td>
 					<input name="status" lay-skin="switch" lay-filter="is_status" lay-text="启用|禁用" type="checkbox"  th:checked="${vo.status=='normal'?true:false}"  th:value="${vo.id}" />
 		        </td>
-		        <td th:text="${#dates.format(vo.updatetime,'yyyy-MM-dd HH:mm')}"></td>
+		        <td th:text="${#dates.format(vo.updateTime,'yyyy-MM-dd HH:mm')}"></td>
 		        <td>
 		        	<a th:href="@{'/admin/category/edit?id='+${vo.id}}">编辑</a>&ensp;
 		        	<a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/category/delete}+'\','+${vo.id}+')'">删除</a>
@@ -54,10 +54,10 @@
 		</div>
 	</div>
 	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.use(['jquery', 'form', 'layer'], function() 
+	layui.use(['jquery', 'form', 'layer'], function()
 	{
 		var form = layui.form;
-		
+
 		form.on('switch(is_status)', function(data)
 		{
 			var id     = data.value;

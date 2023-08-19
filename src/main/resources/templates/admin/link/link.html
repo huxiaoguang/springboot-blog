@@ -21,7 +21,7 @@
 				<a href="/admin/link/add" class="layui-btn layui-btn-search layui-btn-sm fr">+新增友链</a>
 			</div>
 		</form>
-		
+
 		<div class="layui-form">
 		  <table class="layui-table">
 		    <thead>
@@ -33,7 +33,7 @@
 		        <td>排序</td>
 		        <td>状态</td>
 		        <td>操作</td>
-		      </tr> 
+		      </tr>
 		    </thead>
 		    <tbody>
 				<th:block th:each="vo:(${list})">
@@ -41,7 +41,7 @@
 					 <td th:text="${vo.id}"></td>
 					 <td th:text="${vo.name}"></td>
 					 <td><a th:href="${vo.url}" target="_blank" th:text="${vo.url}"></a></td>
-					 <td th:text="${#dates.format(vo.createtime,'yyyy-MM-dd HH:mm')}"></td>
+					 <td th:text="${#dates.format(vo.createTime,'yyyy-MM-dd HH:mm')}"></td>
 					 <td th:text="${vo.sort}"></td>
 					 <td>
 						 <input name="status" lay-skin="switch" lay-filter="is_status" lay-text="启用|禁用" type="checkbox"  th:checked="${vo.status=='normal'}?'true':'false'"  th:value="${vo.id}" />
@@ -55,17 +55,17 @@
 		    </tbody>
 		  </table>
 		</div>
-		
+
 		<div class="layui-center">
 			<div th:replace="admin/public/page::show('/admin/link/index')"></div>
 		</div>
 	</div>
-		
+
 	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.use(['jquery', 'form', 'layer'], function() 
+	layui.use(['jquery', 'form', 'layer'], function()
 	{
 		var form = layui.form;
-		
+
 		form.on('switch(is_status)', function(data)
 		{
 			var id     = data.value;

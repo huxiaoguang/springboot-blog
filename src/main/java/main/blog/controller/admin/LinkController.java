@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -85,15 +86,12 @@ public class LinkController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/link/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject save(Link link)
+	public Result save(Link link)
 	{
-		JSONObject json = new JSONObject();
-		link.setCreateTime(new Date());
-
-		boolean result = false;
-
+		Boolean result = false;
 		if(link.getId()==0)
 		{
+			link.setCreateTime(new Date());
 			result = linkService.addLink(link);
 		}else {
 			result = linkService.editLink(link);
@@ -101,14 +99,10 @@ public class LinkController {
 
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
-			json.put("url", "/admin/link/index");
+			return Result.success("/admin/link/index","操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -117,26 +111,18 @@ public class LinkController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/link/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id)
+	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		JSONObject json = new JSONObject();
-
-		if (id == 0)
-		{
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+		if (id == 0) {
+			return Result.failed("参数错误");
 		}
 
 		Boolean result = linkService.deleteLink(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -145,24 +131,18 @@ public class LinkController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/link/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
-		JSONObject json = new JSONObject();
-
 		Link link = new Link();
 		link.setId(id);
 		link.setStatus(status);
 
-		boolean result = linkService.updateLinkStatus(link);
-
+		Boolean result = linkService.updateLinkStatus(link);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

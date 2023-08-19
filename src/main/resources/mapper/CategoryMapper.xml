@@ -26,12 +26,12 @@
 
 	<!--新增分类-->
 	<insert id="addCategory" parameterType="main.blog.entity.Article">
-		insert into fa_category (name, diyname, isnav, pid, keywords, description, status, updatetime) VALUES (#{name}, #{diyname}, #{isnav}, #{pid}, #{keywords}, #{description}, #{status}, #{updatetime, javaType=DATE})
+		insert into fa_category (name, diyname, isnav, pid, keywords, description, status, create_time) VALUES (#{name}, #{diyname}, #{isnav}, #{pid}, #{keywords}, #{description}, #{status}, #{createTime, javaType=DATE})
 	</insert>
 
 	<!--编辑文章分类 -->
 	<update id="editCategory" parameterType="main.blog.entity.Category">
-		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, updatetime=#{updatetime, javaType=DATE} where id=#{id}
+		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, update_time=#{updateTime, javaType=DATE} where id=#{id}
 	</update>
 
 	<!--外部调用分类 -->

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,27 +67,19 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/user/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id)
+	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		JSONObject json = new JSONObject();
-
 		if (id == 0)
 		{
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+			return Result.failed("参数错误");
 		}
 
-		boolean result = userService.deleteUser(id);
-
+		Boolean result = userService.deleteUser(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -95,10 +88,8 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/user/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
-		JSONObject json = new JSONObject();
-
 		User user = new User();
 		user.setId(id);
 		user.setStatus(status);
@@ -106,12 +97,9 @@ public class UserController {
 		Boolean result = userService.updateUserStatus(user);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

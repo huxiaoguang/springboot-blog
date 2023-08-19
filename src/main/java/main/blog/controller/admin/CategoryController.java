@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import cn.hutool.core.util.ObjectUtil;
+import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,41 +92,31 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/category/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id, HttpServletRequest request)
+	public Result delete(@RequestParam(defaultValue = "0") Integer id, HttpServletRequest request)
 	{
-		JSONObject json = new JSONObject();
 		if (id == 0) {
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+			return Result.failed("参数错误");
 		}
 
 		int countSubCate = articleService.countSubCategory(id);
 		if (countSubCate > 0)
 		{
-			json.put("status", 0);
-			json.put("msg", "该分类下有子分类，不能被删除");
-			return json;
+			return Result.failed("该分类下有子分类，不能被删除");
 		}
 
 		int countCateArticle = articleService.countCategoryArticle(id);
 		if (countCateArticle > 0)
 		{
-			json.put("status", 0);
-			json.put("msg", "该分类下有文章，不能被删除");
-			return json;
+			return Result.failed("该分类下有文章，不能被删除");
 		}
 
 		Boolean result = categoryService.deleteCategory(id);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -133,29 +125,23 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/category/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject save(Category category)
+	public Result save(Category category)
 	{
-		JSONObject json = new JSONObject();
-		boolean result = false;
-		category.setUpdateTime(new Date());
-
-		if(category.getId()==0)
+		Boolean result = false;
+		if(ObjectUtil.isEmpty(category.getId()))
 		{
+			category.setCreateTime(new Date());
 			result = categoryService.addCategory(category);
 		}else {
+			category.setUpdateTime(new Date());
 			result = categoryService.editCategory(category);
 		}
-
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
-			json.put("url", "/admin/category/index");
+			return Result.success("/admin/category/index", "操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -164,22 +150,17 @@ public class CategoryController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/category/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
-		JSONObject json = new JSONObject();
 		Category category = new Category();
-
 		category.setId(id);
 		category.setStatus(status);
 		Boolean result = categoryService.updateCategoryStatus(category);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

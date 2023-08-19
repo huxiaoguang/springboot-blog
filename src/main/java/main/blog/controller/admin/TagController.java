@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +49,6 @@ public class TagController {
 		}
 
 		PageInfo<Tag> pageinfo = tagService.listTag(param, page);
-
 		model.addAttribute("page", pageinfo);
 		model.addAttribute("list", pageinfo.getList());
 
@@ -86,7 +86,6 @@ public class TagController {
 			Tag info = tagService.infoTag(id);
 			model.addAttribute("info", info);
 		}
-
 		return "admin/tag/tag-edit";
 	}
 
@@ -97,11 +96,9 @@ public class TagController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/tag/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject save(Tag tag)
+	public Result save(Tag tag)
 	{
-		JSONObject json = new JSONObject();
-		boolean result = false;
-
+		Boolean result = false;
 		if(tag.getId()==0)
 		{
 			result = tagService.addTag(tag);
@@ -111,15 +108,10 @@ public class TagController {
 
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
-			json.put("url", "/admin/tag/index");
+			return Result.success("/admin/tag/index", "操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-
-		return json;
 	}
 
 	/**
@@ -128,24 +120,18 @@ public class TagController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/tag/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id)
+	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		JSONObject json = new JSONObject();
 		if (id == 0) {
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+			return Result.failed("参数错误");
 		}
 
 		Boolean result = tagService.deleteTag(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "删除成功");
+			return Result.success("删除成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "删除失败");
+			return Result.failed("删除失败");
 		}
-		return json;
 	}
 
 	/**
@@ -154,10 +140,8 @@ public class TagController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/tag/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
-		JSONObject json = new JSONObject();
-
 		Tag tag = new Tag();
 		tag.setId(id);
 		tag.setStatus(status);
@@ -165,12 +149,9 @@ public class TagController {
 		Boolean result = tagService.updateTagStatus(tag);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("删除失败");
 		}
-		return json;
 	}
 }

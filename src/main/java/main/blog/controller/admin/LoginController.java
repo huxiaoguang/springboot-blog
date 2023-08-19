@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,7 +33,6 @@ public class LoginController {
 
 	/**
 	 * 管理员登录试图
-	 *
 	 * @return string
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -46,35 +46,27 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/dologin", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject dologin(HttpServletRequest request, Model model)
+	public Result dologin(HttpServletRequest request, Model model)
 	{
-		JSONObject json = new JSONObject();
-
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String code = request.getParameter("code");
 
 		// 验证码验证֤
 		HttpSession validateCode = request.getSession();
-
-		if (!code.equalsIgnoreCase((String) validateCode.getAttribute("validateCode"))) {
-			json.put("status", 2);
-			json.put("msg", "验证码错误");
-			return json;
+		if (!code.equalsIgnoreCase((String) validateCode.getAttribute("validateCode")))
+		{
+			return Result.failed("验证码错误");
 		}
 
 		Admin admin = adminService.AdminLogin(username, password);
 		if (admin!=null)
 		{
 			model.addAttribute("admin", admin);
-			json.put("status", 1);
-			json.put("msg", "登录成功");
+			return Result.success("登录成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "用户名或者密码错误");
+			return Result.failed("用户名或者密码错误");
 		}
-
-		return json;
 	}
 
 	/**

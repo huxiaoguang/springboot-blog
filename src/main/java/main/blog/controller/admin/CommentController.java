@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,26 +60,18 @@ public class CommentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/comment/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id)
+	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		JSONObject json = new JSONObject();
-
 		if (id == 0) {
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+			return Result.failed("参数错误");
 		}
 
-		boolean result = commentService.deleteComment(id);
-
+		Boolean result = commentService.deleteComment(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "删除成功");
+			return Result.success("删除成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "删除失败");
+			return Result.failed("删除失败");
 		}
-		return json;
 	}
 
 	/**
@@ -87,10 +80,8 @@ public class CommentController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/comment/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
-		JSONObject json = new JSONObject();
-
 		Comment comment = new Comment();
 		comment.setCid(id);
 		comment.setStatus(status);
@@ -98,12 +89,9 @@ public class CommentController {
 		Boolean result = commentService.updateCommentStatus(comment);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

@@ -1,10 +1,12 @@
 package main.blog.controller.home;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +23,7 @@ import main.blog.service.CommentService;
 public class CommentController extends HomeController
 {
 	@Resource
-	private CommentService commentService;//自动装载Service接口
+	private CommentService commentService;
 
 	/**
 	 * 文章评论列表
@@ -29,27 +31,32 @@ public class CommentController extends HomeController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/comment/list", method = RequestMethod.GET, headers = "Accept=application/json")
-	public JSONObject getListComment(int id, HttpServletRequest request) throws Exception
+	public Result getListComment(int id, HttpServletRequest request) throws Exception
 	{
-		JSONObject json = new JSONObject();
+		HashMap json = new HashMap<>();
 
 		String page  = request.getParameter("page");
 		int p = (page == null) || (page == "0") ? 1 : Integer.parseInt(page);
 
 		if(id>0)
 		{
-			PageHelper.startPage(p, 10);
-			List<Comment> list = commentService.getListComment(id);
-
-			if(list.size()!=0)
-			{
-				json.put("data",   list);
-				json.put("count",  list.size());
-			}else {
-				json.put("data",   "");
-				json.put("count",  0);
-			}
+			json.put("data",   "");
+			json.put("count",  0);
+			return Result.success(json, "获取成功");
 		}
-		return json;
+
+		PageHelper.startPage(p, 10);
+		List<Comment> list = commentService.getListComment(id);
+
+		if(list.size()!=0)
+		{
+			json.put("data",   list);
+			json.put("count",  list.size());
+			return Result.success(json, "获取成功");
+		}else {
+			json.put("data",   "");
+			json.put("count",  0);
+			return Result.success(json, "获取成功");
+		}
 	}
 }

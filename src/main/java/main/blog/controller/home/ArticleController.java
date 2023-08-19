@@ -23,7 +23,7 @@ import main.blog.service.ArticleService;
 public class ArticleController extends HomeController
 {
 	@Resource
-	private ArticleService articleService;//自动装载Service接口
+	private ArticleService articleService;
 
 	/**
 	 * 文章详情

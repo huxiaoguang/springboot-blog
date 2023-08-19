@@ -1,7 +1,7 @@
 ;!function(){
-	
+
 	var layer = layui.layer, $ = layui.jquery, form = layui.form, element = layui.element;
-	
+
 	/**
      * 获取url简化
 	 */
@@ -9,7 +9,7 @@
 	{
 		return location.protocol+'//'+window.location.host + '/' + url;
 	}
-	
+
 	/**
      * 展开与收拢
 	 */
@@ -17,13 +17,13 @@
 	{
 		$(obj).parents('tr').next('tr').toggle();
 	}
-	
+
 	/**
      * 气泡提示
 	 */
 	tips = function(id,text)
 	{
-		if(id){	
+		if(id){
 			layer.tips(text,"#"+id, {
 				tips  : [1, '#009688'],
 				time  : 2000,
@@ -31,7 +31,7 @@
 			});
 		}
 	}
-	
+
 	/**
      * 全选和全不选
 	 */
@@ -41,7 +41,7 @@
 		$('.layui-form input:checkbox').prop("checked", flag)
 		form.render('checkbox');
 	});
-	
+
 	/**
      * 获取选中的checked的ID
 	 */
@@ -51,7 +51,7 @@
 		$('.layui-table input[type=checkbox]').each(function()
 		{
 			var id = $(this).val();
-			
+
 			if($(this).prop('checked') && id>0)
 			{
 				ids.push(id);
@@ -59,7 +59,7 @@
 		})
 		return ids.join(',');
 	}
-	
+
 	/**
      * 批量删除方法
 	 * @param url  删除的地址url
@@ -72,9 +72,9 @@
 		var pids = id ? id : getcheckeds();
 		var jump = jump ? jump : '';
 		var text = text ? text:'您确定要删除吗？';
-		
+
 		if(pids && url)
-		{	
+		{
 			layer.confirm(text,
 			function(){
 				$.post(url,{id:pids},function(json){
@@ -99,11 +99,11 @@
 	 * @param status(int) 需要更新的状态;
 	 */
 	updateData = function(url, id, status)
-	{	
+	{
 		var ids = id ? id : getcheckeds();
-		
+
 		if(ids && url)
-		{	
+		{
 			$.post(url,{'id':ids,'status':status},
 			function(json)
 			{
@@ -121,7 +121,7 @@
 			layer.msg('至少选择一条数据!',2,0);
 		}
 	}
-	
+
 	/**
 	 * layer弹框简化
 	 */
@@ -138,7 +138,7 @@
 			success: success
 		});
 	}
-			
+
    /**
 	* 省级联动
 	* @param url(string)  请求路径 必填
@@ -149,33 +149,33 @@
 	getArea = function(url,province,city,county)
 	{
 		var province = arguments[1]?arguments[1]:'',city = arguments[2]?arguments[2]:'',county = arguments[3]?arguments[3]:'';
-		
+
 		$.post(url,{pid:1},function(json)
 		{
 			if(json)
-			{	
+			{
 				var option = [];
-				
+
 				$(json).each(function(index,rows){
 
 					if(province==rows['id'])
-					{	
+					{
 						option +='<option value="'+rows['id']+'" selected>'+rows['name']+'</option>';
-						
+
 						if(city)
 						{
 							getAreaList('select[name=city]',url,province,city,'请选择城市');
 						}
-						
+
 						if(county)
-						{	
+						{
 							getAreaList('select[name=county]',url,city,county,'请选择县/区');
 						}
 					}else{
 						option +='<option value="'+rows['id']+'">'+rows['name']+'</option>';
 					}
 				})
-				
+
 				$('select[name=province]').html('<option value="">请选择省份</option>'+option);
 				form.render('select');
 			}
@@ -200,11 +200,11 @@
 			$.post(url,{pid:pid},
 			function(json){
 				if(json)
-				{	
+				{
 					var option = [];
-					
+
 					$(json).each(function(index,rows)
-					{	
+					{
 						if(choose==rows['id'])
 						{
 							option +='<option value="'+rows['id']+'" selected>'+rows['name']+'</option>';
@@ -212,14 +212,14 @@
 							option +='<option value="'+rows['id']+'">'+rows['name']+'</option>';
 						}
 					})
-					
+
 					$(dom).html('<option value="">'+text+'</option>'+option);
 					form.render('select');
 				}
 			},'json');
 		}
 	}
-	
+
 	/**
 	 * 格式化金钱
 	 * @param url(string)  请求路径 必填
@@ -231,7 +231,7 @@
 	{
 		var newStr = "", count = 0;
 		str = str.toString();
-		
+
 		if(str.indexOf(".") == -1){
 			for(var i=str.length-1; i >= 0; i--){
 				if(count % 3 == 0 && count != 0){
@@ -241,7 +241,7 @@
 				}
 				count++;
 			}
-			
+
 			str = newStr + ".00"; //自动补小数点后两位
 			return str;
 		}else{
@@ -253,12 +253,12 @@
 				}
 				count++;
 			}
-			
+
 			str = newStr + (str + "00").substr((str + "00").indexOf("."),3);
 			return str;
 		 }
 	}
-	
+
 	/**
 	 * 字数输入限制
 	 * @param field (string) 表单名字
@@ -266,7 +266,7 @@
 	 * @param maxlimit   限制字符
 	 */
 	textCounter = function(field, countfield, maxlimit)
-	{ 
+	{
 	   if ($("#"+field).val().length > maxlimit)
 	   {
 		   $("#"+field).val($("#"+field).val().substring(0, maxlimit));
@@ -276,21 +276,21 @@
 		   $("#"+countfield).text(maxlimit - $("#"+field).val().length);
 	   }
     }
-	
+
 	/**
 	 * layer load简单封装
 	 * @param text load文字提示
 	 */
 	load = function(text)
 	{
-		layer.load(2, {content:text,success: 
+		layer.load(2, {content:text,success:
 			function(msg)
 			{
 				msg.find('.layui-layer-content').css({'padding-top':'5px','padding-left':'40px','width':'150px'});
 			}
-		}) 
+		})
 	}
-	
+
 	/**
 	 * 清理缓存
 	 * @param submitId  按钮lay-filter
@@ -307,7 +307,7 @@
 			layer.msg('清理缓存完毕！');
 		},'json');
 	}
-	
+
 	/**
 	 * Ajax异步提交表单
 	 * @param submitId  按钮lay-filter
@@ -321,14 +321,14 @@
 		{
 			$.post(url,$('#'+formId+'').serialize(),
 			function(data)
-			{	
+			{
 				return callback(data);
 			},'json');
-			
+
 			return false;
 		});
 	}
-	
+
 	/**
      * Pjax加载页面
 	 */
@@ -336,7 +336,7 @@
 	{
 		$(this).parents('ul').find('li').removeClass('layui-nav-itemed');
 		$(this).parents('li').addClass('layui-nav-itemed');
-		
+
 		$(document).ready(
 			function(){
 				layer.closeAll()
@@ -355,7 +355,7 @@
 			timeout:9000
 		});
 	})
-	
+
 	/**
      * Pjax 表单提交表单
 	 */
@@ -363,7 +363,7 @@
 	{
 		var method = $(this).attr('method') ? $(this).attr('method') : 'GET';
 		event.preventDefault();
-		
+
 		$(document).ready
 		(
 			function(){layer.closeAll()}
@@ -372,10 +372,10 @@
 		).on('pjax:complete',
 			function(){form.render();element.init();layer.closeAll();}
 		)
-		
+
 		$.pjax.submit(event, '#page-wrapper', {type:method, timeout:9000});
 	});
-	
+
 	/**
      * Pjax刷新页面
 	 */
@@ -391,7 +391,7 @@
 		).on('pjax:complete',
 			function(){form.render();element.init();layer.closeAll();}
 		)
-		
+
 		if(url)
 		{
 			$.pjax({url:url,container: '#page-wrapper',timeout:5000});
@@ -399,20 +399,20 @@
 			$.pjax.reload('#page-wrapper');
 		}*/
 	}
-	
+
 	/**
      * 退出登录系统
 	 */
 	$('#logout-btn').click(function()
-	{	
+	{
 		layer.confirm('您确定要退出本系统吗？',
 		function()
 		{
-			$.post('/admin/logout',function(json)
+			$.post('/admin/logout', function(json)
 			{
-				if(json.status)
+				if(json.code==200)
 				{
-					window.location.href = json.url;
+					window.location.href = json.data;
 				}else{
 					layer.msg(json.msg);
 				}

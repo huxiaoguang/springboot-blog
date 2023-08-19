@@ -39,18 +39,18 @@
 
 	<!--更新文章查看次数 -->
 	<update id="updateViews" parameterType="int">
-		update fa_article set views = views+1 where id = #{id}
+		update fa_article set views = views + 1 where id = #{id}
 	</update>
 
 	<!--新增文章-->
 	<insert id="addArticle" parameterType="main.blog.entity.Article">
 		insert into fa_article (`title`, `category_id`, `keywords`, `description`, `image`, `author`, `from`, `status`, `istop`, `iscomment`, `create_time`, `update_time`, `content`) VALUES
-		(#{title}, #{category_id}, #{keywords}, #{description}, #{image}, #{author}, #{from}, #{status}, #{istop}, #{iscomment}, #{create_time}, #{update_time, javaType=DATE}, #{content})
+		(#{title}, #{category_id}, #{keywords}, #{description}, #{image}, #{author}, #{from}, #{status}, #{istop}, #{iscomment}, #{create_time}, #{updateTime, javaType=DATE}, #{content})
 	</insert>
 
 	<!--文章更新 -->
 	<update id="editArticle" parameterType="main.blog.entity.Category">
-		update fa_article set `title`=#{title}, `category_id`=#{category_id}, `image`=#{image}, `author`=#{author}, `from`=#{from}, `status`=#{status}, `istop`=#{istop}, `iscomment`=#{iscomment}, `keywords`=#{keywords}, `description`=#{description}, `create_time`=#{create_time, javaType=DATE}, `update_time`=#{update_time, javaType=DATE}, `content`=#{content} where `id`=#{id}
+		update fa_article set `title`=#{title}, `category_id`=#{category_id}, `image`=#{image}, `author`=#{author}, `source`=#{source}, `status`=#{status}, `istop`=#{istop}, `iscomment`=#{iscomment}, `keywords`=#{keywords}, `description`=#{description}, `create_time`=#{createTime, javaType=DATE}, `update_time`=#{updateTime, javaType=DATE}, `content`=#{content} where `id`=#{id}
 	</update>
 
 	<!--统计分类下文章数-->

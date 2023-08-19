@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import main.blog.utils.Result;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -120,7 +121,6 @@ public class ArticleController {
 		}
 
 		boolean result = articleService.deleteArticle(id);
-
 		if (result) {
 			json.put("status", 1);
 			json.put("msg", "操作成功");
@@ -133,24 +133,20 @@ public class ArticleController {
 
 	/**
 	 * 图片上传
-	 * @param model
 	 * @return
 	 * @return string
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/article/upload", method = RequestMethod.POST)
-	public JSONObject upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-		JSONObject json = new JSONObject();
+	public Result upload(HttpServletRequest request, @RequestParam("file") MultipartFile file)
+	{
 		String path = request.getSession().getServletContext().getRealPath("/upload/article/");
-
 		String orgFilename = file.getOriginalFilename();
 
 		// 获取图片扩展名
 		String extension = FilenameUtils.getExtension(orgFilename);
-
 		// 图片新名称
 		String fileName = System.currentTimeMillis() + "." + extension;
-
 		// 新图片绝对地址
 		File targetFile = new File(path, fileName);
 
@@ -167,17 +163,11 @@ public class ArticleController {
 			data.put("savename", request.getContextPath() + "/upload/article/" + fileName);
 			data.put("filename", orgFilename);
 
-			json.put("status", 1);
-			json.put("msg", "上传成功");
-			json.put("data", data);
+			return Result.success(data, "上传失败");
 		} catch (Exception e) {
 			e.printStackTrace();
-
-			json.put("status", 0);
-			json.put("msg", "上传失败");
+			return Result.failed("上传失败");
 		}
-
-		return json;
 	}
 
 	/**
@@ -186,38 +176,28 @@ public class ArticleController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/article/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public  JSONObject save(@Valid Article article, BindingResult msg) throws Exception
+	public Result save(@Valid Article article, BindingResult msg) throws Exception
 	{
-		JSONObject json = new JSONObject();
-
-		//错误提示
+		// 错误提示
 		if(msg.hasErrors())
 		{
-			json.put("status", 0);
-			json.put("msg",  msg.getFieldError().getDefaultMessage());
-			return json;
+			return Result.failed( msg.getFieldError().getDefaultMessage());
         }
 
-		article.setUpdateTime(new Date());
 		boolean result = false;
-
 		if(article.getId()==0)
 		{
 			result = articleService.addArticle(article);
 		}else {
+			article.setUpdateTime(new Date());
 			result = articleService.editArticle(article);
 		}
-
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
-			json.put("url", "/admin/article/index");
+			return Result.success("/admin/article/index", "操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -226,25 +206,19 @@ public class ArticleController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/article/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status) throws Exception
+	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status) throws Exception
 	{
-		JSONObject json = new JSONObject();
-
 		Article article = new Article();
 
 		article.setId(id);
 		article.setStatus(status);
 
-		boolean result = articleService.updateArticleStatus(article);
-
+		Boolean result = articleService.updateArticleStatus(article);
 		if (result)
 		{
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

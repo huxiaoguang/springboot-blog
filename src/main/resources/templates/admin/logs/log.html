@@ -40,7 +40,7 @@
 			</div>
 		</div>
 	</form>
-			
+
 	<div class="layui-form">
 	  <table class="layui-table">
 	    <thead>
@@ -58,7 +58,7 @@
 			<tr>
 				<td th:text="${vo.id}"></td>
 				<td th:text="${vo.username}"></td>
-				<td th:text="${#dates.format(vo.createtime * 1000,'yyyy-MM-dd HH:mm')}"></td>
+				<td th:text="${#dates.format(vo.createTime * 1000,'yyyy-MM-dd HH:mm')}"></td>
 				<td th:text="${vo.ip}"></td>
 				<td th:text="${vo.url}"></td>
 				<td>

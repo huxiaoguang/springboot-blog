@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import main.blog.entity.AdminLog;
 import main.blog.service.AdminLogService;
@@ -66,24 +66,16 @@ public class AdminLogController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/logs/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id) throws Exception
+	public Result delete(@RequestParam(defaultValue = "0") Integer id) throws Exception
 	{
-		JSONObject json = new JSONObject();
-		if (id == 0)
-		{
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+		if (id == 0) {
+			return Result.failed("参数错误");
 		}
-
-		boolean result = adminLogService.deleteAdminLog(id);
+		Boolean result = adminLogService.deleteAdminLog(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.failed("操作失败");
 		}
-		return json;
 	}
 }

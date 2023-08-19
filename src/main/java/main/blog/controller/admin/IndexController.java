@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,10 +58,8 @@ public class IndexController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/editPass", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject editPass(HttpServletRequest request, Model model)
+	public Result editPass(HttpServletRequest request, Model model)
 	{
-		JSONObject json = new JSONObject();
-
 		String password  = request.getParameter("password");
 		String newpass   = request.getParameter("newpass");
 		String renewpass = request.getParameter("renewpass");
@@ -68,42 +67,32 @@ public class IndexController {
 		HttpSession session = request.getSession();
 		Admin info = (Admin) session.getAttribute("admin");
 
-		if(info!=null)
+		if(info==null)
 		{
-			String username = info.getUsername();
-			Admin admin = adminService.AdminLogin(username, password);
-
-			if(admin==null)
-			{
-				json.put("status", 0);
-				json.put("msg", "原密码错误");
-				return json;
-			}
-
-			if (password.equals(newpass)) {
-				json.put("status", 0);
-				json.put("msg", "新密码不能和原密码相同");
-				return json;
-			}
-
-			if (!newpass.equals(renewpass)) {
-				json.put("status", 0);
-				json.put("msg", "两次输入的新密码不一样");
-				return json;
-			}
-
-			boolean result = adminService.editPass(username, renewpass);
-
-			if (result) {
-				json.put("status", 1);
-				json.put("msg", "操作成功");
-			} else {
-				json.put("status", 0);
-				json.put("msg", "操作失败");
-			}
+			return Result.failed("请重新登录");
 		}
 
-		return json;
+		String username = info.getUsername();
+		Admin admin = adminService.AdminLogin(username, password);
+		if(admin==null)
+		{
+			return Result.failed("原密码错误");
+		}
+
+		if (password.equals(newpass)) {
+			return Result.failed("新密码不能和原密码相同");
+		}
+
+		if (!newpass.equals(renewpass)) {
+			return Result.failed("两次输入的新密码不一样");
+		}
+
+		Boolean result = adminService.editPass(username, renewpass);
+		if (result) {
+			return Result.success("操作成功");
+		} else {
+			return Result.failed("操作失败");
+		}
 	}
 
 	/**
@@ -112,8 +101,7 @@ public class IndexController {
 	 */
 	public Integer countArticle()
 	{
-		int count = articleService.countArticle();
-		return count;
+		return articleService.countArticle();
 	}
 
 	/**
@@ -122,30 +110,25 @@ public class IndexController {
 	 */
 	public Integer countCategory()
 	{
-		int count = categoryService.countCategory();
-		return count;
+		return categoryService.countCategory();
 	}
 
 	/**
 	 * 退出管理员登录
-	 *
 	 * @return String
 	 */
 	@ResponseBody
 	@RequestMapping("/logout")
-	public JSONObject logout(HttpSession session, SessionStatus sessionStatus) {
-		JSONObject json = new JSONObject();
+	public Result logout(HttpSession session, SessionStatus sessionStatus)
+	{
 		sessionStatus.setComplete();
 		session.removeAttribute("user");
 
-		if (session.getAttribute("user") == null) {
-			json.put("status", 1);
-			json.put("msg", "退出成功");
-			json.put("url", "/admin/login");
+		if (session.getAttribute("user") == null)
+		{
+			return Result.success("/admin/login", "退出成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "退出失败");
+			return Result.failed("退出失败");
 		}
-		return json;
 	}
 }

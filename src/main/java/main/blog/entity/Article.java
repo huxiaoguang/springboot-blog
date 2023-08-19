@@ -23,11 +23,12 @@ public class Article
 
 	@NotEmpty(message = "文章作者不能为空")
 	private String   author;
-	private String   from;
+
+	private String source;
 
 	@NotEmpty(message = "文章内容不能为空")
-	private String   content;
-	private String   image;
+	private String content;
+	private String image;
 
 	@NotEmpty(message = "标签不能为空")
 	private String   keywords;

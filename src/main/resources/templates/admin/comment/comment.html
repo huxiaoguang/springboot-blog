@@ -18,7 +18,7 @@
 				<button class="layui-btn layui-btn-sm">搜 索</button>
 			</div>
 		</form>
-		
+
 		<div class="layui-form">
 		  <table class="layui-table">
 		    <thead>
@@ -29,7 +29,7 @@
 		        <td>评论人</td>
 		        <td>评论时间</td>
 		        <td>操作</td>
-		      </tr> 
+		      </tr>
 		    </thead>
 		    <tbody>
 				<th:block th:each="vo:(${list})">
@@ -40,7 +40,7 @@
 					 </td>
 					 <td th:text="${vo.comment}"></td>
 					 <td th:text="${vo.username}"></td>
-					 <td th:text="${#dates.format(vo.createtime,'yyyy-MM-dd HH:mm')}"></td>
+					 <td th:text="${#dates.format(vo.createTime,'yyyy-MM-dd HH:mm')}"></td>
 					 <td>
 					 	<a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/comment/delete}+'\','+${vo.cid}+')'">删除</a>&emsp;
 					 	<a href="#">回复</a>
@@ -50,17 +50,17 @@
 		    </tbody>
 		  </table>
 		</div>
-		
+
 		<div class="layui-center">
 			<div th:replace="admin/public/page::show('/admin/comment/index')"></div>
 		</div>
 	</div>
-		
+
 	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.use(['jquery', 'form', 'layer'], function() 
+	layui.use(['jquery', 'form', 'layer'], function()
 	{
 		var form = layui.form;
-		
+
 		form.on('switch(is_status)', function(data)
 		{
 			var id     = data.value;
