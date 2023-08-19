@@ -23,17 +23,17 @@ public interface CategoryMapper {
 	Category detailCategory(int id);
 
 	//添加分类
-	boolean addCategory(Category category);
+	Boolean addCategory(Category category);
 
 	//编辑分类
-	boolean editCategory(Category category);
+	Boolean editCategory(Category category);
 
 	//删除分类
-	boolean deleteCategory(int id);
+	Boolean deleteCategory(int id);
 
 	//统计分类数目
-	int countCategory();
+	Integer countCategory();
 
 	//更新分类状态
-	boolean updateCategoryStatus(Category category);
+	Boolean updateCategoryStatus(Category category);
 }

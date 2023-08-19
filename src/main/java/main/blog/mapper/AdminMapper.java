@@ -13,8 +13,8 @@ public interface AdminMapper {
 	Admin adminInfo(String username);
 
 	//管理员登录֤
-	boolean adminLogin(Map<String, Object> login);
+	Boolean adminLogin(Map<String, Object> login);
 
 	//修改管理员密码
-	boolean editPass(Map<String, Object> edit);
+	Boolean editPass(Map<String, Object> edit);
 }

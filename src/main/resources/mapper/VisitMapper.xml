@@ -9,12 +9,12 @@
 
     <!--判断访问统计-->
     <select id="getVisitDay" parameterType="main.blog.entity.Visit" resultType="int">
-    	select count(num) from fa_visit where url = #{url} and create_time = curdate() and ip = #{ip}
+    	select count(num) from fa_visit where url = #{url} and create_time = now() and ip = #{ip}
     </select>
 
     <!--更新访问统计-->
     <update id="updateVisitNum" parameterType="main.blog.entity.Visit">
-    	update fa_visit set num = num+1 where  url = #{url} and create_time = curdate() and ip = #{ip}
+    	update fa_visit set num = num + 1 where  url = #{url} and create_time = curdate() and ip = #{ip}
     </update>
 
     <!--获取当前访问量-->

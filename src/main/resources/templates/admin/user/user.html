@@ -21,7 +21,7 @@
 			<a href="/admin/user/add" class="layui-btn layui-btn-search layui-btn-sm fr">+新增用户</a>
 		</div>
 	</form>
-		
+
 	<div class="layui-form">
 	  <table class="layui-table">
 	    <thead>
@@ -36,7 +36,7 @@
 	        <td>加入时间</td>
 	        <td>状态</td>
 	        <td>操作</td>
-	      </tr> 
+	      </tr>
 	    </thead>
 	    <tbody>
     	<th:block th:each="vo:${list}">
@@ -66,13 +66,13 @@
 	</div>
 </div>
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-layui.use(['jquery', 'form', 'layer'], function() 
+layui.use(['jquery', 'form', 'layer'], function()
 {
 	var form = layui.form;
-	
+
 	form.on('switch(is_status)', function(data)
 	{
-		var id     = data.value;
+		var id = data.value;
 		var status = data.elem.checked==true?'normal':'hidden';
 		updateData('/admin/user/updateStatus', id, status);
 	})

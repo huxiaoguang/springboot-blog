@@ -17,16 +17,16 @@ public interface LinkMapper {
 	Link infoLink(int id);
 
 	//添加友链
-	boolean addLink(Link link);
+	Boolean addLink(Link link);
 
 	//编辑友链
-	boolean editLink(Link link);
+	Boolean editLink(Link link);
 
 	//删除友链
-	boolean deleteLink(int id);
+	Boolean deleteLink(int id);
 
 	//更新友链状态
-	boolean updateLinktatus(Link link);
+	Boolean updateLinktatus(Link link);
 
 	//外部调用
 	List<Link> getListLink(int limit);

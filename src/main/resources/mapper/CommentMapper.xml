@@ -32,7 +32,11 @@
 
     <!--文章的评论-->
     <select id="getListComment" parameterType="int" resultType="main.blog.entity.Comment">
-    	select c.*, u.username from fa_comment c left join fa_user u on c.uid = u.id
-    	where aid = #{id} order by c.cid desc
+    	select c.*, u.username from fa_comment c left join fa_user u on c.uid = u.id where aid = #{id} order by c.cid desc
     </select>
+
+	<!--更新评论状态-->
+	<update id="updateCommentStatus" parameterType="main.blog.entity.Comment">
+		update fa_comment set status = #{status} where id = #{id}
+	</update>
 </mapper>

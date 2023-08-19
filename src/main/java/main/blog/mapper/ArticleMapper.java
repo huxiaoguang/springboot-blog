@@ -21,28 +21,28 @@ public interface ArticleMapper {
 	Article detailArticle(int id);
 
 	//删除文章
-	boolean deleteArticle(int id);
+	Boolean deleteArticle(int id);
 
 	//更新文章预览次数
-	int updateViews(int id);
+	Integer updateViews(int id);
 
 	//添加文章
-	boolean addArticle(Article article);
+	Boolean addArticle(Article article);
 
 	//编辑文章
-	boolean editArticle(Article article);
+	Boolean editArticle(Article article);
 
 	//统计分类文章数
-	int countCategoryArticle(int id);
+	Integer countCategoryArticle(int id);
 
 	//统计子分类数
-	int countSubCategory(int id);
+	Integer countSubCategory(int id);
 
 	//更新文章状态
-	boolean updateArticleStatus(Article article);
+	Boolean updateArticleStatus(Article article);
 
 	//统计文章总数
-	int countArticle();
+	Integer countArticle();
 
 	//上一篇文章
 	Article preArticle(int id);

@@ -15,11 +15,11 @@ public interface UserMapper {
 	List<User> listUser(Map<String, Object> param);
 
 	//添加会员
-	boolean addUser(User user);
+	Boolean addUser(User user);
 
 	//删除会员
-	boolean deleteUser(int id);
+	Boolean deleteUser(int id);
 
 	//更新用户状态
-	boolean updateUserStatus(User user);
+	Boolean updateUserStatus(User user);
 }

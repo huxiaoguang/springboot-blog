@@ -15,7 +15,7 @@
 
     <!--新增标签-->
     <insert id="addTag" parameterType="main.blog.entity.Tag">
-    	insert into fa_tag (tagname, status, description) VALUES (#{tagname}, #{status}, #{description})
+    	insert into fa_tag (tagname, status, description, create_time) VALUES (#{tagname}, #{status}, #{description}, now())
     </insert>
 
     <!--获取标签-->
@@ -25,7 +25,7 @@
 
     <!--编辑标签-->
     <update id="editTag" parameterType="main.blog.entity.Tag">
-    	update fa_tag set tagname = #{tagname}, status = #{status}, description = #{description} where id = #{id}
+    	update fa_tag set tagname = #{tagname}, status = #{status}, description = #{description}, update_time = now() where id = #{id}
     </update>
 
     <!--删除标签 -->

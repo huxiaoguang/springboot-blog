@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import cn.hutool.core.util.ObjectUtil;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 
 import main.blog.entity.Tag;
 import main.blog.service.TagService;
+import org.thymeleaf.util.ObjectUtils;
 
 @Controller("Tag")
 @RequestMapping(value = "/admin")
@@ -99,7 +101,7 @@ public class TagController {
 	public Result save(Tag tag)
 	{
 		Boolean result = false;
-		if(tag.getId()==0)
+		if(ObjectUtil.isEmpty(tag.getId()))
 		{
 			result = tagService.addTag(tag);
 		}else {

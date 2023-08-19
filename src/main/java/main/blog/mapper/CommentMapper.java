@@ -14,17 +14,17 @@ public interface CommentMapper {
 	List<Comment> listComment(Map<String, Object> param);
 
 	//删除友链
-	boolean deleteComment(int id);
+	Boolean deleteComment(int id);
 
 	//获取文章评论
 	List<Comment> getListComment(int id);
 
 	//统计文章评论数
-	int countComment(int id);
+	Integer countComment(int id);
 
 	//统计文章评论数
-	int numComment();
+	Integer numComment();
 
 	//更新评论状态
-	boolean updateCommentStatus(Comment comment);
+	Boolean updateCommentStatus(Comment comment);
 }

@@ -8,7 +8,7 @@
     </select>
 
     <!--用户登录验证-->
-    <select id="adminLogin"	 parameterType="map" 	resultType="boolean">
+    <select id="adminLogin"	 parameterType="map" resultType="boolean">
         select count(*) from fa_admin where username = #{username} and password = #{password}
     </select>
 

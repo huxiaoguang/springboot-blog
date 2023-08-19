@@ -15,7 +15,7 @@
 
     <!--新增友情链接-->
     <insert id="addLink" parameterType="main.blog.entity.Link">
-    	insert into fa_link (name, url, sort, createtime, status) VALUES (#{name}, #{url}, #{sort}, #{createtime}, #{status})
+    	insert into fa_link (name, url, sort, create_time, status) VALUES (#{name}, #{url}, #{sort}, #{createTime}, #{status})
     </insert>
 
     <!--获取友链信息-->
@@ -25,7 +25,7 @@
 
     <!--编辑友情链接-->
     <update id="editLink" parameterType="main.blog.entity.Link">
-    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, createtime = #{createtime}, status = #{status}, description = #{description} where id = #{id}
+    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, update_time = #{updateTime}, status = #{status}, description = #{description} where id = #{id}
     </update>
 
     <!-- 删除友情链接 -->
