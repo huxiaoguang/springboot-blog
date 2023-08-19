@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="main.blog.mapper.CategoryMapper">
-	
+
 	<!--分类列表 -->
-	<select id="listCategory" 	parameterType="map" resultType="main.blog.entity.CategoryBean">
-		select * from fa_category	
+	<select id="listCategory" 	parameterType="map" resultType="main.blog.entity.Category">
+		select * from fa_category
 		<where>
 	       	 <if test="name!= null">
 	       	 	and	name LIKE concat('%',#{name},'%')
@@ -13,42 +13,42 @@
 		</where>
 		order by id desc
 	</select>
-	
+
 	<!--网站导航-->
-	<select id="getNavList" parameterType="int" resultType="main.blog.entity.CategoryBean">
+	<select id="getNavList" parameterType="int" resultType="main.blog.entity.Category">
 		select * from fa_category where isnav = 1 and status='normal' order by id desc limit #{limit}
 	</select>
-	
+
 	<!--分类详情 -->
-	<select id="detailCategory"   parameterType="int" resultType="main.blog.entity.CategoryBean">
+	<select id="detailCategory"   parameterType="int" resultType="main.blog.entity.Category">
 		select * from fa_category where id=#{id} limit 1
 	</select>
-	
+
 	<!--新增分类-->
-	<insert id="addCategory" parameterType="main.blog.entity.ArticleBean">
+	<insert id="addCategory" parameterType="main.blog.entity.Article">
 		insert into fa_category (name, diyname, isnav, pid, keywords, description, status, updatetime) VALUES (#{name}, #{diyname}, #{isnav}, #{pid}, #{keywords}, #{description}, #{status}, #{updatetime, javaType=DATE})
 	</insert>
-	
+
 	<!--编辑文章分类 -->
-	<update id="editCategory" parameterType="main.blog.entity.CategoryBean">
+	<update id="editCategory" parameterType="main.blog.entity.Category">
 		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, updatetime=#{updatetime, javaType=DATE} where id=#{id}
 	</update>
-	
+
 	<!--外部调用分类 -->
-	<select id="getCategoryList" 	parameterType="map" resultType="main.blog.entity.CategoryBean">
+	<select id="getCategoryList" 	parameterType="map" resultType="main.blog.entity.Category">
 		select id, name, pid from fa_category where status = 'normal' order by id desc
 	</select>
-	
+
 	<!--分类删除 -->
 	<delete id="deleteCategory" parameterType="int">
 		delete from fa_category where id = #{id}
 	</delete>
-	
+
 	<!--更新分类状态-->
-    <update id="updateCategoryStatus" parameterType="main.blog.entity.CategoryBean">
-    	update fa_category set status = #{status} where id = #{id} 
+    <update id="updateCategoryStatus" parameterType="main.blog.entity.Category">
+    	update fa_category set status = #{status} where id = #{id}
     </update>
-    
+
     <!--统计分类数目-->
     <select id="countCategory" 	resultType="int">
 		select count(*) from fa_category

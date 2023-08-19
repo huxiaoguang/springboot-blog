@@ -3,76 +3,77 @@ package main.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import main.blog.entity.CategoryBean;
+import main.blog.entity.Category;
 import main.blog.mapper.CategoryMapper;
 import main.blog.service.CategoryService;
 
+import javax.annotation.Resource;
+
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService
-{	
-	@Autowired  
+{
+	@Resource
     private CategoryMapper categoryMapper;
-	
+
 	@Override
-	public int countCategory() 
+	public int countCategory()
 	{
 		return categoryMapper.countCategory();
 	}
 
 	@Override
-	public List<CategoryBean> getCategoryList() 
-	{	
+	public List<Category> getCategoryList()
+	{
 		return categoryMapper.getCategoryList();
 	}
-	
+
 	@Override
-	public List<CategoryBean> listCategory(Map<String, Object> param) 
+	public List<Category> listCategory(Map<String, Object> param)
 	{
 		return categoryMapper.listCategory(param);
 	}
 
 	@Override
-	public boolean updateCategoryStatus(CategoryBean category) 
+	public boolean updateCategoryStatus(Category category)
 	{
 		boolean result = categoryMapper.updateCategoryStatus(category);
 		return  result;
 	}
-	
+
 	@Override
-	public boolean deleteCategory(int id) 
-	{	
+	public boolean deleteCategory(int id)
+	{
 		boolean result =  categoryMapper.deleteCategory(id);
 		return  result;
 	}
-	
+
 	@Override
-	public CategoryBean detailCategory(int id) 
+	public Category detailCategory(int id)
 	{
-		CategoryBean category = categoryMapper.detailCategory(id);
+		Category category = categoryMapper.detailCategory(id);
 		return category;
 	}
 
 	@Override
-	public boolean addCategory(CategoryBean category) 
+	public boolean addCategory(Category category)
 	{
 		boolean result =  categoryMapper.addCategory(category);
 		return  result;
 	}
 
 	@Override
-	public boolean editCategory(CategoryBean category) 
+	public boolean editCategory(Category category)
 	{
 		boolean result =  categoryMapper.editCategory(category);
 		return  result;
 	}
 
 	@Override
-	public List<CategoryBean> getNavList(int limit) 
-	{	
-		List<CategoryBean> result = categoryMapper.getNavList(limit);
+	public List<Category> getNavList(int limit)
+	{
+		List<Category> result = categoryMapper.getNavList(limit);
 		return  result;
 	}
 }

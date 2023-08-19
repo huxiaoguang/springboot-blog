@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title th:text="${info.title}"></title>
 <meta name="description" th:content="${info.description}">
-<meta name="keywords"    th:content="${info.keywords}">
-<meta name="viewport" 	 content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet"	 href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"	 href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet"	 href="https://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css">
-<link rel="stylesheet"	 href="https://cdn.bootcss.com/magnific-popup.js/1.0.0/magnific-popup.min.css">
-<link rel="stylesheet"   href="/home/screen.css">
+<meta name="keywords" th:content="${info.keywords}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/magnific-popup.js/1.0.0/magnific-popup.min.css">
+<link rel="stylesheet" href="/home/screen.css">
 <script type="text/javascript" src="/home/ghost-url.js"></script>
 <script type="text/javascript">
 	ghost.init({
@@ -49,7 +49,7 @@
 						<h1 class="post-title" th:text="${info.title}"></h1>
 						<section class="post-meta">
 							<span class="author">作者：<a href="/about/" th:text="${info.author}"></a></span>•
-							<time class="post-date" th:title="${info.title}" th:text="${#dates.format(info.updatetime,'yyyy年MM月dd日 HH时mm分')}"></time>
+							<time class="post-date" th:title="${info.title}" th:text="${#dates.format(info.updateTime,'yyyy年MM月dd日 HH时mm分')}"></time>
 						</section>
 					</header>
 
@@ -57,7 +57,7 @@
 						<th:block th:utext="${info.content}"></block>
 						<p>原文地址：<a th:href="@{'/article/'+${info.id}+'.html'}" th:text="@{'/article/'+${info.id}+'.html'}"></a></p>
 					</section>
-					
+
 					<footer class="post-footer clearfix">
 						<div class="pull-left tag-list">
 							<i class="fa fa-folder-open-o"></i>
@@ -77,14 +77,14 @@
 						</div>
 					</footer>
 				</article>
-				
+
 				<div class="prev-next-wrap clearfix">
 					<th:block th:each="vo:${list}">
 						<a th:if="${vo}" th:href="@{'/article/'+${vo.id}+'.html'}" class="btn btn-default" th:text="${vo.title}"></a>&emsp;
 					</th:block>
 				</div>
-				
-				
+
+
 				<div class="about-author clearfix widget">
 					<h4 class="title">文章评论</h4>
 					<p><img src="/home/face.gif" alt="船长" class="avatar pull-left"></p>
@@ -99,7 +99,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="about-author clearfix widget">
 					<h4 class="title">最新评论</h4>
 					<div id="comment"></div>
@@ -112,7 +112,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<link   rel="stylesheet" href="/home/emoji/css/jquery.emoji.css" />
 	<script src="/home/emoji/js/jquery.emoji.js"></script>
 	<script src="/home/emoji/js/jquery.mCustomScrollbar.min.js"></script>
@@ -122,7 +122,7 @@
 			$("#content").emoji({showTab:true,animation:"fade",icons:[{name:"贴吧表情",path:"/home/emoji/img/tieba/",maxNum:50,file:".jpg",placeholder:":{alias}:",alias:{1:"hehe",2:"haha",3:"tushe",4:"a",5:"ku",6:"lu",7:"kaixin",8:"han",9:"lei",10:"heixian",11:"bishi",12:"bugaoxing",13:"zhenbang",14:"qian",15:"yiwen",16:"yinxian",17:"tu",18:"yi",19:"weiqu",20:"huaxin",21:"hu",22:"xiaonian",23:"neng",24:"taikaixin",25:"huaji",26:"mianqiang",27:"kuanghan",28:"guai",29:"shuijiao",30:"jinku",31:"shengqi",32:"jinya",33:"pen",34:"aixin",35:"xinsui",36:"meigui",37:"liwu",38:"caihong",39:"xxyl",40:"taiyang",41:"qianbi",42:"dnegpao",43:"chabei",44:"dangao",45:"yinyue",46:"haha2",47:"shenli",48:"damuzhi",49:"ruo",50:"OK"},title:{1:"呵呵",2:"哈哈",3:"吐舌",4:"啊",5:"酷",6:"怒",7:"开心",8:"汗",9:"泪",10:"黑线",11:"鄙视",12:"不高兴",13:"真棒",14:"钱",15:"疑问",16:"阴脸",17:"吐",18:"咦",19:"委屈",20:"花心",21:"呼~",22:"笑脸",23:"冷",24:"太开心",25:"滑稽",26:"勉强",27:"狂汗",28:"乖",29:"睡觉",30:"惊哭",31:"生气",32:"惊讶",33:"喷",34:"爱心",35:"心碎",36:"玫瑰",37:"礼物",38:"彩虹",39:"星星月亮",40:"太阳",41:"钱币",42:"灯泡",43:"茶杯",44:"蛋糕",45:"音乐",46:"haha",47:"胜利",48:"大拇指",49:"弱",50:"OK"}},{path:"/home/emoji/img/qq/",maxNum:91,excludeNums:[41,45,54],file:".gif",placeholder:"#qq_{alias}#"}]});
 
 			var count = [[${count}]],page=1;
-			
+
 			ajaxComment = function(page)
 			{
 				$.get('/comment/list',{id:[[${info.id}]],page:page},
@@ -131,7 +131,7 @@
 					if(json.count){var data=json.data,html="";$.each(data,function(i,r){html+='<div class="comment-list"><p><img src="/home/face.gif" alt="船长" class="avatar pull-left"></p><div class="details"><p class="username">'+r.username+'</p><p class="time">'+r.createtime+'</p><p class="content">'+r.comment+"</p></div></div>"});if(count>json.count){page++;$("#load-page").empty().append('<a href="javascript:void(0)" id="more" class="btn btn-default">更多评论</a>');$("#more").click(function(){ajaxComment(page)})}else{$("#load-page").empty().append('<a href="javascript:void(0)" class="btn btn-default">加载完啦</a>')}$("#comment").append(html)}else{$("#load-page").empty().append('<a href="javascript:void(0)" class="btn btn-default">加载完啦</a>')};
 				},'json')
 			}
-			
+
 			if(count){ajaxComment(page)};
 		})
 	</script>

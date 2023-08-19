@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main.blog.mapper.AdminMapper">
-	
+
 	<!--根据用户名查询用户基本信息 -->
-    <select id="adminInfo"	 parameterType="string" resultType="main.blog.entity.AdminBean">
+    <select id="adminInfo"	 parameterType="string" resultType="main.blog.entity.Admin">
         select id, username, salt, email, nickname, logintime from fa_admin where username = #{username}
     </select>
-    
+
     <!--用户登录验证-->
     <select id="adminLogin"	 parameterType="map" 	resultType="boolean">
         select count(*) from fa_admin where username = #{username} and password = #{password}
     </select>
-    
+
     <!--修改管理员密码 -->
     <update id="editPass" parameterType="map">
     	update fa_admin set password = #{password}, salt = #{salt} where username = #{username}

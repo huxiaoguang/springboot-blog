@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 
-import main.blog.entity.AdminBean;
+import main.blog.entity.Admin;
 import main.blog.service.AdminService;
 import main.blog.utils.CaptchaUtil;
 
@@ -28,32 +28,32 @@ public class LoginController {
 
 	@Autowired
 	private AdminService adminService;//自动装载Service接口
-	
+
 	/**
 	 * 管理员登录试图
-	 * 
+	 *
 	 * @return string
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String index() {
 		return "admin/login";
 	}
-	
+
 	/**
 	 * 管理员登录操作
-	 * 
+	 *
 	 * @param request
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/dologin", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject dologin(HttpServletRequest request, Model model) 
+	public JSONObject dologin(HttpServletRequest request, Model model)
 	{
 		JSONObject json = new JSONObject();
-		
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String code = request.getParameter("code");
-		
+
 		// 验证码验证֤
 		HttpSession validateCode = request.getSession();
 
@@ -62,10 +62,10 @@ public class LoginController {
 			json.put("msg", "验证码错误");
 			return json;
 		}
-		
-		AdminBean admin = adminService.AdminLogin(username, password);
-		
-		if (admin!=null) 
+
+		Admin admin = adminService.AdminLogin(username, password);
+
+		if (admin!=null)
 		{
 			model.addAttribute("admin", admin);
 			json.put("status", 1);
@@ -74,13 +74,13 @@ public class LoginController {
 			json.put("status", 0);
 			json.put("msg", "用户名或者密码错误");
 		}
-		
+
 		return json;
 	}
 
 	/**
 	 * 登录验证码
-	 * 
+	 *
 	 * @return String
 	 */
 	@ResponseBody

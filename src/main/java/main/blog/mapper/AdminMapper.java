@@ -4,17 +4,17 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import main.blog.entity.AdminBean;
+import main.blog.entity.Admin;
 
 @Repository
 public interface AdminMapper {
-	
+
 	//获取管理员信息
-	public AdminBean adminInfo(String username);
-	
+	Admin adminInfo(String username);
+
 	//管理员登录֤
-	public boolean adminLogin(Map<String, Object> login);
-	
+	boolean adminLogin(Map<String, Object> login);
+
 	//修改管理员密码
-	public boolean editPass(Map<String, Object> edit);
+	boolean editPass(Map<String, Object> edit);
 }

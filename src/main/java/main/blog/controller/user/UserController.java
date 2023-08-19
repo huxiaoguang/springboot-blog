@@ -13,54 +13,54 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import com.alibaba.fastjson.JSONObject;
 
-import main.blog.entity.UserBean;
+import main.blog.entity.User;
 
 @Controller
 @SessionAttributes("userinfo")
 @RequestMapping(value="/user")
 public class UserController {
-	
+
 	/**
-	 * ÓÃ»§µÇÂ¼ÊÔÍ¼
+	 * ï¿½Ã»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Í¼
 	 * @return String
 	 */
 	@RequestMapping(value="/login",method = RequestMethod.GET)
-    public String login(Model model) 
+    public String login(Model model)
 	{
-		UserBean user = new UserBean();
+		User user = new User();
 		model.addAttribute("user", user);
-        return "user/login";//ÓÃ»§µÇÂ¼ÊÔÍ¼
+        return "user/login";//ï¿½Ã»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½Í¼
     }
-	
+
 	/**
-	 * ÓÃ»§µÇÂ¼²Ù×÷
+	 * ï¿½Ã»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½
 	 * @return String
 	 */
 	@ResponseBody
 	@RequestMapping(value="/dologin",method = RequestMethod.POST, headers="Accept=application/json")
     public JSONObject dologin(@RequestParam("username") String username, @RequestParam("password") String password,
-    		Model model) 
+    		Model model)
 	{
 		JSONObject json = new JSONObject();
-		UserBean   user = new UserBean();
-		
+		User user = new User();
+
 		if(username.equals("admin") && password.equals("123456"))
 		{
 			user.setUsername(username);
 			user.setPassword(password);
 			model.addAttribute("userinfo", user);
-			
+
 			json.put("status",  1);
-			json.put("info",    "µÇÂ¼³É¹¦");
+			json.put("info",    "ï¿½ï¿½Â¼ï¿½É¹ï¿½");
 		}else {
 			json.put("status",   0);
-			json.put("info",     "ÓÃ»§Ãû»òÃÜÂë´íÎó");
+			json.put("info",     "ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		}
 		return json;
-    } 
-	
+    }
+
 	/**
-	 * ÓÃ»§ÍË³ö²Ù×÷(Çå³þsession£¬²¢Ìøµ½Ö¸¶¨µÄÒ³Ãæ)
+	 * ï¿½Ã»ï¿½ï¿½Ë³ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½sessionï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½)
 	 * @return String
 	 */
 	@ResponseBody
@@ -69,27 +69,27 @@ public class UserController {
 	{
 		JSONObject json = new JSONObject();
 	    sessionStatus.setComplete();
-	    session.removeAttribute("user");//ÎÞ·¨Çå³ýÒ³ÃæÉÏµÄsession
-	    
+	    session.removeAttribute("user");//ï¿½Þ·ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½Ïµï¿½session
+
 	    if(session.getAttribute("user")==null)
 	    {
 		    json.put("status",  1);
-			json.put("info",    "ÍË³ö³É¹¦");
+			json.put("info",    "ï¿½Ë³ï¿½ï¿½É¹ï¿½");
 			json.put("url",     "/springmvc/user/regedit");
 	    }else {
 	    	json.put("status",  0);
-			json.put("info",    "ÍË³öÊ§°Ü");
+			json.put("info",    "ï¿½Ë³ï¿½Ê§ï¿½ï¿½");
 	    }
 		return json;
 	}
-	
+
 	/**
-	 * ÓÃ»§×¢²áÊÔÍ¼
+	 * ï¿½Ã»ï¿½×¢ï¿½ï¿½ï¿½ï¿½Í¼
 	 * @return String
 	 */
 	@RequestMapping(value="/regedit")
 	public String regedit(HttpSession session)
 	{
 		return "user/regedit";
-	} 
-} 
+	}
+}

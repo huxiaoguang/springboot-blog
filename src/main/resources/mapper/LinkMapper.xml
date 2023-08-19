@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main.blog.mapper.LinkMapper">
-	
+
 	<!--查询友情链接-->
-	<select id="listLink" resultType="main.blog.entity.LinkBean">
-    	select * from fa_link 
+	<select id="listLink" resultType="main.blog.entity.Link">
+    	select * from fa_link
     	<where>
 	       	 <if test="name != null">
 	       	 	and	name LIKE concat('%',#{name},'%')
@@ -12,34 +12,34 @@
 		</where>
     	order by id desc
     </select>
-    
+
     <!--新增友情链接-->
-    <insert id="addLink" parameterType="main.blog.entity.LinkBean">
+    <insert id="addLink" parameterType="main.blog.entity.Link">
     	insert into fa_link (name, url, sort, createtime, status) VALUES (#{name}, #{url}, #{sort}, #{createtime}, #{status})
     </insert>
-    
+
     <!--获取友链信息-->
-    <select id="infoLink" parameterType="int" resultType="main.blog.entity.LinkBean">
+    <select id="infoLink" parameterType="int" resultType="main.blog.entity.Link">
     	select * from fa_link where id = #{id} limit 1
     </select>
-    
+
     <!--编辑友情链接-->
-    <update id="editLink" parameterType="main.blog.entity.LinkBean">
-    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, createtime = #{createtime}, status = #{status}, description = #{description} where id = #{id} 
+    <update id="editLink" parameterType="main.blog.entity.Link">
+    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, createtime = #{createtime}, status = #{status}, description = #{description} where id = #{id}
     </update>
-    
+
     <!-- 删除友情链接 -->
     <delete id="deleteLink" parameterType="int">
     	delete from fa_link where id = #{id}
     </delete>
-    
+
     <!--更新友链状态-->
-    <update id="updateLinktatus" parameterType="main.blog.entity.LinkBean">
-    	update fa_link set status = #{status} where id = #{id} 
+    <update id="updateLinktatus" parameterType="main.blog.entity.Link">
+    	update fa_link set status = #{status} where id = #{id}
     </update>
-    
+
     <!--外部调用-->
-    <select id="getListLink" parameterType="int" resultType="main.blog.entity.LinkBean">
+    <select id="getListLink" parameterType="int" resultType="main.blog.entity.Link">
     	select * from fa_link where status='normal' order by id desc limit #{limit}
     </select>
 </mapper>

@@ -1,15 +1,15 @@
 server:
   port: 8080
-  
+
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/fastadmin
+    url: jdbc:mysql://146.56.204.52:3306/larblog?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
     username: root
-    password: root
+    password: Huxg@163.cn.com
   thymeleaf:
     mode: HTML
-    
+
 mybatis:
   type-aliases-package: main.blog.entity
   mapper-locations: classpath:mapper/*.xml
@@ -18,7 +18,7 @@ mybatis:
 logging:
   level:
     main.blog.mapper: trace
-    
+
 pagehelper:
   helperDialect: mysql
   reasonable: true

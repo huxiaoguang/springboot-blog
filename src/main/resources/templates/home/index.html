@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>船长的技术博客</title>
     <meta name="description" content="船长的技术博客">
-    <meta name="keywords"    content="船长的技术博客">
-    <meta name="viewport"    content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="船长的技术博客">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/8.5/styles/monokai_sublime.min.css">
@@ -24,9 +24,9 @@
 </head>
 
 <body class="home-template">
-	
+
 	<div th:replace="/public/header"></div>
-	
+
 	<section class="content-wrap">
         <div class="container">
             <div class="row">
@@ -36,7 +36,7 @@
 					        <h1 class="post-title"><a th:href="@{'/article/'+${vo.id}+'.html'}" target="_blank" th:text="${vo.title}">文章标题</a></h1>
 					        <div class="post-meta">
 					            <span class="author">作者：<a href="/about/" th:text="${vo.author}"></a></span> •
-					            <time class="post-date" th:title="${vo.title}" th:text="${#dates.format(vo.updatetime,'yyyy年MM月dd日 HH时mm分')}"></time>
+					            <time class="post-date" th:title="${vo.title}" th:text="${#dates.format(vo.updateTime,'yyyy年MM月dd日 HH时mm分')}"></time>
 					        </div>
 					    </div>
 					    <div class="post-content"><p th:text="${vo.description}"></p></div>

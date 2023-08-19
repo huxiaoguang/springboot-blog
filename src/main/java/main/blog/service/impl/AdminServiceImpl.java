@@ -6,26 +6,26 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import main.blog.entity.AdminBean;
+import main.blog.entity.Admin;
 import main.blog.mapper.AdminMapper;
 import main.blog.service.AdminService;
 import main.blog.utils.Md5Util;
 import main.blog.utils.RandomUtil;
 
 @Service("adminService")
-public class AdminServiceImpl implements AdminService 
+public class AdminServiceImpl implements AdminService
 {
 	@Autowired
 	private AdminMapper adminMapper;
 
 	@Override
-	public AdminBean AdminLogin(String username, String password) 
+	public Admin AdminLogin(String username, String password)
 	{
-		AdminBean admin = null;
+		Admin admin = null;
 
 		if (username != null) {
 
-			AdminBean info = this.adminInfo(username);
+			Admin info = this.adminInfo(username);
 			String salt = info.getSalt();
 
 			if (salt != null && salt != "") {
@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService
 				}
 			}
 		}
-		
+
 		return admin;
 	}
 
@@ -55,8 +55,8 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	@Override
-	public AdminBean adminInfo(String username) {
-		AdminBean info = null;
+	public Admin adminInfo(String username) {
+		Admin info = null;
 
 		if (username != null) {
 			info = adminMapper.adminInfo(username);
@@ -64,21 +64,21 @@ public class AdminServiceImpl implements AdminService
 
 		return info;
 	}
-	
+
 	@Override
-	public boolean editPass(String username, String newpass) 
+	public boolean editPass(String username, String newpass)
 	{
 		//修改密码
 		String salt = RandomUtil.generateString(6);
-		
+
 		Map<String, Object> edit = new HashMap<String, Object>();
-		
+
 		edit.put("salt", salt);
 		edit.put("username", username);
 		edit.put("password", Md5Util.md5(Md5Util.md5(newpass) + salt));
-		
+
 		boolean result = adminMapper.editPass(edit);
-		
+
 		if(result)
 		{
 			return true;

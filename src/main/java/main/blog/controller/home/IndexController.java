@@ -7,27 +7,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import main.blog.entity.ArticleBean;
+import main.blog.entity.Article;
 import main.blog.service.ArticleService;
 
 @Controller("home/Index")
 public class IndexController extends HomeController{
-	
+
 	@Autowired
-	private ArticleService articleService;//自动装载Service接口
-	
+	private ArticleService articleService;
+
 	/**
 	 * 网站首页
-	 * @param model 
+	 * @param model
 	 * @return string
 	 */
 	@RequestMapping(value="/", method = RequestMethod.GET)
 	public String index(Model model) throws Exception
 	{
-		List<ArticleBean> list = articleService.newArticle(15);
+		List<Article> list = articleService.newArticle(15);
 		model.addAttribute("list", list);
-		
+
 		return "home/index";
 	}
 }

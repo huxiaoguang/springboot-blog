@@ -5,28 +5,28 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
-import main.blog.entity.LinkBean;
+import main.blog.entity.Link;
 
 public interface LinkService {
-	
+
 	//友连管理
-	public PageInfo<LinkBean> listLink(Map<String, Object> param, String page);
-	
+	public PageInfo<Link> listLink(Map<String, Object> param, String page);
+
 	//友情链接
-	public List<LinkBean> getListLink(int limit);
-	
+	public List<Link> getListLink(int limit);
+
 	//友链详情
-	public LinkBean infoLink(int id);
-	
+	public Link infoLink(int id);
+
 	//添加友链
-	public boolean addLink(LinkBean link);
-		
+	public boolean addLink(Link link);
+
 	//编辑友链
-	public boolean editLink(LinkBean link);
-	
+	public boolean editLink(Link link);
+
 	//删除友链
 	public boolean deleteLink(int id);
-	
+
 	//更新友链状态
-	public boolean updateLinkStatus(LinkBean link);
+	public boolean updateLinkStatus(Link link);
 }
