@@ -62,7 +62,6 @@ public class UserController {
 
 	/**
 	 * 删除会员
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody
@@ -104,8 +103,7 @@ public class UserController {
 		user.setId(id);
 		user.setStatus(status);
 
-		boolean result = userService.updateUserStatus(user);
-
+		Boolean result = userService.updateUserStatus(user);
 		if (result)
 		{
 			json.put("status", 1);

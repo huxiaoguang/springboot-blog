@@ -55,7 +55,6 @@ public class CommentController {
 
 	/**
 	 * 删除评论操作
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody

@@ -82,7 +82,6 @@ public class ArticleController {
 	{
 		List<Category> list = categoryService.getCategoryList();
 		model.addAttribute("list", list);
-
 		return "admin/article/article-add";
 	}
 
@@ -101,13 +100,11 @@ public class ArticleController {
 		// 获取文章信息
 		Article info = articleService.detailArticle(id);
 		model.addAttribute("info", info);
-
 		return "admin/article/article-edit";
 	}
 
 	/**
 	 * 删除文章操作
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody
@@ -115,7 +112,6 @@ public class ArticleController {
 	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id) throws Exception
 	{
 		JSONObject json = new JSONObject();
-
 		if (id == 0)
 		{
 			json.put("status", 0);

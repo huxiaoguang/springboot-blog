@@ -171,7 +171,6 @@ public class CategoryController {
 
 		category.setId(id);
 		category.setStatus(status);
-
 		Boolean result = categoryService.updateCategoryStatus(category);
 		if (result)
 		{

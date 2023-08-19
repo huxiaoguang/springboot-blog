@@ -28,7 +28,7 @@ import main.blog.utils.CaptchaUtil;
 public class LoginController {
 
 	@Resource
-	private AdminService adminService;//自动装载Service接口
+	private AdminService adminService;
 
 	/**
 	 * 管理员登录试图
@@ -42,7 +42,6 @@ public class LoginController {
 
 	/**
 	 * 管理员登录操作
-	 *
 	 * @param request
 	 */
 	@ResponseBody
@@ -65,7 +64,6 @@ public class LoginController {
 		}
 
 		Admin admin = adminService.AdminLogin(username, password);
-
 		if (admin!=null)
 		{
 			model.addAttribute("admin", admin);

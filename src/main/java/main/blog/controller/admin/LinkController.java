@@ -113,7 +113,6 @@ public class LinkController {
 
 	/**
 	 * 删除友链操作
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody
@@ -129,8 +128,7 @@ public class LinkController {
 			return json;
 		}
 
-		boolean result = linkService.deleteLink(id);
-
+		Boolean result = linkService.deleteLink(id);
 		if (result) {
 			json.put("status", 1);
 			json.put("msg", "操作成功");

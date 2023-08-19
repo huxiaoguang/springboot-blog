@@ -39,7 +39,6 @@ public class IndexController {
 	{
 		model.addAttribute("article",  countArticle());
 		model.addAttribute("category", countCategory());
-
 		return "admin/index";
 	}
 

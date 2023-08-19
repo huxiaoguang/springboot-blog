@@ -124,7 +124,6 @@ public class TagController {
 
 	/**
 	 * 删除标签
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody
@@ -132,7 +131,6 @@ public class TagController {
 	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id)
 	{
 		JSONObject json = new JSONObject();
-
 		if (id == 0) {
 			json.put("status", 0);
 			json.put("msg", "参数错误");
@@ -161,12 +159,10 @@ public class TagController {
 		JSONObject json = new JSONObject();
 
 		Tag tag = new Tag();
-
 		tag.setId(id);
 		tag.setStatus(status);
 
-		boolean result = tagService.updateTagStatus(tag);
-
+		Boolean result = tagService.updateTagStatus(tag);
 		if (result)
 		{
 			json.put("status", 1);
