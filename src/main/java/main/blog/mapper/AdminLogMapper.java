@@ -14,5 +14,5 @@ public interface AdminLogMapper {
 	List<AdminLog> listAdminLog(Map<String, Object> param);
 
 	//删除管理员日志
-	boolean deleteAdminLog(int id);
+	Boolean deleteAdminLog(int id);
 }

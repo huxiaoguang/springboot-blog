@@ -20,22 +20,14 @@ import main.blog.entity.User;
 @RequestMapping(value="/user")
 public class UserController {
 
-	/**
-	 * �û���¼��ͼ
-	 * @return String
-	 */
 	@RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(Model model)
 	{
 		User user = new User();
 		model.addAttribute("user", user);
-        return "user/login";//�û���¼��ͼ
+        return "user/login";
     }
 
-	/**
-	 * �û���¼����
-	 * @return String
-	 */
 	@ResponseBody
 	@RequestMapping(value="/dologin",method = RequestMethod.POST, headers="Accept=application/json")
     public JSONObject dologin(@RequestParam("username") String username, @RequestParam("password") String password,
@@ -59,17 +51,13 @@ public class UserController {
 		return json;
     }
 
-	/**
-	 * �û��˳�����(���session��������ָ����ҳ��)
-	 * @return String
-	 */
 	@ResponseBody
 	@RequestMapping("/logout")
 	public JSONObject logout(HttpSession session, SessionStatus sessionStatus)
 	{
 		JSONObject json = new JSONObject();
 	    sessionStatus.setComplete();
-	    session.removeAttribute("user");//�޷����ҳ���ϵ�session
+	    session.removeAttribute("user");
 
 	    if(session.getAttribute("user")==null)
 	    {
@@ -83,10 +71,6 @@ public class UserController {
 		return json;
 	}
 
-	/**
-	 * �û�ע����ͼ
-	 * @return String
-	 */
 	@RequestMapping(value="/regedit")
 	public String regedit(HttpSession session)
 	{

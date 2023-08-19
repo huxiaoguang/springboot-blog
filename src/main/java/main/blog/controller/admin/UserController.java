@@ -3,6 +3,7 @@ package main.blog.controller.admin;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import main.blog.service.UserService;
 @RequestMapping(value = "/admin")
 public class UserController {
 
-	@Autowired
+	@Resource
 	private UserService userService;
 
 	/**

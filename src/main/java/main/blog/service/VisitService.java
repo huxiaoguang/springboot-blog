@@ -4,9 +4,16 @@ import main.blog.entity.Visit;
 
 public interface VisitService
 {
-	//访问统计
-	public boolean addVisit(Visit visit);
+	/**
+	 * 访问统计
+	 * @param visit
+	 * @return
+	 */
+	Boolean addVisit(Visit visit);
 
-	//统计总访问量
-	public int getVisitCount();
+	/**
+	 * 统计总访问量
+	 * @return
+	 */
+	int getVisitCount();
 }

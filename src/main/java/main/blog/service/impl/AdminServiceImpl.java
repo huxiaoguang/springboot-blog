@@ -12,10 +12,12 @@ import main.blog.service.AdminService;
 import main.blog.utils.Md5Util;
 import main.blog.utils.RandomUtil;
 
+import javax.annotation.Resource;
+
 @Service("adminService")
 public class AdminServiceImpl implements AdminService
 {
-	@Autowired
+	@Resource
 	private AdminMapper adminMapper;
 
 	@Override
@@ -40,11 +42,10 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	@Override
-	public boolean AuthAdmin(String username, String password) {
-		boolean result = false;
+	public Boolean AuthAdmin(String username, String password) {
+		Boolean result = false;
 
 		Map<String, Object> login = new HashMap<String, Object>();
-
 		login.put("username", username);
 		login.put("password", password);
 
@@ -61,24 +62,21 @@ public class AdminServiceImpl implements AdminService
 		if (username != null) {
 			info = adminMapper.adminInfo(username);
 		}
-
 		return info;
 	}
 
 	@Override
-	public boolean editPass(String username, String newpass)
+	public Boolean editPass(String username, String newpass)
 	{
 		//修改密码
 		String salt = RandomUtil.generateString(6);
-
 		Map<String, Object> edit = new HashMap<String, Object>();
 
 		edit.put("salt", salt);
 		edit.put("username", username);
 		edit.put("password", Md5Util.md5(Md5Util.md5(newpass) + salt));
 
-		boolean result = adminMapper.editPass(edit);
-
+		Boolean result = adminMapper.editPass(edit);
 		if(result)
 		{
 			return true;

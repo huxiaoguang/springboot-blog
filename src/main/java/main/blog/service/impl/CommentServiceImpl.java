@@ -13,10 +13,12 @@ import main.blog.entity.Comment;
 import main.blog.mapper.CommentMapper;
 import main.blog.service.CommentService;
 
+import javax.annotation.Resource;
+
 @Service("commentService")
 public class CommentServiceImpl implements CommentService
 {
-	@Autowired
+	@Resource
     private CommentMapper commentMapper;
 
 	@Override
@@ -27,10 +29,9 @@ public class CommentServiceImpl implements CommentService
 	}
 
 	@Override
-	public boolean updateCommentStatus(Comment comment)
+	public Boolean updateCommentStatus(Comment comment)
 	{
-		boolean result = commentMapper.updateCommentStatus(comment);
-		return  result;
+		return commentMapper.updateCommentStatus(comment);
 	}
 
 	@Override
@@ -46,10 +47,9 @@ public class CommentServiceImpl implements CommentService
 	}
 
 	@Override
-	public boolean deleteComment(int id)
+	public Boolean deleteComment(int id)
 	{
-		boolean result = commentMapper.deleteComment(id);
-		return  result;
+		return commentMapper.deleteComment(id);
 	}
 
 	@Override

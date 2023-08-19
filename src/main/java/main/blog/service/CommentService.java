@@ -9,18 +9,38 @@ import main.blog.entity.Comment;
 
 public interface CommentService {
 
-	//评论管理
-	public PageInfo<Comment> listComment(Map<String, Object> param, String page);
+	/**
+	 * 评论管理
+	 * @param param
+	 * @param page
+	 * @return
+	 */
+	PageInfo<Comment> listComment(Map<String, Object> param, String page);
 
-	//获取网站评论
-	public List<Comment> getListComment(int id);
+	/**
+	 * 获取网站评论
+	 * @param id
+	 * @return
+	 */
+	List<Comment> getListComment(int id);
 
-	//更新状态
-	public boolean updateCommentStatus(Comment comment);
+	/**
+	 * 更新状态
+	 * @param comment
+	 * @return
+	 */
+	Boolean updateCommentStatus(Comment comment);
 
-	//统计文章评论数
-	public int numComment();
+	/**
+	 * 统计文章评论数
+	 * @return
+	 */
+	int numComment();
 
-	//删除评论
-	public boolean deleteComment(int id);
+	/**
+	 * 删除评论
+	 * @param id
+	 * @return
+	 */
+	Boolean deleteComment(int id);
 }

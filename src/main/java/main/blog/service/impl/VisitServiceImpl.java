@@ -9,14 +9,16 @@ import main.blog.entity.Visit;
 import main.blog.mapper.VisitMapper;
 import main.blog.service.VisitService;
 
+import javax.annotation.Resource;
+
 @Service("visitService")
 public class VisitServiceImpl implements VisitService
 {
-	@Autowired
+	@Resource
 	private VisitMapper visitMapper;
 
 	@Override
-	public boolean addVisit(Visit visit)
+	public Boolean addVisit(Visit visit)
 	{
 		int num = visitMapper.getVisitDay(visit);
 		if(num==0)
@@ -29,11 +31,9 @@ public class VisitServiceImpl implements VisitService
 		return true;
 	}
 
-
 	@Override
-	public  int getVisitCount()
+	public int getVisitCount()
 	{
-		 int count = visitMapper.getVisitCount();
-		 return count;
+		return visitMapper.getVisitCount();
 	}
 }

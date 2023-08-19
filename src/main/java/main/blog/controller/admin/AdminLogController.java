@@ -2,8 +2,8 @@ package main.blog.controller.admin;
 
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,9 +17,9 @@ import main.blog.service.AdminLogService;
 
 @Controller("AdminLog")
 @RequestMapping(value = "/admin")
-public class AdminLogController {
-
-	@Autowired
+public class AdminLogController
+{
+	@Resource
 	private AdminLogService adminLogService;
 
 	/**
@@ -62,7 +62,6 @@ public class AdminLogController {
 
 	/**
 	 * 删除管理员日志
-	 * @param model
 	 * @return string
 	 */
 	@ResponseBody
@@ -70,7 +69,6 @@ public class AdminLogController {
 	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id) throws Exception
 	{
 		JSONObject json = new JSONObject();
-
 		if (id == 0)
 		{
 			json.put("status", 0);
@@ -79,7 +77,6 @@ public class AdminLogController {
 		}
 
 		boolean result = adminLogService.deleteAdminLog(id);
-
 		if (result) {
 			json.put("status", 1);
 			json.put("msg", "操作成功");

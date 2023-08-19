@@ -34,8 +34,8 @@ public class Article
 
 	@NotEmpty(message = "文章简介不能为空")
 	private String   description;
-	private int      views;
-	private int      comments;
+	private int views;
+	private int comments;
 
 	private String   weigh;
 	private String   status;
@@ -48,6 +48,6 @@ public class Article
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateTime;
 }

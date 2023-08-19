@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -32,10 +33,9 @@ import main.blog.service.CategoryService;
 @RequestMapping(value = "/admin")
 public class ArticleController {
 
-	@Autowired
+	@Resource
 	private ArticleService articleService;
-
-	@Autowired
+	@Resource
 	private CategoryService categoryService;
 
 	/**

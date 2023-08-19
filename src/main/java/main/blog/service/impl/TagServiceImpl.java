@@ -13,10 +13,12 @@ import main.blog.entity.Tag;
 import main.blog.mapper.TagMapper;
 import main.blog.service.TagService;
 
+import javax.annotation.Resource;
+
 @Service("tagService")
 public class TagServiceImpl implements TagService
 {
-	@Autowired
+	@Resource
     private TagMapper tagMapper;
 
 	@Override
@@ -34,42 +36,36 @@ public class TagServiceImpl implements TagService
 		PageHelper.startPage(P, 15);
 		List<Tag> list = tagMapper.listTag(param);
 		PageInfo<Tag> pageinfo = new PageInfo<Tag>(list);
-
 		return pageinfo;
 	}
 
 	@Override
-	public boolean deleteTag(int id)
+	public Boolean deleteTag(int id)
 	{
-		boolean result = tagMapper.deleteTag(id);
-		return 	result;
+		return tagMapper.deleteTag(id);
 	}
 
 	@Override
-	public boolean updateTagStatus(Tag tag)
+	public Boolean updateTagStatus(Tag tag)
 	{
-		boolean result = tagMapper.updateTagStatus(tag);
-		return 	result;
+		return tagMapper.updateTagStatus(tag);
 	}
 
 	@Override
-	public boolean editTag(Tag tag)
+	public Boolean editTag(Tag tag)
 	{
-		boolean result = tagMapper.editTag(tag);
-		return result;
+		return tagMapper.editTag(tag);
 	}
 
 	@Override
 	public Tag infoTag(int id)
 	{
-		Tag result = tagMapper.infoTag(id);
-		return result;
+		return  tagMapper.infoTag(id);
 	}
 
 	@Override
-	public boolean addTag(Tag tag)
+	public Boolean addTag(Tag tag)
 	{
-		boolean result = tagMapper.addTag(tag);
-		return result;
+		return tagMapper.addTag(tag);
 	}
 }

@@ -1,5 +1,6 @@
 package main.blog.controller.admin;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -22,13 +23,11 @@ import main.blog.service.CategoryService;
 @RequestMapping(value = "/admin")
 public class IndexController {
 
-	@Autowired
+	@Resource
 	private ArticleService articleService;
-
-	@Autowired
+	@Resource
 	private CategoryService categoryService;
-
-	@Autowired
+	@Resource
 	private AdminService adminService;
 
 	/**

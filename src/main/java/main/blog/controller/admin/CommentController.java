@@ -3,6 +3,7 @@ package main.blog.controller.admin;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import main.blog.service.CommentService;
 @RequestMapping(value = "/admin")
 public class CommentController {
 
-	@Autowired
+	@Resource
 	private CommentService commentService;
 
 	/**
@@ -95,8 +96,7 @@ public class CommentController {
 		comment.setCid(id);
 		comment.setStatus(status);
 
-		boolean result = commentService.updateCommentStatus(comment);
-
+		Boolean result = commentService.updateCommentStatus(comment);
 		if (result)
 		{
 			json.put("status", 1);

@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +21,9 @@ import main.blog.service.CategoryService;
 @RequestMapping(value = "/admin")
 public class CategoryController {
 
-	@Autowired
+	@Resource
 	private ArticleService articleService;
-
-	@Autowired
+	@Resource
 	private CategoryService categoryService;
 
 	/**
@@ -116,7 +115,7 @@ public class CategoryController {
 			return json;
 		}
 
-		boolean result = categoryService.deleteCategory(id);
+		Boolean result = categoryService.deleteCategory(id);
 		if (result)
 		{
 			json.put("status", 1);
@@ -168,14 +167,12 @@ public class CategoryController {
 	public JSONObject updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
 		JSONObject json = new JSONObject();
-
 		Category category = new Category();
 
 		category.setId(id);
 		category.setStatus(status);
 
-		boolean result = categoryService.updateCategoryStatus(category);
-
+		Boolean result = categoryService.updateCategoryStatus(category);
 		if (result)
 		{
 			json.put("status", 1);

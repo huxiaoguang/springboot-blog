@@ -1,19 +1,18 @@
 package main.blog.controller.home;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import main.blog.entity.Article;
 import main.blog.service.ArticleService;
+import javax.annotation.Resource;
 
 @Controller("home/Index")
 public class IndexController extends HomeController{
 
-	@Autowired
+	@Resource
 	private ArticleService articleService;
 
 	/**

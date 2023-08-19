@@ -13,10 +13,12 @@ import main.blog.entity.Link;
 import main.blog.mapper.LinkMapper;
 import main.blog.service.LinkService;
 
+import javax.annotation.Resource;
+
 @Service("linkService")
 public class LinkServiceImpl implements LinkService
 {
-	@Autowired
+	@Resource
     private LinkMapper linkMapper;
 
 	@Override
@@ -39,37 +41,32 @@ public class LinkServiceImpl implements LinkService
 	}
 
 	@Override
-	public boolean addLink(Link link)
+	public Boolean addLink(Link link)
 	{
-		boolean result = linkMapper.addLink(link);
-		return 	result;
+		return linkMapper.addLink(link);
 	}
 
 	@Override
 	public Link infoLink(int id)
 	{
-		Link info = linkMapper.infoLink(id);
-		return info;
+		return linkMapper.infoLink(id);
 	}
 
 	@Override
-	public boolean editLink(Link link)
+	public Boolean editLink(Link link)
 	{
-		boolean result = linkMapper.editLink(link);
-		return 	result;
+		return linkMapper.editLink(link);
 	}
 
 	@Override
-	public boolean deleteLink(int id)
+	public Boolean deleteLink(int id)
 	{
-		boolean result = linkMapper.deleteLink(id);
-		return 	result;
+		return linkMapper.deleteLink(id);
 	}
 
 	@Override
-	public boolean updateLinkStatus(Link link)
+	public Boolean updateLinkStatus(Link link)
 	{
-		boolean result = linkMapper.updateLinktatus(link);
-		return 	result;
+		return linkMapper.updateLinktatus(link);
 	}
 }

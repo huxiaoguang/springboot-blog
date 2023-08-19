@@ -36,38 +36,33 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public boolean updateCategoryStatus(Category category)
+	public Boolean updateCategoryStatus(Category category)
 	{
-		boolean result = categoryMapper.updateCategoryStatus(category);
-		return  result;
+		return categoryMapper.updateCategoryStatus(category);
 	}
 
 	@Override
-	public boolean deleteCategory(int id)
+	public Boolean deleteCategory(int id)
 	{
-		boolean result =  categoryMapper.deleteCategory(id);
-		return  result;
+		return categoryMapper.deleteCategory(id);
 	}
 
 	@Override
 	public Category detailCategory(int id)
 	{
-		Category category = categoryMapper.detailCategory(id);
-		return category;
+		return categoryMapper.detailCategory(id);
 	}
 
 	@Override
-	public boolean addCategory(Category category)
+	public Boolean addCategory(Category category)
 	{
-		boolean result =  categoryMapper.addCategory(category);
-		return  result;
+		return categoryMapper.addCategory(category);
 	}
 
 	@Override
-	public boolean editCategory(Category category)
+	public Boolean editCategory(Category category)
 	{
-		boolean result =  categoryMapper.editCategory(category);
-		return  result;
+		return categoryMapper.editCategory(category);
 	}
 
 	@Override

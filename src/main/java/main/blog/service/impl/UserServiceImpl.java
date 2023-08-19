@@ -13,10 +13,12 @@ import main.blog.entity.User;
 import main.blog.mapper.UserMapper;
 import main.blog.service.UserService;
 
+import javax.annotation.Resource;
+
 @Service("userService")
 public class UserServiceImpl implements UserService
 {
-	@Autowired
+	@Resource
 	private UserMapper userMapper;
 
 	@Override
@@ -39,23 +41,20 @@ public class UserServiceImpl implements UserService
 	}
 
 	@Override
-	public boolean addUser(User user)
+	public Boolean addUser(User user)
 	{
-		boolean result = userMapper.addUser(user);
-		return 	result;
+		return userMapper.addUser(user);
 	}
 
 	@Override
-	public boolean deleteUser(int id)
+	public Boolean deleteUser(int id)
 	{
-		boolean result = userMapper.deleteUser(id);
-		return 	result;
+		return userMapper.deleteUser(id);
 	}
 
 	@Override
-	public boolean updateUserStatus(User user)
+	public Boolean updateUserStatus(User user)
 	{
-		boolean result = userMapper.updateUserStatus(user);
-		return 	result;
+		return userMapper.updateUserStatus(user);
 	}
 }

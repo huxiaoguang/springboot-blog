@@ -3,6 +3,7 @@ package main.blog.controller.home;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,12 @@ import main.blog.service.ArticleService;
 import main.blog.service.TagService;
 
 @Controller("home/Tag")
-public class TagController extends HomeController{
-
-	@Autowired
-	private ArticleService articleService;//自动装载Service接口
-
-	@Autowired
-	private TagService tagService;//自动装载Service接口
+public class TagController extends HomeController
+{
+	@Resource
+	private ArticleService articleService;
+	@Resource
+	private TagService tagService;
 
 	/**
 	 * 标签云页面

@@ -16,13 +16,14 @@ import main.blog.mapper.ArticleMapper;
 import main.blog.mapper.CommentMapper;
 import main.blog.service.ArticleService;
 
+import javax.annotation.Resource;
+
 @Service("articleService")
 public class ArticleServiceImpl implements ArticleService
 {
-	@Autowired
+	@Resource
     private ArticleMapper articleMapper;
-
-	@Autowired
+	@Resource
     private CommentMapper commentMapper;
 
 	@Override
@@ -49,7 +50,6 @@ public class ArticleServiceImpl implements ArticleService
 
 		list.add(preArticle);
 		list.add(nextArticle);
-
 		return list;
 	}
 
@@ -73,7 +73,6 @@ public class ArticleServiceImpl implements ArticleService
 		PageHelper.startPage(P, 15);
 		List<Article> list = articleMapper.listArticle(param);
 		PageInfo<Article> pageinfo = new PageInfo<Article>(list);
-
 		return pageinfo;
 	}
 
@@ -84,31 +83,27 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public boolean addArticle(Article article)
+	public Boolean addArticle(Article article)
 	{
-		boolean result  = articleMapper.addArticle(article);
-		return result;
+		return articleMapper.addArticle(article);
 	}
 
 	@Override
-	public boolean editArticle(Article article)
+	public Boolean editArticle(Article article)
 	{
-		boolean result  = articleMapper.editArticle(article);
-		return result;
+		return articleMapper.editArticle(article);
 	}
 
 	@Override
-	public boolean deleteArticle(int id)
+	public Boolean deleteArticle(int id)
 	{
-		boolean result = articleMapper.deleteArticle(id);
-		return result;
+		return articleMapper.deleteArticle(id);
 	}
 
 	@Override
-	public boolean updateArticleStatus(Article article)
+	public Boolean updateArticleStatus(Article article)
 	{
-		boolean result = articleMapper.updateArticleStatus(article);
-		return result;
+		return articleMapper.updateArticleStatus(article);
 	}
 
 	@Override
@@ -134,7 +129,6 @@ public class ArticleServiceImpl implements ArticleService
 			vo.put("year",  date[0]);
 			vo.put("month", date[1]);
 		}
-
 		return list;
 	}
 
@@ -146,7 +140,6 @@ public class ArticleServiceImpl implements ArticleService
 		PageHelper.startPage(P, 15);
 		List<Article> list = articleMapper.getMonthArticle(month);
 		PageInfo<Article> pageinfo = new PageInfo<Article>(list);
-
 		return pageinfo;
 	}
 }

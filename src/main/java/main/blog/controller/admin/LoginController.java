@@ -2,6 +2,7 @@ package main.blog.controller.admin;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ import main.blog.utils.CaptchaUtil;
 @RequestMapping(value = "/admin")
 public class LoginController {
 
-	@Autowired
+	@Resource
 	private AdminService adminService;//自动装载Service接口
 
 	/**

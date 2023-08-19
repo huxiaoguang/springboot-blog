@@ -3,6 +3,7 @@ package main.blog.controller.admin;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import main.blog.service.TagService;
 @RequestMapping(value = "/admin")
 public class TagController {
 
-	@Autowired
+	@Resource
 	private TagService tagService;
 
 	/**
@@ -138,8 +139,7 @@ public class TagController {
 			return json;
 		}
 
-		boolean result = tagService.deleteTag(id);
-
+		Boolean result = tagService.deleteTag(id);
 		if (result) {
 			json.put("status", 1);
 			json.put("msg", "删除成功");

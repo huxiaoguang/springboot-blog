@@ -2,6 +2,7 @@ package main.blog.controller.home;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import main.blog.service.CommentService;
 @Controller("home/Comment")
 public class CommentController extends HomeController
 {
-	@Autowired
+	@Resource
 	private CommentService commentService;//自动装载Service接口
 
 	/**

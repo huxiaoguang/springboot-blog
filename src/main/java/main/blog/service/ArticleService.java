@@ -10,48 +10,108 @@ import main.blog.entity.Article;
 
 public interface ArticleService {
 
-	//最新文章
-	public List<Article> newArticle(int limit);
+	/**
+	 * 最新文章
+	 * @param limit
+	 * @return
+	 */
+	List<Article> newArticle(int limit);
 
-	//获取文章信息
-	public Article detailArticle(int id);
+	/**
+	 * 获取文章信息
+	 * @param id
+	 * @return
+	 */
+	Article detailArticle(int id);
 
-	//统计分类文章数
-	public int countCategoryArticle(int id);
+	/**
+	 * 统计分类文章数
+	 * @param id
+	 * @return
+	 */
+	int countCategoryArticle(int id);
 
-	//统计子分类数
-	public int countSubCategory(int id);
+	/**
+	 * 统计子分类数
+	 * @param id
+	 * @return
+	 */
+	int countSubCategory(int id);
 
-	//上一篇、下一篇
-	public List<Article> PreNextArticle(int id);
+	/**
+	 * 上一篇、下一篇
+	 * @param id
+	 * @return
+	 */
+	List<Article> PreNextArticle(int id);
 
-	//更新预览次数
-	public int updateViews(int id);
+	/**
+	 * 更新预览次数
+	 * @param id
+	 * @return
+	 */
+	int updateViews(int id);
 
-	//统计文章评论
-	public int countComment(int id);
+	/**
+	 * 统计文章评论
+	 * @param id
+	 * @return
+	 */
+	int countComment(int id);
 
-	//文章列表
-	public PageInfo<Article> listArticle(Map<String, Object> param, String page);
+	/**
+	 * 文章列表
+	 * @param param
+	 * @param page
+	 * @return
+	 */
+	PageInfo<Article> listArticle(Map<String, Object> param, String page);
 
-	//统计文章总数
-	public int countArticle();
+	/**
+	 * 统计文章总数
+	 * @return
+	 */
+	int countArticle();
 
-	//添加文章
-	public boolean addArticle(Article article);
+	/**
+	 * 添加文章
+	 * @param article
+	 * @return
+	 */
+	Boolean addArticle(Article article);
 
-	//编辑文章
-	public boolean editArticle(Article article);
+	/**
+	 * 编辑文章
+	 * @param article
+	 * @return
+	 */
+	Boolean editArticle(Article article);
 
-	//删除文章
-	public boolean deleteArticle(int id);
+	/**
+	 * 删除文章
+	 * @param id
+	 * @return
+	 */
+	Boolean deleteArticle(int id);
 
-	//更新状态
-	public boolean updateArticleStatus(Article article);
+	/**
+	 * 更新状态
+	 * @param article
+	 * @return
+	 */
+	Boolean updateArticleStatus(Article article);
 
-	//按月统计
-	public List<HashMap<String, String>>  monthArticle();
+	/**
+	 * 按月统计
+	 * @return
+	 */
+	List<HashMap<String, String>>  monthArticle();
 
-	//按月统计查询文章
-	public PageInfo<Article> getMonthArticle(String month, String page);
+	/**
+	 * 按月统计查询文章
+	 * @param month
+	 * @param page
+	 * @return
+	 */
+	PageInfo<Article> getMonthArticle(String month, String page);
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import main.blog.service.ArticleService;
 @Controller("home/Article")
 public class ArticleController extends HomeController
 {
-	@Autowired
+	@Resource
 	private ArticleService articleService;//自动装载Service接口
 
 	/**
