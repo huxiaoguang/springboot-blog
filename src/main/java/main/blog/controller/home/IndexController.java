@@ -9,7 +9,7 @@ import main.blog.entity.Article;
 import main.blog.service.ArticleService;
 import javax.annotation.Resource;
 
-@Controller("home/Index")
+@Controller("home/index")
 public class IndexController extends HomeController{
 
 	@Resource

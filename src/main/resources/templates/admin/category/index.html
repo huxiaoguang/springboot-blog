@@ -1,0 +1,98 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>文章列表</title>
+</head>
+<body>
+	<div class="layui-body p-15" layout:fragment="content">
+		<span class="layui-breadcrumb">
+		  <a href="/admin/article/list">文章管理</a>
+		  <a><cite>栏目管理</cite></a>
+		</span>
+		<hr />
+		<form class="layui-form" lay-size="sm" id="form">
+			<div class="layui-panel-search">
+				<div class="layui-input-inline">
+					<label class="layui-form-label">关键词：</label>
+					<div class="layui-input-block">
+						<input lay-verify="verifInput" id="keywords" name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input" type="text">
+					</div>
+				</div>
+				<button class="layui-btn layui-btn-normal layui-btn-search layui-btn-sm" type="button" lay-submit lay-filter="search">
+					<i class="layui-icon layui-icon-search"></i>搜 索
+				</button>
+			</div>
+		</form>
+
+		<script th:inline="javascript" type="text/html" id="toolbar">
+			<a href="/admin/category/add" class="layui-btn-normal layui-btn layui-btn-sm">
+				<i class="layui-icon layui-icon-addition"></i>新增分类
+			</a>
+		</script>
+
+		<div class="layui-form">
+			<div class="layui-form"><table id="table" lay-filter="category"></table></div>
+		</div>
+
+		<script th:inline="javascript" type="text/html" id="tool">
+			<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
+				<i class="layui-icon layui-icon-edit"></i> 编辑
+			</a>
+			<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">
+				<i class="layui-icon layui-icon-delete"></i> 删除
+			</a>
+		</script>
+	</div>
+	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	layui.use(['jquery', 'form', 'layer'], function()
+	{
+		var table = layui.table, $ = layui.jquery, form = layui.form;
+		let cols = [
+			{type: 'numbers', title: '序号', width:'5%'},
+			{field: 'name', title: '分类名称',  width: '15%'},
+			{field: 'isnav', title: '是否导航',  width: '15%'},
+			{field: 'status', title: '状态', width:'10%'},
+			{field: 'updateTime', title: '发布时间'},
+			{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
+		];
+		let tableData = table.render(renderOptions('/admin/category/data', cols));
+
+		// 数据查询
+		form.on('submit(search)', function (data)
+		{
+			layui.table.reload('table', {where: data.field});
+		});
+
+		table.on('tool(category)', function(obj)
+		{
+			var data = obj.data;
+			var layEvent = obj.event;
+
+			if(layEvent === 'del')
+			{
+				layer.confirm('确定要删除吗？', function(index)
+				{
+					$.post("/admin/category/delete", {id: data.cid}, function(json) {
+						if(json.code==200)
+						{
+							parent.layer.closeAll();
+							tableData.reload();
+						}else{
+							layer.msg(json.msg);
+						}
+					},"json");
+				});
+			} else if(layEvent === 'edit')
+			{
+				window.open('/admin/category/edit?id='+data.id)
+			}
+		});
+
+		form.on('switch(is_status)', function(data)
+		{
+			var status = data.elem.checked==true?'normal':'hidden';
+			updateData('/admin/category/updateStatus', data.value, status);
+		})
+	})
+	</script>
+</body>
+</html>

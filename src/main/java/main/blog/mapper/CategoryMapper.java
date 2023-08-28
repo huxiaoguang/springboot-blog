@@ -3,6 +3,8 @@ package main.blog.mapper;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.vo.admin.CategoryVO;
 import org.springframework.stereotype.Repository;
 
 import main.blog.entity.Category;
@@ -14,7 +16,7 @@ public interface CategoryMapper {
 	 * 文章分类
 	 * @return
 	 */
-	List<Category> listCategory(Map<String, Object> param);
+	List<CategoryVO> listCategory(CategorySearchDTO dto);
 
 	/**
 	 * 外部调用
@@ -34,7 +36,7 @@ public interface CategoryMapper {
 	 * @param id
 	 * @return
 	 */
-	Category detailCategory(int id);
+	Category detailCategory(Integer id);
 
 	/**
 	 * 添加分类

@@ -3,6 +3,14 @@ package main.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.PageSerializable;
+import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.service.ArticleService;
+import main.blog.utils.Result;
+import main.blog.vo.admin.ArticleVO;
+import main.blog.vo.admin.CategoryVO;
 import org.springframework.stereotype.Service;
 
 import main.blog.entity.Category;
@@ -16,6 +24,8 @@ public class CategoryServiceImpl implements CategoryService
 {
 	@Resource
     private CategoryMapper categoryMapper;
+	@Resource
+	private ArticleService articleService;
 
 	@Override
 	public int countCategory()
@@ -30,9 +40,11 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public List<Category> listCategory(Map<String, Object> param)
+	public PageInfo<CategoryVO> listCategory(CategorySearchDTO dto)
 	{
-		return categoryMapper.listCategory(param);
+		PageHelper.startPage(dto.getPage(), dto.getLimit());
+		List<CategoryVO> list = categoryMapper.listCategory(dto);
+		return new PageInfo<>(list);
 	}
 
 	@Override
@@ -42,8 +54,18 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public Boolean deleteCategory(int id)
+	public Boolean deleteCategory(Integer id)
 	{
+		Integer countSubCate = articleService.countSubCategory(id);
+		if (countSubCate > 0)
+		{
+			throw new RuntimeException("该分类下有子分类，不能被删除");
+		}
+		Integer countCateArticle = articleService.countCategoryArticle(id);
+		if (countCateArticle > 0)
+		{
+			throw new RuntimeException("该分类下有文章，不能被删除");
+		}
 		return categoryMapper.deleteCategory(id);
 	}
 

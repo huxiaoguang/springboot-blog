@@ -18,7 +18,7 @@ import com.github.pagehelper.PageInfo;
 import main.blog.entity.Article;
 import main.blog.service.ArticleService;
 
-@Controller("home/Article")
+@Controller("home/article")
 public class ArticleController extends HomeController
 {
 	@Resource
@@ -51,29 +51,6 @@ public class ArticleController extends HomeController
 		}
 
 		return "home/article";
-	}
-
-	/**
-	 * 分类文章列表
-	 * @return string
-	 */
-	@RequestMapping(value="/category/{cname}")
-	public String category(@PathVariable("cname")String cname, HttpServletRequest request, Model model) throws Exception
-	{
-		if(cname!=null)
-		{
-			Integer page = Integer.parseInt(request.getParameter("page"));
-			ArticleSearchDTO dto = new ArticleSearchDTO();
-			dto.setPage(page);
-			dto.setCname(cname);
-
-			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);
-			model.addAttribute("cname", cname);
-			model.addAttribute("page",  pageinfo);
-			model.addAttribute("list",  pageinfo.getList());
-		}
-
-		return "home/category";
 	}
 
 	/**

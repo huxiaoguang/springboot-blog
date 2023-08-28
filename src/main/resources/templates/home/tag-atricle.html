@@ -31,7 +31,7 @@
         <div class="container">
             <div class="row">
 				<main class="col-md-8 main-content">
-				<div th:if="${keyword}" class="cover tag-cover">
+				<div th:if="${keywords}" class="cover tag-cover">
 				    <h3 class="tag-name" th:text="'标签：'+${keywords}"></h3>
 				    <div class="post-count" th:text="'共'+${page.total}+'篇文章'"></div>
 				</div>

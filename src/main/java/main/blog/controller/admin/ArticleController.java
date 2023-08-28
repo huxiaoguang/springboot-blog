@@ -91,12 +91,7 @@ public class ArticleController
 	@RequestMapping(value = "article/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result<Boolean> delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		if (id == 0) {
-			return Result.failed("参数错误");
-		}
-
-		boolean result = articleService.deleteArticle(id);
-		if (result) {
+		if (articleService.deleteArticle(id)) {
 			return Result.success("操作成功");
 		} else {
 			return Result.success("操作失败");

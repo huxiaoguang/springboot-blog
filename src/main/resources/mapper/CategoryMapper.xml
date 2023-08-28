@@ -4,14 +4,14 @@
 <mapper namespace="main.blog.mapper.CategoryMapper">
 
 	<!--分类列表 -->
-	<select id="listCategory" parameterType="map" resultType="main.blog.entity.Category">
+	<select id="listCategory" parameterType="main.blog.dto.admin.CategorySearchDTO" resultType="main.blog.vo.admin.CategoryVO">
 		select * from fa_category
 		<where>
-	       	 <if test="name!= null">
-	       	 	and	name LIKE concat('%',#{name},'%')
+	       	 <if test="keywords!='' and keywords!= null">
+	       	 	and	name LIKE concat('%',#{keywords},'%')
 	       	 </if>
 		</where>
-		order by id desc
+		order by cid desc
 	</select>
 
 	<!--网站导航-->
