@@ -3,12 +3,12 @@ package main.blog.service.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.ArticleSaveDTO;
+import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.vo.admin.ArticleVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -47,7 +47,6 @@ public class ArticleServiceImpl implements ArticleService
 	public List<Article> PreNextArticle(int id)
 	{
 		List<Article> list = new ArrayList<>();
-
 		Article preArticle  = articleMapper.preArticle(id);
 		Article nextArticle = articleMapper.nextArticle(id);
 
@@ -69,7 +68,7 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public PageInfo<ArticleVO> listArticle(ArticleDTO dto)
+	public PageInfo<ArticleVO> listArticle(ArticleSearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
 		List<ArticleVO> list = articleMapper.listArticle(dto);
@@ -84,14 +83,18 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public Boolean addArticle(Article article)
+	public Boolean addArticle(ArticleSaveDTO dto)
 	{
+		Article article = new Article();
+		BeanCopier.create(ArticleSaveDTO.class, Article.class, false).copy(dto, article,  null);
 		return articleMapper.addArticle(article);
 	}
 
 	@Override
-	public Boolean editArticle(Article article)
+	public Boolean editArticle(ArticleSaveDTO dto)
 	{
+		Article article = new Article();
+		BeanCopier.create(ArticleSaveDTO.class, Article.class, false).copy(dto, article,  null);
 		return articleMapper.editArticle(article);
 	}
 

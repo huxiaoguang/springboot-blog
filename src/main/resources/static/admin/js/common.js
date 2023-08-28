@@ -449,8 +449,10 @@
 	 */
 	ajaxform = function (submitId, url, formId, callback)
 	{
+		console.log(111)
 		form.on('submit('+submitId+')', function(data)
 		{
+			console.log(2222)
 			$.post(url,$('#'+formId+'').serialize(),
 			function(data)
 			{

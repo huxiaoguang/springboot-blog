@@ -2,11 +2,11 @@ package main.blog.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
-import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.ArticleSaveDTO;
+import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Article;
 import main.blog.vo.admin.ArticleVO;
@@ -66,7 +66,7 @@ public interface ArticleService {
 	 * 文章列表
 	 * @return
 	 */
-	PageInfo<ArticleVO> listArticle(ArticleDTO dto);
+	PageInfo<ArticleVO> listArticle(ArticleSearchDTO dto);
 
 	/**
 	 * 统计文章总数
@@ -79,14 +79,14 @@ public interface ArticleService {
 	 * @param article
 	 * @return
 	 */
-	Boolean addArticle(Article article);
+	Boolean addArticle(ArticleSaveDTO article);
 
 	/**
 	 * 编辑文章
 	 * @param article
 	 * @return
 	 */
-	Boolean editArticle(Article article);
+	Boolean editArticle(ArticleSaveDTO article);
 
 	/**
 	 * 删除文章

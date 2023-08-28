@@ -15,40 +15,37 @@ public class Article
 {
 	private Integer id;
 
-	@Min(value = 1, message = "请选择文章分类!")
-	private Integer  cid;
+	private Integer cid;
 
-	@NotEmpty(message = "文章标题不能为空")
-	private String   title;
+	private String title;
 
-	@NotEmpty(message = "文章作者不能为空")
-	private String   author;
+	private String author;
 
 	private String source;
 
-	@NotEmpty(message = "文章内容不能为空")
 	private String content;
+
 	private String image;
 
-	@NotEmpty(message = "标签不能为空")
-	private String   keywords;
+	private String keywords;
 
-	@NotEmpty(message = "文章简介不能为空")
-	private String   description;
-	private int views;
-	private int comments;
+	private String description;
 
-	private String   weigh;
-	private String   status;
-	private String   cname;
-	private String   istop;
-	private String   iscomment;
+	private Integer views;
 
-	@NotNull(message = "创建日期不能为空!")
-	@Past(message     = "创建日期不能大于现在时间")
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Integer comments;
+
+	private String weigh;
+
+	private String status;
+
+	private String cname;
+
+	private String istop;
+
+	private String iscomment;
+
 	private Date createTime;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateTime;
 }

@@ -35,8 +35,8 @@
 	</update>
 
 	<!--外部调用分类 -->
-	<select id="getCategoryList" 	parameterType="map" resultType="main.blog.entity.Category">
-		select cid, name, pid from fa_category where status = 'normal' order by id desc
+	<select id="getCategoryList" parameterType="map" resultType="main.blog.entity.Category">
+		select cid, name, pid from fa_category where status = 'normal' order by cid desc
 	</select>
 
 	<!--分类删除 -->

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.hutool.captcha.LineCaptcha;
+import main.blog.dto.admin.LoginDTO;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ public class LoginController {
 
 	@Resource
 	private AdminService adminService;
+	@Resource
+	private HttpServletRequest request;
 
 	/**
 	 * 管理员登录试图
@@ -44,30 +47,25 @@ public class LoginController {
 
 	/**
 	 * 管理员登录操作
-	 * @param request
 	 */
 	@ResponseBody
 	@RequestMapping(value = "dologin", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result dologin(HttpServletRequest request, Model model)
+	public Result dologin(LoginDTO dto, Model model)
 	{
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String captcha = request.getParameter("captcha");
-
 		// 验证码验证֤
 		HttpSession validateCode = request.getSession();
-		if (!captcha.equalsIgnoreCase((String) validateCode.getAttribute("captcha")))
+		if (!dto.getCaptcha().equalsIgnoreCase(validateCode.getAttribute("captcha").toString()))
 		{
 			return Result.failed("验证码错误");
 		}
 
-		Admin admin = adminService.AdminLogin(username, password);
+		Admin admin = adminService.AdminLogin(dto.getUsername(), dto.getPassword());
 		if (admin!=null)
 		{
 			model.addAttribute("admin", admin);
 			return Result.success("登录成功");
 		} else {
-			return Result.failed("用户名或者密码错误");
+			return Result.failed("账号或密码错误");
 		}
 	}
 

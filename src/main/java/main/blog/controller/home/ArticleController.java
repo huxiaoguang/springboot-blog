@@ -1,15 +1,12 @@
 package main.blog.controller.home;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.vo.admin.ArticleVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -66,7 +63,7 @@ public class ArticleController extends HomeController
 		if(cname!=null)
 		{
 			Integer page = Integer.parseInt(request.getParameter("page"));
-			ArticleDTO dto = new ArticleDTO();
+			ArticleSearchDTO dto = new ArticleSearchDTO();
 			dto.setPage(page);
 			dto.setCname(cname);
 

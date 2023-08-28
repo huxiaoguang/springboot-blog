@@ -38,8 +38,8 @@ public class TagController {
 	public String index(HttpServletRequest request, Model model)
 	{
 		String keywords = request.getParameter("keywords");
-		String page     = request.getParameter("page");
-		String type  	= request.getParameter("type");
+		String page = request.getParameter("page");
+		String type = request.getParameter("type");
 
 		Map<String, Object> param = new HashMap<String, Object>();
 

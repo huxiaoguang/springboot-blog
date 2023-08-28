@@ -1,23 +1,22 @@
 <html>
 <head>
 	<title>标签管理</title>
-	<link rel="stylesheet" href="/static/admin/layui/css/layui.css" />
-	<link rel="stylesheet" href="/static/admin/css/main.css" />
+	<link rel="stylesheet" href="/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/admin/css/main.css" />
 </head>
 
 <body>
 <div class="p-15">
-
 	<form class="layui-form" lay-size="sm">
-		<div class="layui-inline fr mb-10">
+		<div class="layui-inline mb-10">
 			<div class="layui-input-inline">
-				<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input"  th:value="${keywords}" type="text">
+				<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input" th:value="${keywords}" type="text">
 			</div>
-			<input  type="hidden" name="type" value=1 />
-			<button class="layui-btn layui-btn-sm">搜 索</button>
+			<input type="hidden" name="type" value=1 />
+			<button class="layui-btn layui-btn-normal layui-btn-sm">搜 索</button>
 		</div>
 	</form>
-	
+
 	<div class="layui-form">
 	  <table class="layui-table">
 	    <thead>
@@ -25,22 +24,21 @@
 	        <td>编号</td>
 	        <td>标签名称</td>
 	        <td>操作</td>
-	      </tr> 
+	      </tr>
 	    </thead>
 	    <tbody>
-		<th:block th:each="vo:(${list})">
+		<th:block th:each="vo:${list}">
 			<tr>
 			  <td th:text="${vo.id}"></td>
-			  <td th:text="${vo.tagname}"></td>
+			  <td th:text="${vo.tagName}"></td>
 			  <td>
-			  	<a href="javascript:void(0)" th:onclick="'parent.change(\''+${vo.tagname}+'\')'">选择</a>
+			  	<a href="javascript:void(0)" th:onclick="parent.change([[${vo.tagName}]])">选择</a>
 			  </td>
 			</tr>
 		</th:block>
 	    </tbody>
 	  </table>
 	</div>
-	
 	<div class="layui-center">
 		<div th:replace="admin/public/page::show('/admin/tag/index?type=1')"></div>
 	</div>

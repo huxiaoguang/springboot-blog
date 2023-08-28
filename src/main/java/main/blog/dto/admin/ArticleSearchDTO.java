@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ArticleDTO extends PageDTO
+public class ArticleSearchDTO extends PageDTO
 {
 	private Integer cid;
 

@@ -6,7 +6,7 @@
 	<select id="listTag" parameterType="map" resultType="main.blog.entity.Tag">
     	select * from fa_tag
     	<where>
-	       	 <if test="tagname!= null">
+	       	 <if test="tagName!= null">
 	       	 	and	tagname LIKE concat('%',#{tagname},'%')
 	       	 </if>
 		</where>

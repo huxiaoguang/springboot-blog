@@ -1,6 +1,8 @@
 package main.blog.controller.admin;
 
-import main.blog.dto.admin.ArticleDTO;
+import cn.hutool.core.util.ObjectUtil;
+import main.blog.dto.admin.ArticleSaveDTO;
+import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Article;
 import main.blog.entity.Category;
@@ -11,11 +13,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,7 +49,7 @@ public class ArticleController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "article/data", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result data(ArticleDTO dto)
+	public Result data(ArticleSearchDTO dto)
 	{
 		return Result.success(articleService.listArticle(dto));
 	}
@@ -57,7 +59,7 @@ public class ArticleController
 	 * @param model
 	 * @return string
 	 */
-	@GetMapping("article/add")
+	@RequestMapping(value = "article/add")
 	public String add(Model model)
 	{
 		List<Category> list = categoryService.getCategoryList();
@@ -145,8 +147,9 @@ public class ArticleController
 	 * 添加编辑文章操作
 	 * @return json
 	 */
-	@PostMapping("article/save")
-	public Result save(@Valid Article article, BindingResult msg)
+	@ResponseBody
+	@RequestMapping(value = "article/save", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result save(@Validated ArticleSaveDTO dto, BindingResult msg)
 	{
 		// 错误提示
 		if(msg.hasErrors())
@@ -154,13 +157,12 @@ public class ArticleController
 			return Result.failed( msg.getFieldError().getDefaultMessage());
         }
 
-		boolean result = false;
-		if(article.getId()==0)
+		Boolean result = false;
+		if(ObjectUtil.isEmpty(dto.getId()))
 		{
-			result = articleService.addArticle(article);
+			result = articleService.addArticle(dto);
 		}else {
-			article.setUpdateTime(new Date());
-			result = articleService.editArticle(article);
+			result = articleService.editArticle(dto);
 		}
 		if (result)
 		{

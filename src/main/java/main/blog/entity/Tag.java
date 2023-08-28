@@ -9,11 +9,11 @@ public class Tag
 {
 	private Integer id;
 
-	private String  tagname;
+	private String tagName;
 
-	private String  status;
+	private String status;
 
-	private String  description;
+	private String description;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date createTime;
