@@ -9,7 +9,7 @@
 				<p>访问数：<span th:text="${visitCount}"></span></p>
 			</div>
 		</div>
-		
+
 		<div class="widget">
 			<h4 class="title">技术归档</h4>
 			<div class="content community">
@@ -21,12 +21,12 @@
 				</th:block>
 			</div>
 		</div>
-		
+
 		<div class="widget">
 			<h4 class="title">标签云</h4>
 			<div class="content tag-cloud">
 				<th:block th:each="vo:${tag}">
-					<a th:href="@{'/tag/'+${vo.tagname}+'/'}" th:text="${vo.tagname}" th:title="${vo.tagname}" target="_blank"></a>
+					<a th:href="@{'/tag/'+${vo.tagName}+'/'}" th:text="${vo.tagName}" th:title="${vo.tagName}" target="_blank"></a>
 				</th:block>
 				<a href="/tag-cloud/" target="_blank">...</a>
 			</div>

@@ -64,8 +64,7 @@
 						</div>
 
 						<div class="pull-right share">
-							<div
-								class="bdsharebuttonbox share-icons bdshare-button-style0-24"
+							<div class="bdsharebuttonbox share-icons bdshare-button-style0-24"
 								data-bd-bind="1517624046265">
 								<a href="#" class="bds_more" data-cmd="more"></a> <a href="#"
 									class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a> <a
@@ -83,7 +82,6 @@
 						<a th:if="${vo}" th:href="@{'/article/'+${vo.id}+'.html'}" class="btn btn-default" th:text="${vo.title}"></a>&emsp;
 					</th:block>
 				</div>
-
 
 				<div class="about-author clearfix widget">
 					<h4 class="title">文章评论</h4>
@@ -108,12 +106,12 @@
 					</div>
 				</div>
 				</main>
-				<div th:replace="/public/left"></div>
+				<div th:replace="/public/right"></div>
 			</div>
 		</div>
 	</section>
 
-	<link   rel="stylesheet" href="/home/emoji/css/jquery.emoji.css" />
+	<link rel="stylesheet" href="/home/emoji/css/jquery.emoji.css" />
 	<script src="/home/emoji/js/jquery.emoji.js"></script>
 	<script src="/home/emoji/js/jquery.mCustomScrollbar.min.js"></script>
 	<script type="text/javascript">
