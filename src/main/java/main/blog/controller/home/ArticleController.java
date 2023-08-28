@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.vo.admin.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,13 +65,12 @@ public class ArticleController extends HomeController
 	{
 		if(cname!=null)
 		{
-			String page  = request.getParameter("page");
+			Integer page = Integer.parseInt(request.getParameter("page"));
+			ArticleDTO dto = new ArticleDTO();
+			dto.setPage(page);
+			dto.setCname(cname);
 
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("cname", cname);
-
-			PageInfo<Article> pageinfo = articleService.listArticle(param, page);
-
+			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);
 			model.addAttribute("cname", cname);
 			model.addAttribute("page",  pageinfo);
 			model.addAttribute("list",  pageinfo.getList());

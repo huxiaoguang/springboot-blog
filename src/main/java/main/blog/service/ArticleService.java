@@ -6,7 +6,10 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Article;
+import main.blog.vo.admin.ArticleVO;
 
 public interface ArticleService {
 
@@ -61,11 +64,9 @@ public interface ArticleService {
 
 	/**
 	 * 文章列表
-	 * @param param
-	 * @param page
 	 * @return
 	 */
-	PageInfo<Article> listArticle(Map<String, Object> param, String page);
+	PageInfo<ArticleVO> listArticle(ArticleDTO dto);
 
 	/**
 	 * 统计文章总数
@@ -96,10 +97,10 @@ public interface ArticleService {
 
 	/**
 	 * 更新状态
-	 * @param article
+	 * @param dto
 	 * @return
 	 */
-	Boolean updateArticleStatus(Article article);
+	Boolean updateArticleStatus(StatusDTO dto);
 
 	/**
 	 * 按月统计

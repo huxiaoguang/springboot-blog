@@ -128,7 +128,7 @@ public class CategoryController {
 	public Result save(Category category)
 	{
 		Boolean result = false;
-		if(ObjectUtil.isEmpty(category.getId()))
+		if(ObjectUtil.isEmpty(category.getCid()))
 		{
 			category.setCreateTime(new Date());
 			result = categoryService.addCategory(category);
@@ -153,7 +153,7 @@ public class CategoryController {
 	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
 	{
 		Category category = new Category();
-		category.setId(id);
+		category.setCid(id);
 		category.setStatus(status);
 		Boolean result = categoryService.updateCategoryStatus(category);
 		if (result)

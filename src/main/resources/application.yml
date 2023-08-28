@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://146.56.204.52:3306/larblog?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
     username: root
     password: Huxg@163.cn.com

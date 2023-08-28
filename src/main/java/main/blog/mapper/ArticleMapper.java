@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.vo.admin.ArticleVO;
 import org.springframework.stereotype.Repository;
 
 import main.blog.entity.Article;
@@ -15,7 +18,7 @@ public interface ArticleMapper {
 	List<Article> newArticle(int limit);
 
 	//文章列表
-	List<Article> listArticle(Map<String, Object> param);
+	List<ArticleVO> listArticle(ArticleDTO dto);
 
 	//文章详情
 	Article detailArticle(int id);
@@ -39,7 +42,7 @@ public interface ArticleMapper {
 	Integer countSubCategory(int id);
 
 	//更新文章状态
-	Boolean updateArticleStatus(Article article);
+	Boolean updateArticleStatus(StatusDTO dto);
 
 	//统计文章总数
 	Integer countArticle();

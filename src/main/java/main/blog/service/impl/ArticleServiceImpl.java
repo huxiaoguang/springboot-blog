@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.vo.admin.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,13 +69,11 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public PageInfo<Article> listArticle(Map<String, Object> param, String page)
+	public PageInfo<ArticleVO> listArticle(ArticleDTO dto)
 	{
-		int P = (page == null) || (page == "0") ? 1 : Integer.parseInt(page);
-
-		PageHelper.startPage(P, 15);
-		List<Article> list = articleMapper.listArticle(param);
-		PageInfo<Article> pageinfo = new PageInfo<Article>(list);
+		PageHelper.startPage(dto.getPage(), dto.getLimit());
+		List<ArticleVO> list = articleMapper.listArticle(dto);
+		PageInfo<ArticleVO> pageinfo = new PageInfo<ArticleVO>(list);
 		return pageinfo;
 	}
 
@@ -101,9 +102,9 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public Boolean updateArticleStatus(Article article)
+	public Boolean updateArticleStatus(StatusDTO dto)
 	{
-		return articleMapper.updateArticleStatus(article);
+		return articleMapper.updateArticleStatus(dto);
 	}
 
 	@Override

@@ -1,6 +1,147 @@
 ;!function(){
 
-	var layer = layui.layer, $ = layui.jquery, form = layui.form, element = layui.element;
+	let layer = layui.layer, $ = layui.jquery, form = layui.form, element = layui.element, util= layui.util, table= layui.table, laydate = layui.laydate;
+
+	let lastTime = new Date().getTime(); // 最后操作的时间
+	let currentTime = new Date().getTime(); // 最新的时间
+	let timeOut = 1*1000*60*20; // 单位 毫秒，设置超时时间：20分钟
+
+	$(document).mouseover(function()
+	{
+		lastTime = new Date().getTime();
+	});
+
+	/**
+	 * 登录超时检测
+	 */
+	verifyLoginTimeout = function()
+	{
+		currentTime = new Date().getTime();
+		if(currentTime - lastTime > timeOut)
+		{
+			// 判断当前页是否是在登录页 若在登录页则不需要退出操作
+			if(window.location.pathname == "/admin/login"){
+				return;
+			}
+			$.get('/admin/logout',function(json)
+			{
+				if(json.code == 200)
+				{
+					layer.msg("登录超时，即将退出", {time: 3000}, function ()
+					{
+						window.location.href = json.data;
+					});
+				}else{
+					layer.msg(json.msg);
+				}
+			},'json');
+		}
+	}
+	window.setInterval(verifyLoginTimeout, 1000 * 5);
+
+	/**
+	 * 密码强验证
+	 * 密码必须12位以上，并且有至少有一个大写字母 &一个数字 & 一个特殊字符
+	 * @param value
+	 * @returns {string}
+	 */
+	strongVerifiOfPassword = function (value)
+	{
+		if(value.length < 12 || value.length > 24){
+			return "密码长度为12-24位";
+		}
+        if(value.indexOf(" ") !== -1){
+            return "存在空格字符";
+        }
+		if(!new RegExp("^(?=.*?[A-Za-z]+)(?=.*?[0-9]+)(?=.*?[A-Z])(?=.*?[!@#$%^&*]).*$").test(value)){
+			return "至少要有一个大写字母、一个数字、一个特殊字符";
+		}
+	}
+
+	/**
+	 * 验证输入的字符串中是否存在空格
+	 * @param value
+	 */
+	verifySpace = function (value)
+	{
+		if(value.indexOf(" ") !== -1){
+			return "存在空格字符";
+		}
+	}
+
+	/**
+	 * 验证输入框的值是否存在特殊字符
+	 * @param value
+	 */
+	verifInputValue = function (value)
+	{
+		let regEn = /[`~!@#$%^&*()_+<>?:"{}=,\/;'[\]]/im,
+			regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
+		if(regEn.test(value) || regCn.test(value)){
+			return "含有特殊字符";
+		}
+	}
+
+	/**
+	 * 禁止输入中文
+	 * @param value
+	 */
+	prohibitChinese = function (value)
+	{
+		var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+		if(reg.test(value)){
+			return "不能含有中文字符";
+		}
+	}
+
+	/**
+	 * 验证输入框的长度
+	 * @param value
+	 * @param len
+	 * @returns {string}
+	 */
+	verifLength = function (value,len)
+	{
+		if(value.length > len){
+			return "长度不得超过 " + len + " 位";
+		}
+	}
+
+	/**
+	 * 统一封装表格渲染方式
+	 * @param url
+	 * @param cols
+	 * @returns {{elem: string, toolbar: string, defaultToolbar: *[], response: {statusName: string, statusCode: number}, limit: number, parseData: (function(*): {msg: *, code: *, data: *, count: *}), page: boolean, cols: *[], done: obj.done, url, limits: number[]}}
+	 */
+	renderOptions = function (url, cols, toolbar)
+	{
+		url = url.replace(/(\+)/g, "");
+		let obj = {
+			elem: '#table',
+			url: url,
+			limit: 15,
+			method: 'post',
+			limits: [15,30,45,60,75,90,105,120,135,150],
+			page: true,
+			toolbar: "#toolbar",
+			defaultToolbar: [],
+			cols: [cols],
+			response:{
+				statusName: 'code',
+				statusCode: 200
+			},
+			parseData: function(res)
+			{
+				return {
+					"code": res.code,
+					"msg": res.msg,
+					"count": res.data.total,
+					"data": res.data.list
+				};
+			}
+		}
+		return obj;
+	}
 
 	/**
      * 获取url简化
@@ -45,18 +186,14 @@
 	/**
      * 获取选中的checked的ID
 	 */
-	getcheckeds = function()
+	getcheckeds = function(obj, filed)
 	{
-		var ids  = [];
-		$('.layui-table input[type=checkbox]').each(function()
+		var ids = [];
+		var checkStatus = table.checkStatus(obj.config.id);
+		$.each(checkStatus.data, function (index, row)
 		{
-			var id = $(this).val();
-
-			if($(this).prop('checked') && id>0)
-			{
-				ids.push(id);
-			}
-		})
+			ids.push(row[filed]);
+		});
 		return ids.join(',');
 	}
 
@@ -67,9 +204,8 @@
 	 * @param text 删除时的文字提示
 	 * @param jump 跳转地址
 	 */
-	deleteData = function(url, id, text, jump)
+	deleteData = function(url, pids, text, jump)
 	{
-		var pids = id ? id : getcheckeds();
 		var jump = jump ? jump : '';
 		var text = text ? text:'您确定要删除吗？';
 
@@ -83,7 +219,7 @@
 						layer.closeAll();
 						jump?reload(jump):reload();
 					}else{
-						layer.msg(json.msg);
+						layer.alert(json.msg);
 					}
 				},'json');
 			})
@@ -101,20 +237,16 @@
 	updateData = function(url, id, status)
 	{
 		var ids = id ? id : getcheckeds();
-
 		if(ids && url)
 		{
-			$.post(url,{'id':ids,'status':status},
+			$.post(url,{'id':ids, 'status':status},
 			function(json)
 			{
-				if(json.status==1)
+				if(json.code==200)
 				{
-					layer.msg(json.msg,function()
-					{
-						reload();
-					});
+					layer.msg(json.msg)
 				}else{
-					layer.msg(json.msg);
+					layer.alert(json.msg);
 				}
 			},'json');
 		}else{
@@ -125,21 +257,21 @@
 	/**
 	 * layer弹框简化
 	 */
-	showBox = function(title,width,height,close,url,success)
+	showBox = function(title, width, height, close, url, success)
 	{
 		layer.open({
 			type: 2,
-			title:title,
-			shadeClose: true,
-			closeBtn:close,
-			shade: 0.8,
+			title: title,
+			shadeClose: false,
+			closeBtn: close,
+			shade: 0.5,
 			area: [width+'px', height+'px'], //宽高
-			content:url,
+			content: url,
 			success: success
 		});
 	}
 
-   /**
+  /**
 	* 省级联动
 	* @param url(string)  请求路径 必填
 	* @param province(int)省级  回显时填写
@@ -381,7 +513,13 @@
 	 */
 	reload = function(url)
 	{
-		window.location.reload();
+		if(url)
+		{
+			window.location.href = url
+		}else{
+			window.location.reload();
+		}
+
 		/*
 		$(document).ready
 		(
@@ -405,10 +543,9 @@
 	 */
 	$('#logout-btn').click(function()
 	{
-		layer.confirm('您确定要退出本系统吗？',
-		function()
+		layer.confirm('您确定要退出本系统吗？',{title:'系统提示'}, function()
 		{
-			$.post('/admin/logout', function(json)
+			$.get('/admin/logout',function(json)
 			{
 				if(json.code==200)
 				{
@@ -419,6 +556,185 @@
 			},'json');
 		});
 	});
-	 form.render();
-	 element.init();
+
+	/**
+	 * 查看圖片
+	 * @param submitId  按钮lay-filter
+	 */
+	showImages = function(dom)
+	{
+		layer.photos({
+			photos: dom,
+			anim:5,
+			shade: false,
+			area:'400px',
+			closeBtn:1
+		})
+	}
+
+	Array.prototype.remove = function(val)
+	{
+		var index = this.indexOf(val);
+		if (index > -1) {
+			this.splice(index, 1);
+		}
+	};
+
+	$(".layui-nav-tree .layui-nav-item .layui-nav-child dd").each(function (index, obj)
+	{
+		if($(obj).hasClass("layui-this"))
+		{
+			$(obj).parents("li").addClass("layui-nav-itemed");
+		}
+	})
+
+	layDateRang = function (startTime, endTime)
+	{
+		var startDate = laydate.render({
+			elem: startTime,
+			btns: ['clear', "confirm"], //只显示清空和确定按钮
+			ready: function(date)
+			{
+               if($(endTime).val())
+               {
+				   var mindate = $(endTime).val().split("-");
+				   startDate.config.min = {//结束日期的最小值
+					   year: date.year,
+					   month: date.month - 1,
+					   date: 1,
+				   };
+				   startDate.config.max = {//结束日期的最大值
+					   year: date.year,
+					   month: date.month - 1,
+					   date: mindate[2] * 1,//最大为这个月的最后一天
+				   };
+			   }
+			},
+			done: function (value, date)
+			{
+				var monthDay = laydate.getEndDate(date.month, date.year);//获取这个月一共有多少天
+				if (value !== '') {
+					endDate.config.min = {//结束日期的最小值
+						year: date.year,
+						month: date.month - 1,
+						date: date.date,
+					};
+					endDate.config.max = {//结束日期的最大值
+						year: date.year,
+						month: date.month - 1,
+						date: monthDay,//最大为这个月的最后一天
+					};
+				} else {//清空之后，可继续选择，日期范围可自己配置
+					endDate.config.min = {
+						year: 1900,
+						month: 0,
+						date: date.date,
+					};
+					endDate.config.max = {
+						year: 2099,
+						month: date.month - 1,
+						date: date.date,
+					};
+				}
+			}
+		});
+		var endDate = laydate.render({
+			elem: endTime,
+			btns: ["clear", "confirm"],
+			ready: function(date)
+			{
+				if($(startTime).val())
+				{
+					var mindate = $(startTime).val().split("-");
+					var monthDay = laydate.getEndDate(date.month, date.year);// 获取这个月一共有多少天
+					endDate.config.min = {//结束日期的最小值
+						year: date.year,
+						month:  date.month - 1,
+						date:  mindate[2] * 1,
+					};
+					endDate.config.max = {//结束日期的最大值
+						year: date.year,
+						month: date.month - 1,
+						date: monthDay,//最大为这个月的最后一天
+					};
+				}
+			},
+			done: function (value, date)
+			{
+				if (value !== '') {
+					startDate.config.max = {//起始日期最大值
+						year: date.year,
+						month: date.month - 1,
+						date: date.date,
+					}
+					startDate.config.min = {//起始日期最小值为1号
+						year: date.year,
+						month: date.month - 1,
+						date: 1,
+					}
+				} else {
+					startDate.config.max = {
+						year: 2099,
+						month: date.month - 1,
+						date: date.date,
+					}
+					startDate.config.min = {
+						year: 1900,
+						month: 0,
+						date: 1
+					}
+				}
+			}
+		});
+	}
+
+	//进入全屏
+	fullscreen = function()
+	{
+		var docElm = document.documentElement;
+		if (docElm.requestFullscreen) {
+			docElm.requestFullscreen();
+		}
+		//FireFox
+		else if (docElm.mozRequestFullScreen) {
+			docElm.mozRequestFullScreen();
+		}
+		//Chrome等
+		else if (docElm.webkitRequestFullScreen) {
+			docElm.webkitRequestFullScreen();
+		}
+		//IE11
+		else if (elem.msRequestFullscreen) {
+			elem.msRequestFullscreen();
+		}
+	}
+
+	// 退出全屏
+	exitscreen = function ()
+	{
+		if (document.exitscreen)
+		{
+			document.exitscreen();
+		}
+		else if (document.mozCancelFullScreen)
+		{
+			document.mozCancelFullScreen();
+		}
+		else if (document.webkitCancelFullScreen) {
+			document.webkitCancelFullScreen();
+		}
+		else if (document.msExitFullscreen) {
+			document.msExitFullscreen();
+		}
+	}
+
+	var screen = 0;
+	$('#fullscreen').on('click', function ()
+	{
+		screen ++;
+		screen % 2===1 ? fullscreen() : exitscreen();
+	});
+
+	form.render();
+	element.init();
 }();

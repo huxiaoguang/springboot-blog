@@ -15,7 +15,7 @@
 <body>
 	<div class="login">
 	    <h1>LayBlog管理登录</h1>
-	    <form class="layui-form">
+	    <form class="layui-form" lay-size="sm">
 	    	<div class="layui-form-item">
 				<input value="admin" class="layui-input" name="username" placeholder="请输入用户名" maxlength="16" lay-verify="required" autocomplete="off" type="text">
 		    </div>
@@ -23,73 +23,77 @@
 				<input value="123456" class="layui-input" name="password" placeholder="请输入密码" maxlength="16" lay-verify="required" autocomplete="off"  type="password">
 		    </div>
 		    <div class="layui-form-item form_code">
-				<input class="layui-input" name="code" placeholder="请输入验证码"   maxlength="5" lay-verify="required"    autocomplete="off" type="text">
+				<input class="layui-input" name="captcha" placeholder="请输入验证码" maxlength="5" lay-verify="required" autocomplete="off" type="text">
 				<div class="code">
 					<img src="/admin/captcha" id="codeimg" class="codeimg" onclick="javascript:this.src='/admin/captcha?t='+Math.random()" />
 				</div>
 		    </div>
-			<button class="layui-btn login_btn" type="button">登录</button>
+			<button class="layui-btn layui-btn-normal login_btn" type="button">登录</button>
 			<div class="layui-form-item layui-trans">
 				<label>© huxiaoguang.com - 博客系统</label>
 			</div>
 		</form>
 	</div>
     <script type="text/javascript" src="/admin/layui/layui.js"></script>
+	<script type="text/javascript" src="/admin/js/common.js"></script>
 	<script type="text/javascript">
-	    layui.use(['layer','jquery'], function ()
-	    {
-	    	var $ = layui.jquery;
-
+		layui.use(['layer','jquery'], function ()
+		{
+			var $ = layui.jquery;
 			$(document).keypress(function (e)
 			{
-			     // 回车键事件
-			     if (e.which == 13) {
-			         $('button[type="button"]').click();
-			     }
+				if (e.which == 13) {
+					$('button[type="button"]').click();
+				}
 			});
 
-	        //非空验证
-	        $('button[type="button"]').click(function ()
-	        {
-	            var username = $('input[name="username"]').val();
-	            var password = $('input[name="password"]').val();
-	            var code  	 = $('input[name="code"]').val();
+			// 登录验证
+			$('button[type="button"]').click(function ()
+			{
+				var username = $('input[name="username"]').val();
+				var password = $('input[name="password"]').val();
+				var captcha = $('input[name="captcha"]').val();
 
-		        if(!username)
-		        {
-					layer.msg('请输入您的账号');
+				if(!username) {
+					layer.msg('请输入账号！');
 					return false;
-		        }
-		        if(!password)
-		        {
-					layer.msg('请输入密码');
+				}
+				if(!password) {
+					layer.msg('请输入密码！');
 					return false;
-		        }
-		        if(code == '' || code.length != 5)
-		        {
-		        	layer.msg('输入验证码');
+				}
+				if(!captcha) {
+					layer.msg('请输入验证码！');
 					return false;
-		        }
+				}
 
-	          	//登录
-	          	$('button[type="button"]').attr('disabled',"true").text("登录中...");
-	         	var JsonData = {username:username,password:password,code:code};
+				//登录
+				$('button[type="button"]').attr('disabled',"true").text("登录中...");
+				var jsonData = {username: $.trim(username), password: $.trim(password), captcha: $.trim(captcha)};
 
-	          	$.post('/admin/dologin', JsonData, function(json)
-	          	{
-	          		setTimeout(function()
-	          		{
-		          		$('button[type="button"]').removeAttr("disabled").text("登录");
-		          		if(json.code==200)
-		          		{
-		          			window.location.href = '/admin/index'
-		          		}else{
-		          			layer.msg(json.msg);
-		          		}
-	          		}, 1000);
-	          	},'json')
-	        })
-	    })
-    </script>
+				$.post('/admin/dologin', jsonData,
+				function(json)
+				{
+					$('button[type="button"]').removeAttr("disabled").text("登录");
+					if(json.code==200)
+					{
+						window.location.href = '/admin/index'
+					}else if(json.code==401)
+					{
+						layer.msg(json.msg, {time: 1000}, function() {
+							$("#codeimg").attr('src', '/admin/captcha?t='+Math.random());
+						});
+					}else if(json.code == 406){
+						layer.msg(json.msg, {time: 1000}, function() {
+							showBox('修改密码',400,300,1,'/admin/editPwd?name='+username);
+						});
+					}
+					else{
+						layer.msg(json.msg);
+					}
+				}, 'json');
+			})
+		})
+	</script>
 </body>
 </html>

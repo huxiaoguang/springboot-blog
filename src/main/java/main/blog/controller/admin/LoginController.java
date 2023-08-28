@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import cn.hutool.captcha.LineCaptcha;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +37,7 @@ public class LoginController {
 	 * 管理员登录试图
 	 * @return string
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String index() {
 		return "admin/login";
 	}
@@ -45,16 +47,16 @@ public class LoginController {
 	 * @param request
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/dologin", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "dologin", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result dologin(HttpServletRequest request, Model model)
 	{
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String code = request.getParameter("code");
+		String captcha = request.getParameter("captcha");
 
 		// 验证码验证֤
 		HttpSession validateCode = request.getSession();
-		if (!code.equalsIgnoreCase((String) validateCode.getAttribute("validateCode")))
+		if (!captcha.equalsIgnoreCase((String) validateCode.getAttribute("captcha")))
 		{
 			return Result.failed("验证码错误");
 		}
@@ -74,10 +76,19 @@ public class LoginController {
 	 *
 	 * @return String
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/captcha", method = RequestMethod.GET)
-	public void captcha(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CaptchaUtil code = new CaptchaUtil(100, 38, 5, 50, 22, "validateCode");
-		code.getCode(request, response);
+	@RequestMapping(value = "captcha", method = RequestMethod.GET)
+	public void captcha(HttpServletResponse response, HttpSession session)
+	{
+		LineCaptcha lineCaptcha = cn.hutool.captcha.CaptchaUtil.createLineCaptcha(116, 36,4,10);
+		session.setAttribute("captcha", lineCaptcha.getCode());
+		try
+		{
+			ServletOutputStream outputStream = response.getOutputStream();
+			lineCaptcha.write(outputStream);
+			outputStream.close();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

@@ -8,20 +8,17 @@
 	</select>
 
 	<!-- 文章列表 -->
-	<select id="listArticle" parameterType="map" resultType="main.blog.entity.Article">
-		select a.*,c.name as cname from fa_article as a left join fa_category as c on a.category_id = c.id
+	<select id="listArticle" parameterType="main.blog.dto.admin.ArticleDTO" resultType="main.blog.vo.admin.ArticleVO">
+		select a.* ,c.name as cname from fa_article as a left join fa_category as c on a.cid = c.cid
 		<where>
-	       	 <if test="title != null">
+	       	 <if test="keywords!=null and keywords!=''">
 	       	 	and	a.title LIKE concat('%',#{title},'%') or a.keywords LIKE concat('%',#{title},'%') or a.description LIKE concat('%',#{title},'%')
-	       	 </if>
-	       	 <if test="keywords!=null">
-	       	 	and	a.keywords LIKE concat('%',#{keywords},'%')
 	       	 </if>
 	       	 <if test="cname != null">
 	       	 	and c.diyname='${cname}'
 	       	 </if>
-	       	 <if test="category_id != null">
-	       	 	and a.category_id=${category_id}
+	       	 <if test="cid != null">
+	       	 	and a.cid=${cid}
 	       	 </if>
 		</where>
 		order by a.id desc
@@ -64,7 +61,7 @@
 	</select>
 
 	<!--更新文章状态-->
-    <update id="updateArticleStatus" parameterType="main.blog.entity.Article">
+    <update id="updateArticleStatus" parameterType="main.blog.dto.admin.StatusDTO">
     	update fa_article set status = #{status} where id = #{id}
     </update>
 

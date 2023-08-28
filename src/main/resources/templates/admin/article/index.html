@@ -1,0 +1,114 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+	<title>文章列表</title>
+</head>
+
+<body>
+<div class="layui-body p-15" layout:fragment="content">
+	<div class="layui-breadcrumb">
+		<a href="/admin/article/list">文章管理</a><a><cite>文章列表</cite></a>
+	</div>
+	<hr />
+	<form class="layui-form" lay-size="sm" id="form">
+		<div class="layui-panel-search">
+			<div class="layui-input-inline">
+				<label class="layui-form-label">关键词：</label>
+				<div class="layui-input-block">
+					<input lay-verify="verifInput" id="keywords" name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<button class="layui-btn layui-btn-normal layui-btn-search layui-btn-sm" type="button" lay-submit lay-filter="search">
+				<i class="layui-icon layui-icon-search"></i>搜 索
+			</button>
+		</div>
+	</form>
+
+	<script th:inline="javascript" type="text/html" id="toolbar">
+		<a th:href="@{'/admin/article/add'}" class="layui-btn-normal layui-btn layui-btn-sm">
+			<i class="layui-icon layui-icon-addition"></i>新增文章
+		</a>
+	</script>
+
+	<div class="layui-form"><table id="table" lay-filter="article"></table></div>
+
+	<script id="switchTpl" type="text/html">
+		<input type="checkbox" name="status" value={{d.id}} lay-skin="switch" lay-text="开启|关闭" lay-filter="is_status" {{d.status=='normal'?'checked':''}}>
+	</script>
+
+	<script th:inline="javascript" type="text/html" id="tool">
+		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="view">
+			<i class="layui-icon layui-icon-list"></i> 查看
+		</a>
+		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
+			<i class="layui-icon layui-icon-edit"></i> 编辑
+		</a>
+		<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">
+			<i class="layui-icon layui-icon-delete"></i> 删除
+		</a>
+	</script>
+</div>
+<script src="/admin/js/common.js"></script>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	layui.use(['jquery', 'form', 'layer', 'table', 'upload'], function()
+	{
+		var table = layui.table, $ = layui.jquery, form = layui.form;
+
+		let cols = [
+			{type: 'numbers', title: '序号', width:'5%'},
+			{field: 'title', title: '标题',  width: '15%'},
+			{field: 'cname', title: '分类',  width: '15%'},
+			{field: 'author', title: '作者', width:'10%'},
+			{field: 'source', title: '来源', width:'5%'},
+			{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
+			{field: 'updateTime', title: '更新时间'},
+			{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
+		];
+		let tableData = table.render(renderOptions('/admin/article/data', cols));
+
+		// 数据查询
+		form.on('submit(search)', function (data)
+		{
+			layui.table.reload('table', {where: data.field});
+		});
+
+		// 修改状态
+		form.on('switch(is_status)', function(data)
+		{
+			var status = data.elem.checked==true?'normal':'hidden';
+
+			console.log(data)
+			console.log(status)
+			updateData('/admin/article/updateStatus', data.value, status);
+		})
+
+		table.on('tool(article)', function(obj)
+		{
+			var data = obj.data;
+			var layEvent = obj.event;
+
+			if(layEvent === 'del')
+			{
+				layer.confirm('确定要删除吗？', function(index)
+				{
+					$.post("/admin/article/delete", {id: data.id}, function(json) {
+						if(json.code==200)
+						{
+							parent.layer.closeAll();
+							tableData.reload();
+						}else{
+							layer.msg(json.msg);
+						}
+					},"json");
+				});
+			} else if(layEvent === 'edit')
+			{
+				showBox('编辑工单', 650, 680, 1, '/admin/article/edit?id='+data.id);
+			} else if(layEvent === 'view')
+			{
+				window.open("/article/"+data.id+".html")
+			}
+		});
+	})
+</script>
+</body>
+</html>

@@ -1,76 +1,55 @@
 package main.blog.controller.admin;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.entity.Article;
+import main.blog.entity.Category;
+import main.blog.service.ArticleService;
+import main.blog.service.CategoryService;
+import main.blog.utils.Result;
+import org.apache.commons.io.FilenameUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
-import main.blog.utils.Result;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
-
-import main.blog.entity.Article;
-import main.blog.entity.Category;
-import main.blog.service.ArticleService;
-import main.blog.service.CategoryService;
-
 @Controller("Article")
-@RequestMapping(value = "/admin")
-public class ArticleController {
-
+@RequestMapping(value = "admin")
+public class ArticleController
+{
 	@Resource
 	private ArticleService articleService;
 	@Resource
 	private CategoryService categoryService;
 
 	/**
-	 * 文章列表
-	 * @param model
+	 * 文章视图
 	 * @return string
 	 */
-	@RequestMapping(value = "/article/index")
-	public String article(HttpServletRequest request, Model model) throws Exception
+	@RequestMapping(value = "article/index", method = RequestMethod.GET)
+	public String article()
 	{
-		String keywords = request.getParameter("keywords");
-		String cateid   = request.getParameter("cid");
-		String page     = request.getParameter("page");
+		return "admin/article/index";
+	}
 
-		Map<String, Object> param = new HashMap<String, Object>();
-
-		// 关键词查询
-		if (keywords != null && keywords != "") {
-			param.put("title", keywords.trim());
-			model.addAttribute("keywords", keywords);
-		}
-
-		// 分类查询
-		if (cateid != null && cateid != "") {
-			param.put("category_id", cateid);
-			model.addAttribute("category_id", cateid);
-		}
-
-		PageInfo<Article> pageinfo = articleService.listArticle(param, page);
-
-		model.addAttribute("page", pageinfo);
-		model.addAttribute("list", pageinfo.getList());
-
-		return "admin/article/article";
+	/**
+	 * 文章列表
+	 * @return string
+	 */
+	@ResponseBody
+	@RequestMapping(value = "article/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result data(ArticleDTO dto)
+	{
+		return Result.success(articleService.listArticle(dto));
 	}
 
 	/**
@@ -78,8 +57,8 @@ public class ArticleController {
 	 * @param model
 	 * @return string
 	 */
-	@RequestMapping(value = "/article/add")
-	public String add(Model model)  throws Exception
+	@GetMapping("article/add")
+	public String add(Model model)
 	{
 		List<Category> list = categoryService.getCategoryList();
 		model.addAttribute("list", list);
@@ -91,8 +70,8 @@ public class ArticleController {
 	 * @param model
 	 * @return string
 	 */
-	@RequestMapping(value = "/article/edit")
-	public String edit(@RequestParam(defaultValue = "0") Integer id, Model model) throws Exception
+	@GetMapping("article/edit")
+	public String edit(@RequestParam(defaultValue = "0") Integer id, Model model)
 	{
 		// 获取文章分类
 		List<Category> list = categoryService.getCategoryList();
@@ -109,26 +88,19 @@ public class ArticleController {
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/article/delete", method = RequestMethod.POST, headers = "Accept=application/json")
-	public JSONObject delete(@RequestParam(defaultValue = "0") Integer id) throws Exception
+	@RequestMapping(value = "article/delete", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result<Boolean> delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		JSONObject json = new JSONObject();
-		if (id == 0)
-		{
-			json.put("status", 0);
-			json.put("msg", "参数错误");
-			return json;
+		if (id == 0) {
+			return Result.failed("参数错误");
 		}
 
 		boolean result = articleService.deleteArticle(id);
 		if (result) {
-			json.put("status", 1);
-			json.put("msg", "操作成功");
+			return Result.success("操作成功");
 		} else {
-			json.put("status", 0);
-			json.put("msg", "操作失败");
+			return Result.success("操作失败");
 		}
-		return json;
 	}
 
 	/**
@@ -136,8 +108,7 @@ public class ArticleController {
 	 * @return
 	 * @return string
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/article/upload", method = RequestMethod.POST)
+	@PostMapping("article/upload")
 	public Result upload(HttpServletRequest request, @RequestParam("file") MultipartFile file)
 	{
 		String path = request.getSession().getServletContext().getRealPath("/upload/article/");
@@ -174,9 +145,8 @@ public class ArticleController {
 	 * 添加编辑文章操作
 	 * @return json
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/article/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(@Valid Article article, BindingResult msg) throws Exception
+	@PostMapping("article/save")
+	public Result save(@Valid Article article, BindingResult msg)
 	{
 		// 错误提示
 		if(msg.hasErrors())
@@ -205,15 +175,10 @@ public class ArticleController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/article/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status) throws Exception
+	@RequestMapping(value = "article/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result updateStatus(StatusDTO dto)
 	{
-		Article article = new Article();
-
-		article.setId(id);
-		article.setStatus(status);
-
-		Boolean result = articleService.updateArticleStatus(article);
+		Boolean result = articleService.updateArticleStatus(dto);
 		if (result)
 		{
 			return Result.success("操作成功");

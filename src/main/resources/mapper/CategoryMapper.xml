@@ -4,7 +4,7 @@
 <mapper namespace="main.blog.mapper.CategoryMapper">
 
 	<!--分类列表 -->
-	<select id="listCategory" 	parameterType="map" resultType="main.blog.entity.Category">
+	<select id="listCategory" parameterType="map" resultType="main.blog.entity.Category">
 		select * from fa_category
 		<where>
 	       	 <if test="name!= null">
@@ -16,7 +16,7 @@
 
 	<!--网站导航-->
 	<select id="getNavList" parameterType="int" resultType="main.blog.entity.Category">
-		select * from fa_category where isnav = 1 and status='normal' order by id desc limit #{limit}
+		select * from fa_category where isnav = 1 and status='normal' order by cid desc limit #{limit}
 	</select>
 
 	<!--分类详情 -->
@@ -36,7 +36,7 @@
 
 	<!--外部调用分类 -->
 	<select id="getCategoryList" 	parameterType="map" resultType="main.blog.entity.Category">
-		select id, name, pid from fa_category where status = 'normal' order by id desc
+		select cid, name, pid from fa_category where status = 'normal' order by id desc
 	</select>
 
 	<!--分类删除 -->
@@ -46,7 +46,7 @@
 
 	<!--更新分类状态-->
     <update id="updateCategoryStatus" parameterType="main.blog.entity.Category">
-    	update fa_category set status = #{status} where id = #{id}
+    	update fa_category set status = #{status} where cid = #{id}
     </update>
 
     <!--统计分类数目-->

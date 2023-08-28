@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 public class Category {
 
-	private Integer id;
+	private Integer cid;
 
 	private Integer pid;
 

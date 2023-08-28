@@ -16,7 +16,7 @@ public class Article
 	private Integer id;
 
 	@Min(value = 1, message = "请选择文章分类!")
-	private Integer  category_id;
+	private Integer  cid;
 
 	@NotEmpty(message = "文章标题不能为空")
 	private String   title;

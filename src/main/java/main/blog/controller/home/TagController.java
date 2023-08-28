@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import main.blog.dto.admin.ArticleDTO;
+import main.blog.vo.admin.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,22 +49,21 @@ public class TagController extends HomeController
 	 * @param model
 	 * @return string
 	 */
-	@RequestMapping(value="/tag/{keyword}")
-	public String tag(@PathVariable("keyword")String keywords, HttpServletRequest request, Model model) throws Exception
+	@RequestMapping(value="/tag/{keywords}")
+	public String tag(@PathVariable("keywords") String keywords, HttpServletRequest request, Model model) throws Exception
 	{
 		if(keywords!=null)
 		{
-			String page  = request.getParameter("page");
+			Integer page = Integer.parseInt(request.getParameter("page"));
+			ArticleDTO dto = new ArticleDTO();
+			dto.setPage(page);
+			dto.setKeywords(keywords);
 
-			Map<String, Object> param = new HashMap<String, Object>();
-			param.put("keywords", keywords);
-
-			PageInfo<Article> pageinfo = articleService.listArticle(param, page);
-			model.addAttribute("list",     pageinfo.getList());
+			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);
+			model.addAttribute("list", pageinfo.getList());
 			model.addAttribute("keywords", keywords);
-			model.addAttribute("page",     pageinfo);
+			model.addAttribute("page", pageinfo);
 		}
-
 		return "home/tag-atricle";
 	}
 }
