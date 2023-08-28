@@ -41,9 +41,9 @@ public class Article
 
 	private String cname;
 
-	private String istop;
+	private String isTop;
 
-	private String iscomment;
+	private String isComment;
 
 	private Date createTime;
 

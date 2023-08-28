@@ -9,7 +9,7 @@
 			<a href="/admin/article/list">系统管理</a> <a><cite>文章管理</cite></a> <a><cite th:text="${info}?'编辑文章':'添加文章'"></cite></a>
 		</div>
 		<hr>
-		<form class="layui-form layui-form-pane p-15" id="article-save-form" enctype="multipart/form-data">
+		<form class="layui-form layui-form-pane" id="article-save-form" enctype="multipart/form-data">
 			<div class="layui-row">
 			  <div class="layui-col-xs8">
 				  <div class="layui-col-xs9">
@@ -82,7 +82,7 @@
 				<div class="layui-form-item" pane="">
 					<label class="layui-form-label">允许评论</label>
 					<div class="layui-input-block">
-						<input id="iscomment" type="hidden" name="iscomment"  value="normal" />
+						<input id="isComment" type="hidden" name="isComment"  value="normal" />
 						<input lay-filter="switch-status" lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
 					</div>
 				 </div>
@@ -98,7 +98,7 @@
 				 <div class="layui-form-item" pane="">
 					<label class="layui-form-label">是否置顶</label>
 					<div class="layui-input-block">
-						<input id="istop" type="hidden" name="istop" value="normal" />
+						<input id="isTop" type="hidden" name="isTop" value="normal" />
 						<input lay-filter="switch-status" lay-skin="switch" lay-text="是|否" type="checkbox" />
 					</div>
 				 </div>

@@ -43,9 +43,9 @@ public class ArticleSaveDTO
 
 	private String cname;
 
-	private String istop;
+	private String isTop;
 
-	private String iscomment;
+	private String isComment;
 
 	@NotNull(message = "创建日期不能为空!")
 	@Past(message = "创建日期不能大于现在时间")

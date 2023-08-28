@@ -41,13 +41,13 @@
 
 	<!--新增文章-->
 	<insert id="addArticle" parameterType="main.blog.entity.Article">
-		insert into fa_article (`title`, `cid`, `keywords`, `description`, `image`, `author`, `source`, `status`, `istop`, `iscomment`, `create_time`, `update_time`, `content`) VALUES
-		(#{title}, #{cid}, #{keywords}, #{description}, #{image}, #{author}, #{source}, #{status}, #{istop}, #{iscomment}, now(), now(), #{content})
+		insert into fa_article (`title`, `cid`, `keywords`, `description`, `image`, `author`, `source`, `status`, `is_top`, `is_comment`, `create_time`, `update_time`, `content`) VALUES
+		(#{title}, #{cid}, #{keywords}, #{description}, #{image}, #{author}, #{source}, #{status}, #{isTop}, #{isComment}, now(), now(), #{content})
 	</insert>
 
 	<!--文章更新 -->
 	<update id="editArticle" parameterType="main.blog.entity.Category">
-		update fa_article set `title`=#{title}, `cid`=#{cid}, `image`=#{image}, `author`=#{author}, `source`=#{source}, `status`=#{status}, `istop`=#{istop}, `iscomment`=#{iscomment}, `keywords`=#{keywords}, `description`=#{description}, `update_time`= now(), `content`=#{content} where `id`=#{id}
+		update fa_article set `title`=#{title}, `cid`=#{cid}, `image`=#{image}, `author`=#{author}, `source`=#{source}, `status`=#{status}, `is_top`=#{isTop}, `is_comment`=#{isComment}, `keywords`=#{keywords}, `description`=#{description}, `update_time`= now(), `content`=#{content} where `id`=#{id}
 	</update>
 
 	<!--统计分类下文章数-->

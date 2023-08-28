@@ -39,8 +39,7 @@ public class ArticleServiceImpl implements ArticleService
 	@Override
 	public Article detailArticle(int id)
 	{
-		Article info = articleMapper.detailArticle(id);
-		return info;
+		return articleMapper.detailArticle(id);
 	}
 
 	@Override

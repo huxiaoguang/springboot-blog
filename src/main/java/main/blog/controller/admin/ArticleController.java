@@ -12,14 +12,12 @@ import main.blog.utils.Result;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -110,7 +108,8 @@ public class ArticleController
 	 * @return
 	 * @return string
 	 */
-	@PostMapping("article/upload")
+	@ResponseBody
+	@RequestMapping(value = "article/upload", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result upload(HttpServletRequest request, @RequestParam("file") MultipartFile file)
 	{
 		String path = request.getSession().getServletContext().getRealPath("/upload/article/");
@@ -130,13 +129,12 @@ public class ArticleController
 		// 上传图片
 		try {
 			file.transferTo(targetFile);
-
 			Map<String, Object> data = new HashMap<String, Object>();
 			data.put("savepath", request.getContextPath() + "/upload/article/");
 			data.put("savename", request.getContextPath() + "/upload/article/" + fileName);
 			data.put("filename", orgFilename);
 
-			return Result.success(data, "上传失败");
+			return Result.success(data, "上传成功");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return Result.failed("上传失败");
@@ -149,14 +147,8 @@ public class ArticleController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "article/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(@Validated ArticleSaveDTO dto, BindingResult msg)
+	public Result save(@Validated ArticleSaveDTO dto)
 	{
-		// 错误提示
-		if(msg.hasErrors())
-		{
-			return Result.failed( msg.getFieldError().getDefaultMessage());
-        }
-
 		Boolean result = false;
 		if(ObjectUtil.isEmpty(dto.getId()))
 		{
