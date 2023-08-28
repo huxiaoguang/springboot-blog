@@ -32,14 +32,14 @@ public interface ArticleService {
 	 * @param id
 	 * @return
 	 */
-	int countCategoryArticle(int id);
+	Integer countCategoryArticle(Integer id);
 
 	/**
 	 * 统计子分类数
 	 * @param id
 	 * @return
 	 */
-	int countSubCategory(int id);
+	Integer countSubCategory(int id);
 
 	/**
 	 * 上一篇、下一篇

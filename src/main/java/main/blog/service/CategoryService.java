@@ -2,16 +2,19 @@ package main.blog.service;
 
 import java.util.List;
 import java.util.Map;
+
+import com.github.pagehelper.PageInfo;
+import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.entity.Category;
+import main.blog.vo.admin.CategoryVO;
 
 public interface CategoryService {
 
 	/**
 	 * 文章分类列表
-	 * @param param
 	 * @return
 	 */
-	List<Category> listCategory(Map<String, Object> param);
+	PageInfo<CategoryVO> listCategory(CategorySearchDTO dto);
 
 	/**
 	 * 添加分类
@@ -58,7 +61,7 @@ public interface CategoryService {
 	 * @param id
 	 * @return
 	 */
-	Boolean deleteCategory(int id);
+	Boolean deleteCategory(Integer id);
 
 	/**
 	 * 更新状态

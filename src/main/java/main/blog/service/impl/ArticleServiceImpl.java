@@ -71,8 +71,7 @@ public class ArticleServiceImpl implements ArticleService
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
 		List<ArticleVO> list = articleMapper.listArticle(dto);
-		PageInfo<ArticleVO> pageinfo = new PageInfo<ArticleVO>(list);
-		return pageinfo;
+		return new PageInfo<>(list);
 	}
 
 	@Override
@@ -110,13 +109,13 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public int countCategoryArticle(int id)
+	public Integer countCategoryArticle(Integer id)
 	{
 		return articleMapper.countCategoryArticle(id);
 	}
 
 	@Override
-	public int countSubCategory(int id)
+	public Integer countSubCategory(int id)
 	{
 		return articleMapper.countSubCategory(id);
 	}

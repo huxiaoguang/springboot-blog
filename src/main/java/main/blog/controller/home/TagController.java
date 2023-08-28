@@ -17,7 +17,7 @@ import main.blog.entity.Tag;
 import main.blog.service.ArticleService;
 import main.blog.service.TagService;
 
-@Controller("home/Tag")
+@Controller("home/tag")
 public class TagController extends HomeController
 {
 	@Resource
@@ -49,9 +49,7 @@ public class TagController extends HomeController
 	{
 		if(keywords!=null)
 		{
-			Integer page = Integer.parseInt(request.getParameter("page"));
 			ArticleSearchDTO dto = new ArticleSearchDTO();
-			dto.setPage(page);
 			dto.setKeywords(keywords);
 
 			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);

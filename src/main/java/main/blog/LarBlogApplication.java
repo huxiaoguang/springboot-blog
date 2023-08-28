@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("main.blog.mapper")
-public class BlogApplication
+public class LarBlogApplication
 {
 	public static void main(String[] args)
 	{
-		SpringApplication.run(BlogApplication.class, args);
+		SpringApplication.run(LarBlogApplication.class, args);
 		System.out.println("博客程序启动成功");
 	}
 }

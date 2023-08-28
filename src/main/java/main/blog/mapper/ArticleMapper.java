@@ -67,14 +67,14 @@ public interface ArticleMapper {
 	 * @param id
 	 * @return
 	 */
-	Integer countCategoryArticle(int id);
+	Integer countCategoryArticle(Integer id);
 
 	/**
 	 * 统计子分类数
 	 * @param id
 	 * @return
 	 */
-	Integer countSubCategory(int id);
+	Integer countSubCategory(Integer id);
 
 	/**
 	 * 更新文章状态
