@@ -6,6 +6,7 @@ import java.util.Map;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageSerializable;
+import main.blog.dto.admin.CategorySaveDTO;
 import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.service.ArticleService;
@@ -77,15 +78,15 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public Boolean addCategory(Category category)
+	public Boolean addCategory(CategorySaveDTO dto)
 	{
-		return categoryMapper.addCategory(category);
+		return categoryMapper.addCategory(dto);
 	}
 
 	@Override
-	public Boolean editCategory(Category category)
+	public Boolean editCategory(CategorySaveDTO dto)
 	{
-		return categoryMapper.editCategory(category);
+		return categoryMapper.editCategory(dto);
 	}
 
 	@Override

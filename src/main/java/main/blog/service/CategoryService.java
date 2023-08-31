@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import main.blog.dto.admin.CategorySaveDTO;
 import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Category;
@@ -19,17 +20,17 @@ public interface CategoryService {
 
 	/**
 	 * 添加分类
-	 * @param category
+	 * @param dto
 	 * @return
 	 */
-	Boolean addCategory(Category category);
+	Boolean addCategory(CategorySaveDTO dto);
 
 	/**
 	 * 编辑分类
 	 * @param category
 	 * @return
 	 */
-	Boolean editCategory(Category category);
+	Boolean editCategory(CategorySaveDTO category);
 
 	/**
 	 * 网站导航

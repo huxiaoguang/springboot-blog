@@ -3,6 +3,7 @@ package main.blog.mapper;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.CategorySaveDTO;
 import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.vo.admin.CategoryVO;
@@ -41,17 +42,17 @@ public interface CategoryMapper {
 
 	/**
 	 * 添加分类
-	 * @param category
+	 * @param dto
 	 * @return
 	 */
-	Boolean addCategory(Category category);
+	Boolean addCategory(CategorySaveDTO dto);
 
 	/**
 	 * 编辑分类
-	 * @param category
+	 * @param dto
 	 * @return
 	 */
-	Boolean editCategory(Category category);
+	Boolean editCategory(CategorySaveDTO dto);
 
 	/**
 	 * 删除分类

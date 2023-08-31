@@ -8,11 +8,13 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import cn.hutool.core.util.ObjectUtil;
 import main.blog.dto.admin.ArticleSearchDTO;
+import main.blog.dto.admin.CategorySaveDTO;
 import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,7 +62,6 @@ public class CategoryController
 	{
 		List<Category> list = categoryService.getCategoryList();
 		model.addAttribute("list", list);
-
 		return "admin/category/category-add";
 	}
 
@@ -105,16 +106,14 @@ public class CategoryController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "category/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(Category category)
+	public Result save(@Validated CategorySaveDTO dto)
 	{
 		Boolean result = false;
-		if(ObjectUtil.isEmpty(category.getCid()))
+		if(ObjectUtil.isEmpty(dto.getCid()))
 		{
-			category.setCreateTime(new Date());
-			result = categoryService.addCategory(category);
+			result = categoryService.addCategory(dto);
 		}else {
-			category.setUpdateTime(new Date());
-			result = categoryService.editCategory(category);
+			result = categoryService.editCategory(dto);
 		}
 		if (result)
 		{

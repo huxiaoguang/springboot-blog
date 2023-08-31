@@ -25,12 +25,12 @@
 	</select>
 
 	<!--新增分类-->
-	<insert id="addCategory" parameterType="main.blog.entity.Article">
+	<insert id="addCategory" parameterType="main.blog.dto.admin.CategorySaveDTO">
 		insert into fa_category (name, diyname, isnav, pid, keywords, description, status, create_time) VALUES (#{name}, #{diyname}, #{isnav}, #{pid}, #{keywords}, #{description}, #{status}, now())
 	</insert>
 
 	<!--编辑文章分类 -->
-	<update id="editCategory" parameterType="main.blog.entity.Category">
+	<update id="editCategory" parameterType="main.blog.dto.admin.CategorySaveDTO">
 		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, update_time = now() where cid=#{cid}
 	</update>
 

@@ -50,6 +50,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 		{field: 'tagName', title: '标签名称',  width: '15%'},
 		{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
 		{field: 'description', title: '描述'},
+		{field: 'createTime', title: '发布时间'},
 		{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
 	];
 	let tableData = table.render(renderOptions('/admin/tag/data', cols));
