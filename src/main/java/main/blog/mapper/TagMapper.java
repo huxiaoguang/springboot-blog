@@ -37,7 +37,7 @@ public interface TagMapper {
      * @param id
      * @return
      */
-    Tag infoTag(int id);
+    Tag infoTag(Integer id);
 
     /**
      * 删除标签

@@ -28,14 +28,14 @@ public interface TagService {
 	 * @param id
 	 * @return
 	 */
-    Tag infoTag(int id);
+    Tag infoTag(Integer id);
 
 	/**
 	 * 删除Tag
 	 * @param id
 	 * @return
 	 */
-	Boolean deleteTag(int id);
+	Boolean deleteTag(Integer id);
 
 	/**
 	 * 更新状态

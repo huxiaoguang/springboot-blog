@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageSerializable;
 import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.service.ArticleService;
 import main.blog.utils.Result;
 import main.blog.vo.admin.ArticleVO;
@@ -48,9 +49,9 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public Boolean updateCategoryStatus(Category category)
+	public Boolean updateCategoryStatus(StatusDTO dto)
 	{
-		return categoryMapper.updateCategoryStatus(category);
+		return categoryMapper.updateCategoryStatus(dto);
 	}
 
 	@Override

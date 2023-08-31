@@ -6,13 +6,13 @@
 </head>
 
 <body class="mt-30 mr-30 ml-20">
-	<form class="layui-form" id="tag-save-form" lay-size="sm">
+	<form class="layui-form" id="tag-form" lay-size="sm">
 		<input name="id" type="hidden" th:value="${info.id}" />
 		<div class="layui-form-item">
 			<label class="layui-form-label">标签名称</label>
 			<div class="layui-input-block">
-				<input name="tagname" autocomplete="off" lay-verify="required"
-					placeholder="请输入标签名称" class="layui-input" type="text" th:value="${info.tagname}" />
+				<input name="tagName" autocomplete="off" lay-verify="required"
+					placeholder="请输入标签名称" class="layui-input" type="text" th:value="${info.tagName}" />
 			</div>
 		</div>
 
@@ -70,7 +70,8 @@
 			{
 				layer.msg(json.msg,	{time: 1000}, function()
 				{
-					window.location.href = json.data;
+					parent.layer.closeAll();
+					parent.location.reload();
 				})
 			}else{
 				layer.msg(json.msg);

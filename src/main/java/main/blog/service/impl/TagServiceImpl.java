@@ -38,7 +38,7 @@ public class TagServiceImpl implements TagService
 	}
 
 	@Override
-	public Boolean deleteTag(int id)
+	public Boolean deleteTag(Integer id)
 	{
 		return tagMapper.deleteTag(id);
 	}
@@ -56,7 +56,7 @@ public class TagServiceImpl implements TagService
 	}
 
 	@Override
-	public Tag infoTag(int id)
+	public Tag infoTag(Integer id)
 	{
 		return  tagMapper.infoTag(id);
 	}

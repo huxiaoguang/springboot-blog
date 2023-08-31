@@ -10,7 +10,7 @@
 		<div class="layui-form-item">
 			<label class="layui-form-label">标签名称</label>
 			<div class="layui-input-block">
-				<input name="tagname" autocomplete="off" lay-verify="required" placeholder="请输入标签名称" class="layui-input" type="text" />
+				<input name="tagName" autocomplete="off" lay-verify="required" placeholder="请输入标签名称" class="layui-input" type="text" />
 			</div>
 		</div>
 
@@ -68,7 +68,8 @@
 			{
 				layer.msg(json.msg,	{time: 1000}, function()
 				{
-					window.location.href = json.data;
+					parent.layer.closeAll();
+					parent.location.reload();
 				})
 			}else{
 				layer.msg(json.msg);

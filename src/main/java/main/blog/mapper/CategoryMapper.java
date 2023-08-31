@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.vo.admin.CategoryVO;
 import org.springframework.stereotype.Repository;
 
@@ -67,8 +68,7 @@ public interface CategoryMapper {
 
 	/**
 	 * 更新分类状态
-	 * @param category
 	 * @return
 	 */
-	Boolean updateCategoryStatus(Category category);
+	Boolean updateCategoryStatus(StatusDTO dto);
 }

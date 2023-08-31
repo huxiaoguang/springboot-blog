@@ -24,7 +24,7 @@
 	</form>
 
 	<script th:inline="javascript" type="text/html" id="toolbar">
-		<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增标签', 650, 620, 1, '/admin/category/add')">
+		<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增标签', 650, 620, 1, '/admin/tag/add')">
 			<i class="layui-icon layui-icon-addition"></i>新增标签
 		</a>
 	</script>
@@ -69,7 +69,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 		{
 			layer.confirm('确定要删除吗？', function(index)
 			{
-				$.post("/admin/tag/delete", {id: data.cid}, function(json) {
+				$.post("/admin/tag/delete", {id: data.id}, function(json) {
 					if(json.code==200)
 					{
 						parent.layer.closeAll();
@@ -81,7 +81,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 			});
 		} else if(layEvent === 'edit')
 		{
-			showBox('编辑分类', 650, 620, 1, '/admin/tag/edit?id='+data.cid);
+			showBox('编辑标签', 650, 620, 1, '/admin/tag/edit?id='+data.id);
 		}
 	});
 
