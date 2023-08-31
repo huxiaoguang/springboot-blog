@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import main.blog.dto.admin.ArticleSearchDTO;
+import main.blog.dto.admin.TagSearchDTO;
 import main.blog.vo.admin.ArticleVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,12 +31,11 @@ public class TagController extends HomeController
 	 * @param model
 	 * @return string
 	 */
-	@RequestMapping(value="/tag-cloud", method = RequestMethod.GET)
-	public String tagcloud(Model model) throws Exception
+	@RequestMapping(value="tag-cloud")
+	public String tagcloud(TagSearchDTO dto, Model model)
 	{
-		PageInfo<Tag> list = tagService.listTag(null, null);
+		PageInfo<Tag> list = tagService.listTag(dto);
 		model.addAttribute("list", list.getList());
-
 		return "home/tag";
 	}
 
@@ -44,7 +44,7 @@ public class TagController extends HomeController
 	 * @param model
 	 * @return string
 	 */
-	@RequestMapping(value="/tag/{keywords}")
+	@RequestMapping(value="tag/{keywords}")
 	public String tag(@PathVariable("keywords") String keywords, HttpServletRequest request, Model model) throws Exception
 	{
 		if(keywords!=null)

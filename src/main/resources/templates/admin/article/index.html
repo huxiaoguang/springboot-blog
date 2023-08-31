@@ -47,18 +47,19 @@
 		</a>
 	</script>
 </div>
+
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
 	layui.use(['jquery', 'form', 'layer', 'table', 'upload'], function()
 	{
 		var table = layui.table, $ = layui.jquery, form = layui.form;
-
 		let cols = [
 			{type: 'numbers', title: '序号', width:'5%'},
 			{field: 'title', title: '标题',  width: '15%'},
-			{field: 'cname', title: '分类',  width: '15%'},
+			{field: 'cname', title: '分类',  width: '10%'},
 			{field: 'author', title: '作者', width:'10%'},
 			{field: 'source', title: '来源', width:'5%'},
 			{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
+			{field: 'keywords', title: '关键词', width:'10%'},
 			{field: 'updateTime', title: '更新时间'},
 			{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
 		];

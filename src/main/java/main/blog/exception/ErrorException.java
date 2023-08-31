@@ -20,7 +20,7 @@ public class ErrorException implements ErrorController
     }
 
     @RequestMapping(value = "/error", produces = "text/html")
-    public void errorPageHandler(HttpServletRequest request, HttpServletResponse response) throws IOException
+    public void errorPage(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         response.sendRedirect(request.getContextPath()+"/404.html");
     }

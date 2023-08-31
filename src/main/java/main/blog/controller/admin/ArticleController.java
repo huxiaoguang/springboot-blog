@@ -92,9 +92,9 @@ public class ArticleController
 	public Result<Boolean> delete(@RequestParam(defaultValue = "0") Integer id)
 	{
 		if (articleService.deleteArticle(id)) {
-			return Result.success("操作成功");
+			return Result.success("删除成功");
 		} else {
-			return Result.success("操作失败");
+			return Result.success("删除失败");
 		}
 	}
 

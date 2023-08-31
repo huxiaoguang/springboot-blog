@@ -3,6 +3,7 @@ package main.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.TagSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,11 @@ public class TagServiceImpl implements TagService
 	}
 
 	@Override
-	public PageInfo<Tag> listTag(Map<String, Object> param, String page)
+	public PageInfo<Tag> listTag(TagSearchDTO dto)
 	{
-		int P = (page == null) || (page == "0") ? 1 : Integer.parseInt(page);
-
-		PageHelper.startPage(P, 15);
-		List<Tag> list = tagMapper.listTag(param);
-		PageInfo<Tag> pageinfo = new PageInfo<Tag>(list);
-		return pageinfo;
+		PageHelper.startPage(dto.getPage(), dto.getLimit());
+		List<Tag> list = tagMapper.listTag(dto);
+		return new PageInfo<>(list);
 	}
 
 	@Override

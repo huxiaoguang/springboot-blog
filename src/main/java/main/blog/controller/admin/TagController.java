@@ -7,8 +7,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import cn.hutool.core.util.ObjectUtil;
+import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.TagSearchDTO;
 import main.blog.utils.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 
 import main.blog.entity.Tag;
 import main.blog.service.TagService;
-import org.thymeleaf.util.ObjectUtils;
 
 @Controller("Tag")
 @RequestMapping(value = "/admin")
@@ -34,37 +33,26 @@ public class TagController {
 	 * 云标签列表
 	 * @return string
 	 */
-	@RequestMapping(value = "/tag/index", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model)
+	@RequestMapping(value = "tag/index", method = RequestMethod.GET)
+	public String index(@RequestParam(defaultValue = "0") Integer type)
 	{
-		String keywords = request.getParameter("keywords");
-		String page = request.getParameter("page");
-		String type = request.getParameter("type");
-
-		Map<String, Object> param = new HashMap<String, Object>();
-
-		// 关键词搜索
-		if (keywords != null && keywords != "")
-		{
-			param.put("tagname", keywords.trim());
-			model.addAttribute("keywords", keywords);
-		}
-
-		PageInfo<Tag> pageinfo = tagService.listTag(param, page);
-		model.addAttribute("page", pageinfo);
-		model.addAttribute("list", pageinfo.getList());
-
-		if(type==null)
-		{
-			type = "0";
-		}
-
 		if(type.equals("1"))
 		{
 			return "admin/tag/tagbox";
 		}else {
-			return "admin/tag/tag";
+			return "admin/tag/index";
 		}
+	}
+
+	/**
+	 * 云标签列表
+	 * @return string
+	 */
+	@ResponseBody
+	@RequestMapping(value = "tag/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result data(TagSearchDTO dto)
+	{
+		return Result.success(tagService.listTag(dto));
 	}
 
 	/**

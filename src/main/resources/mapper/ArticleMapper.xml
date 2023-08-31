@@ -52,7 +52,7 @@
 
 	<!--统计分类下文章数-->
 	<select id="countCategoryArticle" parameterType="int" resultType="int">
-		select count(*) from fa_article where category_id = #{value}
+		select count(*) from fa_article where cid = #{value}
 	</select>
 
 	<!--统计分类下子分类-->

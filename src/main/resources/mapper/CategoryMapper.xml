@@ -21,7 +21,7 @@
 
 	<!--分类详情 -->
 	<select id="detailCategory"   parameterType="int" resultType="main.blog.entity.Category">
-		select * from fa_category where id=#{id} limit 1
+		select * from fa_category where cid = #{id} limit 1
 	</select>
 
 	<!--新增分类-->
@@ -31,7 +31,7 @@
 
 	<!--编辑文章分类 -->
 	<update id="editCategory" parameterType="main.blog.entity.Category">
-		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, update_time=now() where id=#{id}
+		update fa_category set name=#{name}, diyname=#{diyname}, isnav=#{isnav}, pid=#{pid}, keywords=#{keywords}, description=#{description}, status=#{status}, update_time = now() where cid=#{cid}
 	</update>
 
 	<!--外部调用分类 -->
@@ -41,11 +41,11 @@
 
 	<!--分类删除 -->
 	<delete id="deleteCategory" parameterType="int">
-		delete from fa_category where id = #{id}
+		delete from fa_category where cid = #{id}
 	</delete>
 
 	<!--更新分类状态-->
-    <update id="updateCategoryStatus" parameterType="main.blog.entity.Category">
+    <update id="updateCategoryStatus" parameterType="main.blog.dto.admin.StatusDTO">
     	update fa_category set status = #{status} where cid = #{id}
     </update>
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.vo.admin.CategoryVO;
 import org.springframework.stereotype.Repository;
 
@@ -57,7 +58,7 @@ public interface CategoryMapper {
 	 * @param id
 	 * @return
 	 */
-	Boolean deleteCategory(int id);
+	Boolean deleteCategory(Integer id);
 
 	/**
 	 * 统计分类数目
@@ -70,5 +71,5 @@ public interface CategoryMapper {
 	 * @param category
 	 * @return
 	 */
-	Boolean updateCategoryStatus(Category category);
+	Boolean updateCategoryStatus(StatusDTO category);
 }

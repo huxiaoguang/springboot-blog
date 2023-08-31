@@ -1,14 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
 <head>
-	<title>文章列表</title>
+	<title>标签管理</title>
 </head>
 
 <body>
 <div class="layui-body p-15" layout:fragment="content">
-	<span class="layui-breadcrumb">
-	  <a href="/admin/article/list">文章管理</a>
-	  <a><cite>分类管理</cite></a>
-	</span>
+	<div class="layui-breadcrumb">
+	  <a href="/article/article/list">系统管理</a><a><cite>标签管理</cite></a>
+	</div>
 	<hr />
 	<form class="layui-form" lay-size="sm" id="form">
 		<div class="layui-panel-search">
@@ -25,16 +24,12 @@
 	</form>
 
 	<script th:inline="javascript" type="text/html" id="toolbar">
-		<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增分类', 650, 620, 1, '/admin/category/add')">
-			<i class="layui-icon layui-icon-addition"></i>新增分类
+		<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增标签', 650, 620, 1, '/admin/category/add')">
+			<i class="layui-icon layui-icon-addition"></i>新增标签
 		</a>
 	</script>
 
-	<div class="layui-form"><table id="table" lay-filter="category"></table></div>
-
-	<script id="switchTpl" type="text/html">
-		<input type="checkbox" name="status" value={{d.cid}} lay-skin="switch" lay-text="开启|关闭" lay-filter="is_status" {{d.status=='normal'?'checked':''}}>
-	</script>
+	<div class="layui-form"><table id="table" lay-filter="tag"></table></div>
 
 	<script th:inline="javascript" type="text/html" id="tool">
 		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
@@ -52,13 +47,12 @@ layui.use(['jquery', 'form', 'layer'], function()
 	var table = layui.table, $ = layui.jquery, form = layui.form;
 	let cols = [
 		{type: 'numbers', title: '序号', width:'5%'},
-		{field: 'name', title: '分类名称',  width: '15%'},
-		{field: 'isnav', title: '是否导航',  width: '15%'},
+		{field: 'tagName', title: '标签名称',  width: '15%'},
 		{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
-		{field: 'updateTime', title: '发布时间'},
+		{field: 'description', title: '描述'},
 		{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
 	];
-	let tableData = table.render(renderOptions('/admin/category/data', cols));
+	let tableData = table.render(renderOptions('/admin/tag/data', cols));
 
 	// 数据查询
 	form.on('submit(search)', function (data)
@@ -66,7 +60,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 		layui.table.reload('table', {where: data.field});
 	});
 
-	table.on('tool(category)', function(obj)
+	table.on('tool(tag)', function(obj)
 	{
 		var data = obj.data;
 		var layEvent = obj.event;
@@ -75,7 +69,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 		{
 			layer.confirm('确定要删除吗？', function(index)
 			{
-				$.post("/admin/category/delete", {id: data.cid}, function(json) {
+				$.post("/admin/tag/delete", {id: data.cid}, function(json) {
 					if(json.code==200)
 					{
 						parent.layer.closeAll();
@@ -87,14 +81,14 @@ layui.use(['jquery', 'form', 'layer'], function()
 			});
 		} else if(layEvent === 'edit')
 		{
-			showBox('编辑分类', 650, 620, 1, '/admin/category/edit?id='+data.cid);
+			showBox('编辑分类', 650, 620, 1, '/admin/tag/edit?id='+data.cid);
 		}
 	});
 
 	form.on('switch(is_status)', function(data)
 	{
 		var status = data.elem.checked==true?'normal':'hidden';
-		updateData('/admin/category/updateStatus', data.value, status);
+		updateData('/admin/tag/updateStatus', data.value, status);
 	})
 })
 </script>

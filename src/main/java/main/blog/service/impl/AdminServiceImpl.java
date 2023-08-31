@@ -3,6 +3,8 @@ package main.blog.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.blog.dto.admin.EditPassDTO;
+import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,16 @@ import main.blog.utils.Md5Util;
 import main.blog.utils.RandomUtil;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService
 {
 	@Resource
 	private AdminMapper adminMapper;
+	@Resource
+	private HttpServletRequest request;
 
 	@Override
 	public Admin AdminLogin(String username, String password)
@@ -66,15 +72,36 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	@Override
-	public Boolean editPass(String username, String newpass)
+	public Boolean editPass(EditPassDTO dto)
 	{
-		//修改密码
+		HttpSession session = request.getSession();
+		Admin info = (Admin) session.getAttribute("admin");
+
+		if(info==null) {
+			throw new RuntimeException("请重新登录");
+		}
+
+		String username = info.getUsername();
+		Admin admin = this.AdminLogin(username, dto.getPassword());
+		if(admin==null) {
+			throw new RuntimeException("原密码错误");
+		}
+
+		if (dto.getPassword().equals(dto.getNewpass())) {
+			throw new RuntimeException("新密码不能和原密码相同");
+		}
+
+		if (!dto.getNewpass().equals(dto.getRenewpass())) {
+			throw new RuntimeException("两次输入的新密码不一样");
+		}
+
+		// 修改密码
 		String salt = RandomUtil.generateString(6);
 		Map<String, Object> edit = new HashMap<String, Object>();
 
 		edit.put("salt", salt);
 		edit.put("username", username);
-		edit.put("password", Md5Util.md5(Md5Util.md5(newpass) + salt));
+		edit.put("password", Md5Util.md5(Md5Util.md5(dto.getNewpass()) + salt));
 
 		Boolean result = adminMapper.editPass(edit);
 		if(result)

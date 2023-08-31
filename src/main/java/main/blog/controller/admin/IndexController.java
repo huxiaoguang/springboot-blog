@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import main.blog.dto.admin.EditPassDTO;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ public class IndexController {
 	 * 修改密码试图
 	 * @return
 	 */
-	@RequestMapping(value = "/editPass", method = RequestMethod.GET)
+	@RequestMapping(value = "editPass", method = RequestMethod.GET)
 	public String editPass() {
 		return "admin/editpass";
 	}
@@ -57,39 +58,11 @@ public class IndexController {
 	 * @return JSONObject
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/editPass", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result editPass(HttpServletRequest request, Model model)
+	@RequestMapping(value = "editPass", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result editPass(EditPassDTO dto)
 	{
-		String password  = request.getParameter("password");
-		String newpass   = request.getParameter("newpass");
-		String renewpass = request.getParameter("renewpass");
-
-		HttpSession session = request.getSession();
-		Admin info = (Admin) session.getAttribute("admin");
-
-		if(info==null)
-		{
-			return Result.failed("请重新登录");
-		}
-
-		String username = info.getUsername();
-		Admin admin = adminService.AdminLogin(username, password);
-		if(admin==null)
-		{
-			return Result.failed("原密码错误");
-		}
-
-		if (password.equals(newpass)) {
-			return Result.failed("新密码不能和原密码相同");
-		}
-
-		if (!newpass.equals(renewpass)) {
-			return Result.failed("两次输入的新密码不一样");
-		}
-
-		Boolean result = adminService.editPass(username, renewpass);
-		if (result) {
-			return Result.success("操作成功");
+		if (adminService.editPass(dto)) {
+			return Result.success("修改成功，请重新登录！");
 		} else {
 			return Result.failed("操作失败");
 		}

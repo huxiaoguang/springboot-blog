@@ -3,11 +3,11 @@
 <mapper namespace="main.blog.mapper.TagMapper">
 
 	<!--查询标签-->
-	<select id="listTag" parameterType="map" resultType="main.blog.entity.Tag">
+	<select id="listTag" parameterType="main.blog.dto.admin.TagSearchDTO" resultType="main.blog.entity.Tag">
     	select * from fa_tag
     	<where>
-	       	 <if test="tagName!= null">
-	       	 	and	tagname LIKE concat('%',#{tagname},'%')
+	       	 <if test="keywords!= null">
+	       	 	tag_name LIKE concat('%',#{keywords},'%')
 	       	 </if>
 		</where>
     	order by id desc
@@ -15,7 +15,7 @@
 
     <!--新增标签-->
     <insert id="addTag" parameterType="main.blog.entity.Tag">
-    	insert into fa_tag (tagname, status, description, create_time) VALUES (#{tagname}, #{status}, #{description}, now())
+    	insert into fa_tag (tag_name, status, description, create_time) VALUES (#{tagName}, #{status}, #{description}, now())
     </insert>
 
     <!--获取标签-->
@@ -25,7 +25,7 @@
 
     <!--编辑标签-->
     <update id="editTag" parameterType="main.blog.entity.Tag">
-    	update fa_tag set tagname = #{tagname}, status = #{status}, description = #{description}, update_time = now() where id = #{id}
+    	update fa_tag set tag_name = #{tagName}, status = #{status}, description = #{description}, update_time = now() where id = #{id}
     </update>
 
     <!--删除标签 -->

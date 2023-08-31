@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import cn.hutool.core.util.ObjectUtil;
 import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,7 +104,7 @@ public class CategoryController
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/category/save", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "category/save", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result save(Category category)
 	{
 		Boolean result = false;
@@ -117,7 +118,7 @@ public class CategoryController
 		}
 		if (result)
 		{
-			return Result.success("/admin/category/index", "操作成功");
+			return Result.success("操作成功");
 		} else {
 			return Result.failed("操作失败");
 		}
@@ -129,13 +130,9 @@ public class CategoryController
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/category/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	public Result updateStatus(StatusDTO dto)
 	{
-		Category category = new Category();
-		category.setCid(id);
-		category.setStatus(status);
-		Boolean result = categoryService.updateCategoryStatus(category);
-		if (result)
+		if (categoryService.updateCategoryStatus(dto))
 		{
 			return Result.success("操作成功");
 		} else {

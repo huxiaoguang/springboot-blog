@@ -1,5 +1,6 @@
 package main.blog.service;
 
+import main.blog.dto.admin.EditPassDTO;
 import main.blog.entity.Admin;
 
 public interface AdminService {
@@ -29,9 +30,7 @@ public interface AdminService {
 
 	/**
 	 * 修改密码接口
-	 * @param username
-	 * @param newpass
 	 * @return
 	 */
-	Boolean editPass(String username, String newpass);
+	Boolean editPass(EditPassDTO dto);
 }

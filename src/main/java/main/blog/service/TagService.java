@@ -5,17 +5,16 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
+import main.blog.dto.admin.TagSearchDTO;
 import main.blog.entity.Tag;
 
 public interface TagService {
 
 	/**
 	 * Tag管理
-	 * @param param
-	 * @param page
 	 * @return
 	 */
-	PageInfo<Tag> listTag(Map<String, Object> param, String page);
+	PageInfo<Tag> listTag(TagSearchDTO dto);
 
 	/**
 	 * 网站标签

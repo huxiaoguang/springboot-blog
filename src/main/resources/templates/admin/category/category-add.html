@@ -1,119 +1,117 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>添加分类</title>
+	<link rel="stylesheet" href="/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/admin/css/main.css" />
 </head>
 
-<body>
-	<div class="layui-body p-15" layout:fragment="content">
-		<div class="layui-breadcrumb">
-			<a href="/admin/category/list">文章管理</a><a><cite>栏目管理</cite></a><a><cite>添加分类</cite></a>
-		</div>
-		<hr />
-
-		<fieldset class="layui-elem-field layui-field-title mt-20">
-			<legend>添加分类</legend>
-		</fieldset>
-
-		<form class="layui-form layui-form-pane" id="category-save-form">
-			<div class="layui-row">
-				<div class="layui-form-item">
-					<label class="layui-form-label">栏目名称</label>
-					<div class="layui-input-block">
-						<input name="name" autocomplete="off" lay-verify="required" placeholder="请输入栏目名称" class="layui-input" type="text" />
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label">英文名称</label>
-					<div class="layui-input-block">
-						<input name="diyname" autocomplete="off" lay-verify="required" placeholder="请输入英文名称" class="layui-input" type="text" />
-					</div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label">是否导航</label>
-					<div class="layui-input-block">
-				      <select name="isnav" lay-verify="required">
-				       		<option value="0">否</option>
-				       		<option value="1">是</option>
-				      </select>
-				    </div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label">上级栏目</label>
-					<div class="layui-input-block">
-				      <select name="pid" lay-verify="required">
-				        	<option value="0">顶级栏目</option>
-				       		<th:blcok th:each="vo:${list}">
-				       		<option th:value="${vo.id}" th:text="${vo.name}"></option>
-				       		</th:blcok>
-				      </select>
-				    </div>
-				</div>
-
-				<div class="layui-form-item">
-					<label class="layui-form-label">关&ensp;键&ensp;词</label>
-					<div class="layui-input-block">
-				      	<input name=keywords autocomplete="off" lay-verify="required" placeholder="请输入关键词用“,”隔开" class="layui-input" type="text" />
-				    </div>
-				</div>
-
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">栏目描述</label>
-					<div class="layui-input-block">
-						<textarea placeholder="请输入栏目描述" class="layui-textarea" lay-verify="required" name="description"></textarea>
-					</div>
-				</div>
-
-				<div class="layui-form-item" pane="">
-					<label class="layui-form-label">是否启用</label>
-					<div class="layui-input-block">
-						<input id="status" type="hidden"   name="status" value="normal" />
-						<input lay-filter="switch-status"  lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
-					</div>
+<body class="mt-30 mr-30 ml-20">
+	<form class="layui-form" id="category-form" lay-size="sm">
+		<div class="layui-row">
+			<div class="layui-form-item">
+				<label class="layui-form-label">分类名称</label>
+				<div class="layui-input-block">
+					<input name="name" autocomplete="off" lay-verify="required" lay-verType="tips" lay-reqText="分类名称不能为空" placeholder="请输入分类名称" class="layui-input" type="text" />
 				</div>
 			</div>
 
 			<div class="layui-form-item">
-				<button class="layui-btn" type="button" lay-submit="category-save" lay-filter="category-save">提 交</button>
-				<button type="reset" class="layui-btn layui-btn-primary">重 置</button>
+				<label class="layui-form-label">英文名称</label>
+				<div class="layui-input-block">
+					<input name="diyname" autocomplete="off" lay-verify="required" lay-verType="tips" lay-reqText="英文名称不能为空" placeholder="请输入英文名称" class="layui-input" type="text" />
+				</div>
 			</div>
-		</form>
-	</div>
-	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-		layui.use(['jquery', 'form', 'layer','layedit'], function()
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否导航</label>
+				<div class="layui-input-block">
+				  <select name="isnav" lay-verify="required">
+						<option value="0">否</option>
+						<option value="1">是</option>
+				  </select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">上级分类</label>
+				<div class="layui-input-block">
+				  <select name="pid" lay-verify="required" lay-verType="tips" lay-reqText="上级分类不能为空">
+						<option value="0">顶级栏目</option>
+						<th:blcok th:each="vo:${list}">
+						<option th:value="${vo.cid}" th:text="${vo.name}"></option>
+						</th:blcok>
+				  </select>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">关&ensp;键&ensp;词</label>
+				<div class="layui-input-block">
+					<input name=keywords autocomplete="off" lay-verify="required" lay-verType="tips" lay-reqText="关键词不能为空" placeholder="请输入关键词用“,”隔开" class="layui-input" type="text" />
+				</div>
+			</div>
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">栏目描述</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入栏目描述" class="layui-textarea" lay-verify="required" lay-verType="tips" lay-reqText="栏目描述不能为空" name="description"></textarea>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">是否启用</label>
+				<div class="layui-input-block">
+					<input id="status" type="hidden" name="status" value="normal" />
+					<input lay-filter="switch-status" lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
+				</div>
+			</div>
+		</div>
+
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn layui-btn-normal layui-btn-sm" type="button" lay-submit="category-submit" lay-filter="category-submit">
+					<i class="layui-icon layui-icon-ok"></i> 提交
+				</button>
+				<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm" onclick="parent.layer.closeAll();">
+					<i class="layui-icon layui-icon-close"></i> 关闭
+				</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script src="/admin/layui/layui.js"></script>
+<script src="/admin/js/common.js"></script>
+<script th:inline="javascript" type="text/javascript">
+	layui.use(['jquery', 'form', 'layer','layedit'], function()
+	{
+		var $ = layui.jquery; layer = layui.layer, form = layui.form;
+
+		// 监听指定开关
+		form.on('switch(switch-status)', function(data)
 		{
-			var $ = layui.jquery; layer = layui.layer, form = layui.form,layedit = layui.layedit;
-
-			//建立编辑器
-			layedit.build('content');
-
-			//监听指定开关
-			form.on('switch(switch-status)',
-			function(data)
+			if(this.checked)
 			{
-				if(this.checked)
-				{
-					$("#status").val('normal');
-				}else{
-					$("#status").val('hidden');
-				}
-			});
-
-			ajaxform('category-save', '/admin/category/save', 'category-save-form',
-			function(json)
-			{
-				if(json.code==200)
-				{
-					layer.msg(json.msg,	{time: 1000}, function() {
-						window.location.href = json.data;
-					})
-				}else{
-					layer.msg(json.msg);
-				}
-			})
+				$("#status").val('normal');
+			}else{
+				$("#status").val('hidden');
+			}
 		});
-	</script>
+
+		ajaxform('category-submit', '/admin/category/save', 'category-form',
+		function(json)
+		{
+			if(json.code==200)
+			{
+				layer.msg(json.msg,	{time: 1000}, function()
+				{
+					parent.layer.closeAll();
+					parent.location.reload();
+				})
+			}else{
+				layer.msg(json.msg);
+			}
+		})
+	});
+</script>
 </body>
 </html>
