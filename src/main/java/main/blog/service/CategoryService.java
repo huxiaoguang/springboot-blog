@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.CategorySearchDTO;
-import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Category;
 import main.blog.vo.admin.CategoryVO;
 
@@ -55,7 +54,7 @@ public interface CategoryService {
 	 * @param id
 	 * @return
 	 */
-	Category detailCategory(Integer id);
+	Category detailCategory(int id);
 
 	/**
 	 * 删除分类
@@ -66,7 +65,8 @@ public interface CategoryService {
 
 	/**
 	 * 更新状态
+	 * @param category
 	 * @return
 	 */
-	Boolean updateCategoryStatus(StatusDTO dto);
+	Boolean updateCategoryStatus(Category category);
 }
