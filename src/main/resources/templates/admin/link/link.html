@@ -22,39 +22,7 @@
 			</div>
 		</form>
 
-		<div class="layui-form">
-		  <table class="layui-table">
-		    <thead>
-		      <tr>
-		        <td>编号</td>
-		        <td width="20%">链接名称</td>
-		        <td width="20%">链接地址</td>
-		        <td>添加时间</td>
-		        <td>排序</td>
-		        <td>状态</td>
-		        <td>操作</td>
-		      </tr>
-		    </thead>
-		    <tbody>
-				<th:block th:each="vo:(${list})">
-				<tr>
-					 <td th:text="${vo.id}"></td>
-					 <td th:text="${vo.name}"></td>
-					 <td><a th:href="${vo.url}" target="_blank" th:text="${vo.url}"></a></td>
-					 <td th:text="${#dates.format(vo.createTime,'yyyy-MM-dd HH:mm')}"></td>
-					 <td th:text="${vo.sort}"></td>
-					 <td>
-						 <input name="status" lay-skin="switch" lay-filter="is_status" lay-text="启用|禁用" type="checkbox"  th:checked="${vo.status=='normal'}?'true':'false'"  th:value="${vo.id}" />
-					 </td>
-					 <td>
-					 <a th:href="@{'/admin/link/edit'(id=${vo.id})}">编辑</a>&ensp;
-					 <a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/link/delete}+'\','+${vo.id}+')'">删除</a>
-					 </td>
-				</tr>
-				</th:block>
-		    </tbody>
-		  </table>
-		</div>
+
 
 		<div class="layui-center">
 			<div th:replace="admin/public/page::show('/admin/link/index')"></div>

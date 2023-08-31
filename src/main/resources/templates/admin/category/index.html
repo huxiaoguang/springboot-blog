@@ -5,7 +5,7 @@
 <body>
 	<div class="layui-body p-15" layout:fragment="content">
 		<span class="layui-breadcrumb">
-		  <a href="/admin/article/list">文章管理</a>
+		  <a href="/admin/article/list">内容管理</a>
 		  <a><cite>栏目管理</cite></a>
 		</span>
 		<hr />
@@ -29,9 +29,7 @@
 			</a>
 		</script>
 
-		<div class="layui-form">
-			<div class="layui-form"><table id="table" lay-filter="category"></table></div>
-		</div>
+		<div class="layui-form"><table id="table" lay-filter="category"></table></div>
 
 		<script th:inline="javascript" type="text/html" id="tool">
 			<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
