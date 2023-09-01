@@ -40,7 +40,6 @@ public class IpParseUtil
         {
             log.error("failed to search(%s): %s\n", ip, e);
         }
-        searcher.close();
         return region;
     }
 }
