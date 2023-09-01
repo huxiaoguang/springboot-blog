@@ -3,19 +3,19 @@
 <mapper namespace="main.blog.mapper.LinkMapper">
 
 	<!--查询友情链接-->
-	<select id="listLink" resultType="main.blog.entity.Link">
+	<select id="listLink" parameterType="main.blog.dto.admin.LinkSearchDTO" resultType="main.blog.entity.Link">
     	select * from fa_link
     	<where>
-	       	 <if test="name != null">
-	       	 	and	name LIKE concat('%',#{name},'%')
-	       	 </if>
+			<if test="keywords!='' and keywords!=null">
+				name LIKE concat('%',#{keywords},'%')
+			</if>
 		</where>
     	order by id desc
     </select>
 
     <!--新增友情链接-->
     <insert id="addLink" parameterType="main.blog.entity.Link">
-    	insert into fa_link (name, url, sort, create_time, status) VALUES (#{name}, #{url}, #{sort}, #{createTime}, #{status})
+    	insert into fa_link (name, url, sort, create_time, status) VALUES (#{name}, #{url}, #{sort}, now(), #{status})
     </insert>
 
     <!--获取友链信息-->
@@ -25,7 +25,7 @@
 
     <!--编辑友情链接-->
     <update id="editLink" parameterType="main.blog.entity.Link">
-    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, update_time = #{updateTime}, status = #{status}, description = #{description} where id = #{id}
+    	update fa_link set name = #{name}, url = #{url}, sort = #{sort}, update_time = now(), status = #{status}, description = #{description} where id = #{id}
     </update>
 
     <!-- 删除友情链接 -->
@@ -34,7 +34,7 @@
     </delete>
 
     <!--更新友链状态-->
-    <update id="updateLinktatus" parameterType="main.blog.entity.Link">
+    <update id="updateLinktatus" parameterType="main.blog.dto.admin.StatusDTO">
     	update fa_link set status = #{status} where id = #{id}
     </update>
 

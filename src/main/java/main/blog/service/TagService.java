@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
+import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
 import main.blog.entity.Tag;
 
@@ -39,10 +40,10 @@ public interface TagService {
 
 	/**
 	 * 更新状态
-	 * @param tag
+	 * @param dto
 	 * @return
 	 */
-	Boolean updateTagStatus(Tag tag);
+	Boolean updateTagStatus(StatusDTO dto);
 
 	/**
 	 * 添加标签

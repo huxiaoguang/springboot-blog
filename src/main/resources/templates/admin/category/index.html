@@ -24,12 +24,16 @@
 		</form>
 
 		<script th:inline="javascript" type="text/html" id="toolbar">
-			<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增标签', 650, 620, 1, '/admin/category/add')">
+			<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增分类', 650, 620, 1, '/admin/category/add')">
 				<i class="layui-icon layui-icon-addition"></i>新增分类
 			</a>
 		</script>
 
 		<div class="layui-form"><table id="table" lay-filter="category"></table></div>
+
+		<script id="switchTpl" type="text/html">
+			<input type="checkbox" name="status" value={{d.cid}} lay-skin="switch" lay-text="开启|关闭" lay-filter="is_status" {{d.status=='normal'?'checked':''}}>
+		</script>
 
 		<script th:inline="javascript" type="text/html" id="tool">
 			<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
@@ -48,7 +52,7 @@
 			{type: 'numbers', title: '序号', width:'5%'},
 			{field: 'name', title: '分类名称',  width: '15%'},
 			{field: 'isnav', title: '是否导航',  width: '15%'},
-			{field: 'status', title: '状态', width:'10%'},
+			{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
 			{field: 'createTime', title: '创建时间'},
 			{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
 		];
@@ -81,7 +85,7 @@
 				});
 			} else if(layEvent === 'edit')
 			{
-				showBox('编辑标签', 650, 620, 1, '/admin/tag/edit?id='+data.cid);
+				showBox('编辑分类', 650, 620, 1, '/admin/category/edit?id='+data.cid);
 			}
 		});
 

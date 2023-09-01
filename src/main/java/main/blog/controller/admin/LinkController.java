@@ -7,6 +7,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import cn.hutool.core.util.ObjectUtil;
+import main.blog.dto.admin.LinkSearchDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.dto.admin.TagSearchDTO;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,33 +37,28 @@ public class LinkController {
 	 * 友情链接列表
 	 * @return string
 	 */
-	@RequestMapping(value = "/link/index", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model)
+	@RequestMapping(value = "link/index", method = RequestMethod.GET)
+	public String index()
 	{
-		String keywords = request.getParameter("keywords");
-		String page     = request.getParameter("page");
-
-		Map<String, Object> param = new HashMap<String, Object>();
-
-		// 关键词查询
-		if (keywords != null && keywords != "") {
-			param.put("name", keywords.trim());
-			model.addAttribute("keywords", keywords);
-		}
-
-		PageInfo<Link> pageinfo = linkService.listLink(param, page);
-
-		model.addAttribute("page", pageinfo);
-		model.addAttribute("list", pageinfo.getList());
-
 		return "admin/link/link";
+	}
+
+	/**
+	 * 云标签列表
+	 * @return string
+	 */
+	@ResponseBody
+	@RequestMapping(value = "link/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result data(LinkSearchDTO dto)
+	{
+		return Result.success(linkService.listLink(dto));
 	}
 
 	/**
 	 * 添加友情链接试图
 	 * @return string
 	 */
-	@RequestMapping(value = "/link/add", method = RequestMethod.GET)
+	@RequestMapping(value = "link/add", method = RequestMethod.GET)
 	public String add()
 	{
 		return "admin/link/link-add";
@@ -69,7 +68,7 @@ public class LinkController {
 	 * 编辑友情链接试图
 	 * @return string
 	 */
-	@RequestMapping(value = "/link/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "link/edit", method = RequestMethod.GET)
 	public String edit(@RequestParam(defaultValue = "0") Integer id, Model model)
 	{
 		if (id != 0)
@@ -85,18 +84,16 @@ public class LinkController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/link/save", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "link/save", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result save(Link link)
 	{
 		Boolean result = false;
-		if(link.getId()==0)
+		if(ObjectUtil.isEmpty(link.getId()))
 		{
-			link.setCreateTime(new Date());
 			result = linkService.addLink(link);
 		}else {
 			result = linkService.editLink(link);
 		}
-
 		if (result)
 		{
 			return Result.success("/admin/link/index","操作成功");
@@ -110,15 +107,10 @@ public class LinkController {
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/link/delete", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "link/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		if (id == 0) {
-			return Result.failed("参数错误");
-		}
-
-		Boolean result = linkService.deleteLink(id);
-		if (result) {
+		if (linkService.deleteLink(id)) {
 			return Result.success("操作成功");
 		} else {
 			return Result.failed("操作失败");
@@ -130,15 +122,10 @@ public class LinkController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/link/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	@RequestMapping(value = "link/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result updateStatus(StatusDTO dto)
 	{
-		Link link = new Link();
-		link.setId(id);
-		link.setStatus(status);
-
-		Boolean result = linkService.updateLinkStatus(link);
-		if (result)
+		if (linkService.updateLinkStatus(dto))
 		{
 			return Result.success("操作成功");
 		} else {

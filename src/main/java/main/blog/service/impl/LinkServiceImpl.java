@@ -3,6 +3,9 @@ package main.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.LinkSearchDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.dto.admin.TagSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,15 +32,11 @@ public class LinkServiceImpl implements LinkService
 	}
 
 	@Override
-	public PageInfo<Link> listLink(Map<String, Object> param, String page)
+	public PageInfo<Link> listLink(LinkSearchDTO dto)
 	{
-		int P = (page == null) || (page == "0") ? 1 : Integer.parseInt(page);
-
-		PageHelper.startPage(P, 15);
-		List<Link> list = linkMapper.listLink(param);
-		PageInfo<Link> pageinfo = new PageInfo<Link>(list);
-
-		return pageinfo;
+		PageHelper.startPage(dto.getPage(), dto.getLimit());
+		List<Link> list = linkMapper.listLink(dto);
+		return new PageInfo<>(list);
 	}
 
 	@Override
@@ -59,14 +58,14 @@ public class LinkServiceImpl implements LinkService
 	}
 
 	@Override
-	public Boolean deleteLink(int id)
+	public Boolean deleteLink(Integer id)
 	{
 		return linkMapper.deleteLink(id);
 	}
 
 	@Override
-	public Boolean updateLinkStatus(Link link)
+	public Boolean updateLinkStatus(StatusDTO dto)
 	{
-		return linkMapper.updateLinktatus(link);
+		return linkMapper.updateLinktatus(dto);
 	}
 }

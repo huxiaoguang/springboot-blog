@@ -5,17 +5,18 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 
+import main.blog.dto.admin.LinkSearchDTO;
+import main.blog.dto.admin.StatusDTO;
+import main.blog.dto.admin.TagSearchDTO;
 import main.blog.entity.Link;
 
 public interface LinkService {
 
 	/**
 	 * 友连管理
-	 * @param param
-	 * @param page
 	 * @return
 	 */
-	PageInfo<Link> listLink(Map<String, Object> param, String page);
+	PageInfo<Link> listLink(LinkSearchDTO dto);
 
 	/**
 	 * 友情链接
@@ -50,12 +51,12 @@ public interface LinkService {
 	 * @param id
 	 * @return
 	 */
-	Boolean deleteLink(int id);
+	Boolean deleteLink(Integer id);
 
 	/**
 	 * 更新友链状态
-	 * @param link
+	 * @param dto
 	 * @return
 	 */
-	Boolean updateLinkStatus(Link link);
+	Boolean updateLinkStatus(StatusDTO dto);
 }

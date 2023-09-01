@@ -14,7 +14,7 @@
     </select>
 
     <!--新增标签-->
-    <insert id="addTag" parameterType="main.blog.entity.Tag">
+    <insert id="addTag" parameterType="main.blog.dto.admin.StatusDTO">
     	insert into fa_tag (tag_name, status, description, create_time) VALUES (#{tagName}, #{status}, #{description}, now())
     </insert>
 
@@ -34,7 +34,7 @@
     </delete>
 
     <!--更新标签状态-->
-    <update id="updateTagStatus" parameterType="main.blog.entity.Tag">
+    <update id="updateTagStatus" parameterType="main.blog.dto.admin.StatusDTO">
     	update fa_tag set status = #{status} where id = #{id}
     </update>
 

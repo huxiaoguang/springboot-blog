@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.OperLogMapper">
+
+	<!--新增操作日志-->
+	<insert id="insertOperLog" parameterType="main.blog.dto.admin.OperLogDTO">
+		INSERT INTO fa_oper_log (title, business, `action`, status, `method`, uri, ip, error_msg, params, response, location, create_by, update_by, create_time, update_time) VALUES
+		(#{title}, #{business}, #{action}, #{status}, #{method}, #{uri}, #{ip}, #{errorMsg}, #{params}, #{response}, #{location}, #{createBy}, #{updateBy}, now(), now())
+	</insert>
+
+</mapper>

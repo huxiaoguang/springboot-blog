@@ -3,6 +3,7 @@ package main.blog.mapper;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
 import org.springframework.stereotype.Repository;
 
@@ -20,10 +21,10 @@ public interface TagMapper {
 
     /**
      * 添加标签
-     * @param tag
+     * @param dto
      * @return
      */
-    Boolean addTag(Tag tag);
+    Boolean addTag(Tag dto);
 
     /**
      * 编辑标签
@@ -44,14 +45,14 @@ public interface TagMapper {
      * @param id
      * @return
      */
-    Boolean deleteTag(int id);
+    Boolean deleteTag(Integer id);
 
     /**
      * 更新标签状态
-     * @param tag
+     * @param dto
      * @return
      */
-    Boolean updateTagStatus(Tag tag);
+    Boolean updateTagStatus(StatusDTO dto);
 
     /**
      * 外部调用

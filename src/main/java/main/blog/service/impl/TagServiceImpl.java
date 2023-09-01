@@ -3,6 +3,7 @@ package main.blog.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class TagServiceImpl implements TagService
 	}
 
 	@Override
-	public Boolean updateTagStatus(Tag tag)
+	public Boolean updateTagStatus(StatusDTO tag)
 	{
 		return tagMapper.updateTagStatus(tag);
 	}

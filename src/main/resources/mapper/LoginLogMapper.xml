@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.LoginLogMapper">
+
+	<!--新增登录日志-->
+	<insert id="insertLoginLog" parameterType="main.blog.dto.admin.LoginLogDTO">
+		INSERT INTO fa_login_log (`username`, `status`, `browser`, `os`, `ip`, `params`, `response`, `location`, `create_by`, `update_by`, `create_time`,`update_time`) VALUES
+		(#{username}, #{status}, #{browser},  #{os}, #{ip},  #{params}, #{response},  #{location}, #{createBy}, #{updateBy}, now(), now())
+	</insert>
+</mapper>

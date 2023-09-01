@@ -1,13 +1,8 @@
 package main.blog.controller.admin;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import cn.hutool.core.util.ObjectUtil;
-import main.blog.dto.admin.CategorySearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
@@ -16,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.github.pagehelper.PageInfo;
-
 import main.blog.entity.Tag;
 import main.blog.service.TagService;
 
@@ -59,7 +51,7 @@ public class TagController {
 	 * 添加标签
 	 * @return string
 	 */
-	@RequestMapping(value = "/tag/add", method = RequestMethod.GET)
+	@RequestMapping(value = "tag/add", method = RequestMethod.GET)
 	public String add() {
 		return "admin/tag/tag-add";
 	}
@@ -68,7 +60,7 @@ public class TagController {
 	 * 编辑标签
 	 * @return string
 	 */
-	@RequestMapping(value = "/tag/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "tag/edit", method = RequestMethod.GET)
 	public String edit(@RequestParam(defaultValue = "0") Integer id, Model model)
 	{
 		if (id!=0)
@@ -85,7 +77,7 @@ public class TagController {
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/tag/save", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "tag/save", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result save(Tag tag)
 	{
 		Boolean result = false;
@@ -95,7 +87,6 @@ public class TagController {
 		}else {
 			result = tagService.editTag(tag);
 		}
-
 		if (result)
 		{
 			return Result.success("/admin/tag/index", "操作成功");
@@ -109,15 +100,10 @@ public class TagController {
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/tag/delete", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "tag/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
-		if (id == 0) {
-			return Result.failed("参数错误");
-		}
-
-		Boolean result = tagService.deleteTag(id);
-		if (result) {
+		if (tagService.deleteTag(id)) {
 			return Result.success("删除成功");
 		} else {
 			return Result.failed("删除失败");
@@ -129,15 +115,10 @@ public class TagController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/tag/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result updateStatus(@RequestParam(defaultValue = "0") Integer id, String status)
+	@RequestMapping(value = "tag/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result updateStatus(StatusDTO dto)
 	{
-		Tag tag = new Tag();
-		tag.setId(id);
-		tag.setStatus(status);
-
-		Boolean result = tagService.updateTagStatus(tag);
-		if (result)
+		if (tagService.updateTagStatus(dto))
 		{
 			return Result.success("操作成功");
 		} else {
