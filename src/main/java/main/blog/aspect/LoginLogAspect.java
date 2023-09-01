@@ -54,6 +54,7 @@ public class LoginLogAspect
     {
         Object result = joinPoint.proceed();
         Map<String, String> paramMap = ServletUtil.getParamMap(request);
+        String ipStr = BitwalkerUtil.getClientIp(request);
 
         LoginLogDTO loginLog = new LoginLogDTO();
 
@@ -75,12 +76,10 @@ public class LoginLogAspect
         JSONObject jsonObject = new JSONObject(result);
         String code = jsonObject.getStr("code");
         loginLog.setStatus(code.equals("200") ? BusinessStatus.SUCCESS.getCode() : BusinessStatus.FAIL.getCode());
-
-        //loginLog.setIp(BitwalkerUtil.getClientIp(request));
-        loginLog.setIp(ServletUtil.getClientIP(request));
+        loginLog.setIp(ipStr);
         loginLog.setBrowser(BitwalkerUtil.getBrowser(request).toString());
         loginLog.setOs(BitwalkerUtil.getOsName(request));
-        loginLog.setLocation(IpParseUtil.parse("127.0.0.1"));
+        loginLog.setLocation(IpParseUtil.parse(ipStr));
 
         loginLogService.insertLoginLog(loginLog);
         return result;
