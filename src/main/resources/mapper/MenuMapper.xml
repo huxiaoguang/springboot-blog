@@ -6,9 +6,12 @@
 	<select id="getMenuList" parameterType="main.blog.dto.admin.MenuSearchDTO" resultType="main.blog.entity.Menu">
     	select * from fa_menu
     	<where>
-	       	 <if test="keywords!= null">
+	       	 <if test="keywords!='' and keywords!=null">
 				 menu_name LIKE concat('%',#{keywords},'%')
 	       	 </if>
+			<if test="status!='' and status!=null">
+				status = #{status}
+			</if>
 		</where>
     	order by menu_id desc
     </select>
@@ -18,17 +21,23 @@
 		select * from fa_menu where menu_id = #{menuId} limit 1
 	</select>
 
-	<!--新增标签-->
-	<insert id="insertMenu" parameterType="main.blog.dto.admin.RoleSaveDTO">
-		insert into fa_menu (role_name, status, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
+	<!--获取菜单-->
+	<select id="getMenuByParentId" parameterType="int" resultType="main.blog.entity.Menu">
+		select * from fa_menu where parent_id = #{menuId}
+	</select>
+
+	<!--新增菜单-->
+	<insert id="insertMenu" parameterType="main.blog.entity.Menu">
+		insert into fa_menu (`menu_name`, `url`, `sort`, `icon`, `status`, `url_type`, `parent_id`, `permission`, `remarks`, `create_by`, `update_by`, `create_time`, `update_time`
+		) VALUES (#{menuName}, #{url}, #{sort}, #{icon}, #{status}, #{urlType}, #{parentId}, #{permission}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
-	<!--编辑标签-->
-	<update id="updateMenu" parameterType="main.blog.dto.admin.RoleSaveDTO">
-		update fa_menu set role_name = #{roleName}, status = #{status}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() where role_id = #{roleId}
+	<!--编辑菜单-->
+	<update id="updateMenu" parameterType="main.blog.entity.Menu">
+		update fa_menu set menu_name = #{menuName}, url = #{url}, sort = #{sort}, icon = #{icon}, status = #{status}, url_type = #{urlType}, parent_id = #{parentId}, permission = #{permission}, remarks = #{menuId}, update_by = #{updateBy}, update_time = now(), remarks = #{remarks} where menu_id = #{menuId}
 	</update>
 
-	<!--删除角色-->
+	<!--删除菜单-->
 	<delete id="deleteMenu" parameterType="int">
 		delete from fa_menu where menu_id = #{menuId}
 	</delete>

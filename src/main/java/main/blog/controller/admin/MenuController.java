@@ -107,9 +107,9 @@ public class MenuController
     {
         if(menuService.updateMenu(dto))
         {
-            return Result.success();
+            return Result.success("更新成功");
         }else{
-            return Result.failed();
+            return Result.failed("更新失败");
         }
     }
 

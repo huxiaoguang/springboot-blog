@@ -1,7 +1,7 @@
 package main.blog.controller.admin;
 
 import javax.annotation.Resource;
-import cn.hutool.core.util.ObjectUtil;
+
 import main.blog.annotation.Log;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
@@ -55,7 +55,7 @@ public class TagController {
 	 */
 	@RequestMapping(value = "tag/add", method = RequestMethod.GET)
 	public String add() {
-		return "admin/tag/tag-add";
+		return "admin/tag/add";
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class TagController {
 			Tag info = tagService.infoTag(id);
 			model.addAttribute("info", info);
 		}
-		return "admin/tag/tag-edit";
+		return "admin/tag/edit";
 	}
 
 	/**

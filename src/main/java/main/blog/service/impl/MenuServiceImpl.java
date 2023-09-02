@@ -1,16 +1,22 @@
 package main.blog.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.MenuSaveDTO;
 import main.blog.dto.admin.MenuSearchDTO;
+import main.blog.entity.Admin;
 import main.blog.entity.Menu;
 import main.blog.mapper.MenuMapper;
 import main.blog.service.MenuService;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -33,19 +39,33 @@ public class MenuServiceImpl implements MenuService
     @Override
     public Boolean insertMenu(MenuSaveDTO dto)
     {
-        return true;
+        Admin admin = (Admin) session.getAttribute("admin");
+
+        Menu menu = new Menu();
+        BeanCopier.create(MenuSaveDTO.class, Menu.class, false).copy(dto, menu,  null);
+        menu.setCreateBy(admin.getUsername());
+        menu.setUpdateBy(admin.getUsername());
+        return menuMapper.insertMenu(menu);
     }
 
     @Override
     public Boolean updateMenu(MenuSaveDTO dto)
     {
-        return true;
+        Admin admin = (Admin) session.getAttribute("admin");
+
+        Menu menu = new Menu();
+        BeanCopier.create(MenuSaveDTO.class, Menu.class, false).copy(dto, menu,  null);
+        menu.setUpdateBy(admin.getUsername());
+        return menuMapper.updateMenu(menu);
     }
 
     @Override
     public Boolean deleteMenu(Integer menuId)
     {
-        return true;
+        if(this.existMenuChildren(menuId)) {
+            throw new RuntimeException("该菜单有下级菜单不能被删除");
+        }
+        return menuMapper.deleteMenu(menuId);
     }
 
     @Override
@@ -57,7 +77,17 @@ public class MenuServiceImpl implements MenuService
     @Override
     public List<Tree<String>> getTreeMenuList()
     {
-        return null;
+        List<Menu> menuList = menuMapper.getMenuList(MenuSearchDTO.builder().status(1).build());
+        List<TreeNode<String>> nodeList = CollUtil.newArrayList();
+        for (Menu menu: menuList)
+        {
+            HashMap map = new HashMap();
+            map.put("spread", true);
+            map.put("title",  menu.getMenuName());
+            nodeList.add(new TreeNode<>(menu.getMenuId().toString(), menu.getParentId().toString(), menu.getMenuName(), menu.getSort()).setExtra(map));
+        }
+        List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");
+        return treeList;
     }
 
     @Override
@@ -81,7 +111,8 @@ public class MenuServiceImpl implements MenuService
     @Override
     public Boolean existMenuChildren(Integer menuId)
     {
-        return true;
+        List<Menu> menList = menuMapper.getMenuByParentId(menuId);
+        return menList.size() > 0 ? true : false;
     }
 
     @Override

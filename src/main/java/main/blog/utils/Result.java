@@ -22,7 +22,7 @@ public class Result<T> {
     }
 
     public static <T> Result<T> success() {
-        return success(null);
+        return success("操作成功");
     }
 
     public static <T> Result<T> success(String msg) {
@@ -54,6 +54,6 @@ public class Result<T> {
     }
 
     public static <T> Result<T> failed() {
-        return failed(null, DEFAULT_WARN_CODE, null);
+        return failed(null, DEFAULT_WARN_CODE, "操作失败");
     }
 }

@@ -57,7 +57,7 @@ public class CategoryController
 	{
 		List<Category> list = categoryService.getCategoryList();
 		model.addAttribute("list", list);
-		return "admin/category/category-add";
+		return "admin/category/add";
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class CategoryController
 			Category info = categoryService.detailCategory(id);
 			model.addAttribute("info", info);
 		}
-		return "admin/category/category-edit";
+		return "admin/category/edit";
 	}
 
 	/**

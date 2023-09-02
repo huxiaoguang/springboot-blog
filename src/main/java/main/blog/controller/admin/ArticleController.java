@@ -63,7 +63,7 @@ public class ArticleController
 	{
 		List<Category> list = categoryService.getCategoryList();
 		model.addAttribute("list", list);
-		return "admin/article/article-add";
+		return "admin/article/add";
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class ArticleController
 		// 获取文章信息
 		Article info = articleService.detailArticle(id);
 		model.addAttribute("info", info);
-		return "admin/article/article-edit";
+		return "admin/article/edit";
 	}
 
 	/**

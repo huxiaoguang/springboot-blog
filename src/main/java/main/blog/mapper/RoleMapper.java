@@ -18,17 +18,17 @@ public interface RoleMapper
 
     /**
      * 新曾角色
-     * @param dto
+     * @param role
      * @return
      */
-    Boolean insertRole(RoleSaveDTO dto);
+    Boolean insertRole(Role role);
 
     /**
      * 编辑角色
      * @param dto
      * @return
      */
-    Boolean updateRole(RoleSaveDTO dto);
+    Boolean updateRole(Role role);
 
     /**
      * 删除角色

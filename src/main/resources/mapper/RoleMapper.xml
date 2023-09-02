@@ -14,12 +14,12 @@
     </select>
 
 	<!--新增标签-->
-	<insert id="insertRole" parameterType="main.blog.dto.admin.RoleSaveDTO">
+	<insert id="insertRole" parameterType="main.blog.entity.Role">
 		insert into fa_role (role_name, status, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
 	<!--编辑标签-->
-	<update id="updateRole" parameterType="main.blog.dto.admin.RoleSaveDTO">
+	<update id="updateRole" parameterType="main.blog.entity.Role">
 		update fa_role set role_name = #{roleName}, status = #{status}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() where role_id = #{roleId}
 	</update>
 

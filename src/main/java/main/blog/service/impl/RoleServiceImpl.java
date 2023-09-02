@@ -4,9 +4,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.RoleSaveDTO;
 import main.blog.dto.admin.RoleSearchDTO;
+import main.blog.entity.Admin;
 import main.blog.entity.Role;
 import main.blog.mapper.RoleMapper;
 import main.blog.service.RoleService;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -32,13 +34,24 @@ public class RoleServiceImpl implements RoleService
     @Override
     public Boolean insertRole(RoleSaveDTO dto)
     {
-        return roleMapper.insertRole(dto);
+        Admin admin = (Admin) session.getAttribute("admin");
+
+        Role role = new Role();
+        BeanCopier.create(RoleSaveDTO.class, Role.class, false).copy(dto, role,  null);
+        role.setCreateBy(admin.getUsername());
+        role.setUpdateBy(admin.getUsername());
+        return roleMapper.insertRole(role);
     }
 
     @Override
     public Boolean updateRole(RoleSaveDTO dto)
     {
-        return roleMapper.updateRole(dto);
+        Admin admin = (Admin) session.getAttribute("admin");
+
+        Role role = new Role();
+        BeanCopier.create(RoleSaveDTO.class, Role.class, false).copy(dto, role,  null);
+        role.setUpdateBy(admin.getUsername());
+        return roleMapper.updateRole(role);
     }
 
     @Override

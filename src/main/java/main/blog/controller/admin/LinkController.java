@@ -50,7 +50,7 @@ public class LinkController {
 	@RequestMapping(value = "link/add", method = RequestMethod.GET)
 	public String add()
 	{
-		return "admin/link/link-add";
+		return "admin/link/add";
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class LinkController {
 			Link info = linkService.infoLink(id);
 			model.addAttribute("info", info);
 		}
-		return "admin/link/link-edit";
+		return "admin/link/edit";
 	}
 
 	/**
