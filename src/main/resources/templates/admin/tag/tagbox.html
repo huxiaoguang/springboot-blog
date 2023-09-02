@@ -5,43 +5,46 @@
 	<link rel="stylesheet" href="/admin/css/main.css" />
 </head>
 
-<body>
-<div class="p-15">
-	<form class="layui-form" lay-size="sm">
-		<div class="layui-inline mb-10">
-			<div class="layui-input-inline">
-				<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input" th:value="${keywords}" type="text">
+<body class="mt-10 mr-10 ml-10">
+<form class="layui-form" lay-size="sm" id="form">
+	<div class="layui-panel-search">
+		<div class="layui-input-inline">
+			<label class="layui-form-label">关键词：</label>
+			<div class="layui-input-block">
+				<input lay-verify="verifInput" id="keywords" name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input" type="text">
 			</div>
-			<input type="hidden" name="type" value=1 />
-			<button class="layui-btn layui-btn-normal layui-btn-sm">搜 索</button>
 		</div>
-	</form>
+		<button class="layui-btn layui-btn-normal layui-btn-search layui-btn-sm" type="button" lay-submit lay-filter="search">
+			<i class="layui-icon layui-icon-search"></i>搜 索
+		</button>
+	</div>
+</form>
 
-	<div class="layui-form">
-	  <table class="layui-table">
-	    <thead>
-	      <tr>
-	        <td>编号</td>
-	        <td>标签名称</td>
-	        <td>操作</td>
-	      </tr>
-	    </thead>
-	    <tbody>
-		<th:block th:each="vo:${list}">
-			<tr>
-			  <td th:text="${vo.id}"></td>
-			  <td th:text="${vo.tagName}"></td>
-			  <td>
-			  	<a href="javascript:void(0)" th:onclick="parent.change([[${vo.tagName}]])">选择</a>
-			  </td>
-			</tr>
-		</th:block>
-	    </tbody>
-	  </table>
-	</div>
-	<div class="layui-center">
-		<div th:replace="admin/public/page::show('/admin/tag/index?type=1')"></div>
-	</div>
-</div>
+<div class="layui-form"><table id="table" lay-filter="tag"></table></div>
+
+<script th:inline="javascript" type="text/html" id="tool">
+	<a href="javascript:void(0)" th:onclick="parent.change('{{d.tagName}}')">选择</a>
+</script>
+
+<script src="/admin/layui/layui.js"></script>
+<script src="/admin/js/common.js"></script>
+<script th:inline="javascript" type="text/javascript">
+	layui.use(['jquery', 'form', 'layer'], function()
+	{
+		var table = layui.table, $ = layui.jquery, form = layui.form;
+		let cols = [
+			{type: 'numbers', title: '序号', width:'15%'},
+			{field: 'tagName', title: '标签名称',  width: '70%'},
+			{align: 'center', title: '操作', toolbar: '#tool'}
+		];
+		let tableData = table.render(renderOptions('/admin/tag/data', cols, false));
+
+		// 数据查询
+		form.on('submit(search)', function (data)
+		{
+			layui.table.reload('table', {where: data.field});
+		});
+	})
+</script>
 </body>
 </html>

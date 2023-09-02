@@ -13,35 +13,42 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">操作模块</label>
 		<div class="layui-input-block">
-			<input type="text" th:value="${info.title}" name="title" lay-verify="required" class="layui-input layui-disabled">
+			<input type="text" th:value="${info.title}" name="title" class="layui-input layui-disabled">
 		</div>
 	</div>
 
 	<div class="layui-form-item">
 		<label class="layui-form-label">请求地址</label>
 		<div class="layui-input-block">
-			<input type="text" th:value="${info.uri}" name="operUrl" lay-verify="required" class="layui-input layui-disabled">
+			<input type="text" th:value="${info.uri}" name="operUrl" class="layui-input layui-disabled">
 		</div>
 	</div>
 
 	<div class="layui-form-item">
 		<label class="layui-form-label">请求方法</label>
 		<div class="layui-input-block">
-			<input type="text" th:value="${info.action}" name="method" lay-verify="required" class="layui-input layui-disabled">
+			<input type="text" th:value="${info.action}" name="method" class="layui-input layui-disabled">
 		</div>
 	</div>
 
 	<div class="layui-form-item">
 		<label class="layui-form-label">请求方式</label>
 		<div class="layui-input-block">
-			<input type="text" th:value="${info.method}" name="requestMethod" lay-verify="required"  class="layui-input layui-disabled">
+			<input type="text" th:value="${info.method}" name="requestMethod" class="layui-input layui-disabled">
 		</div>
 	</div>
 
 	<div class="layui-form-item">
 		<label class="layui-form-label">操作状态</label>
 		<div class="layui-input-block">
-			<input type="text" th:value="${info.status==1?'成功':'失败'}" name="status"  lay-verify="required" class="layui-input layui-disabled">
+			<input type="text" th:value="${info.status==1?'成功':'失败'}" name="status" class="layui-input layui-disabled">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">操作人</label>
+		<div class="layui-input-block">
+			<input type="text" th:value="${info.createBy}" name="createBy" class="layui-input layui-disabled">
 		</div>
 	</div>
 
@@ -55,7 +62,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">请求参数</label>
 		<div class="layui-input-block">
-			<textarea type="text" th:text="${info.params}" name="operParam" lay-verify="required" class="layui-textarea layui-disabled">
+			<textarea type="text" th:text="${info.params}" name="params" class="layui-textarea layui-disabled">
 			</textarea>
 		</div>
 	</div>
@@ -63,7 +70,7 @@
 	<div class="layui-form-item">
 		<label class="layui-form-label">返回参数</label>
 		<div class="layui-input-block">
-			<textarea type="text" th:text="${info.response}" name="operParam" lay-verify="required" class="layui-textarea layui-disabled">
+			<textarea type="text" th:text="${info.response}" name="response" class="layui-textarea layui-disabled">
 			</textarea>
 		</div>
 	</div>

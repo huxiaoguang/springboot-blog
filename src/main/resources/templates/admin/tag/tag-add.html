@@ -61,8 +61,7 @@
 			}
 		});
 
-		ajaxform('tag-submit', '/admin/tag/save', 'tag-form',
-		function(json)
+		ajaxform('tag-submit', '/admin/tag/insert', 'tag-form', function(json)
 		{
 			if(json.code==200)
 			{

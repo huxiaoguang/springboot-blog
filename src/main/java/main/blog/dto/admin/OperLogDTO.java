@@ -36,4 +36,8 @@ public class OperLogDTO
 	private String location;
 
 	private String errorMsg;
+
+	private String createBy;
+
+	private String updateBy;
 }

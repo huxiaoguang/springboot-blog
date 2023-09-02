@@ -4,12 +4,12 @@
 
 	<!--最新文章 -->
 	<select id="newArticle" parameterType="int" resultType="main.blog.entity.Article">
-		select * from fa_article where status = 'normal' order by id desc limit #{limit}
+		SELECT * FROM fa_article where status = 'normal' order by id desc limit #{limit}
 	</select>
 
 	<!-- 文章列表 -->
 	<select id="listArticle" parameterType="main.blog.dto.admin.ArticleSearchDTO" resultType="main.blog.vo.admin.ArticleVO">
-		select a.* ,c.name as cname from fa_article as a left join fa_category as c on a.cid = c.cid
+		SELECT a.* ,c.name as cname from fa_article as a left join fa_category as c on a.cid = c.cid
 		<where>
 	       	 <if test="keywords!=null and keywords!=''">
 	       	 	and	a.title LIKE concat('%',#{keywords},'%') or a.keywords LIKE concat('%',#{keywords},'%') or a.description LIKE concat('%',#{keywords},'%')
@@ -26,12 +26,12 @@
 
 	<!-- 文章详情 -->
 	<select id="detailArticle" parameterType="int" resultType="main.blog.entity.Article">
-		select * from fa_article where id = #{id}
+		SELECT * FROM fa_article where id = #{id}
 	</select>
 
 	<!--文章删除 -->
 	<delete id="deleteArticle" parameterType="int">
-		delete from fa_article where id = #{id}
+		DELETE FROM fa_article where id = #{id}
 	</delete>
 
 	<!--更新文章查看次数 -->
@@ -57,7 +57,7 @@
 
 	<!--统计分类下子分类-->
 	<select id="countSubCategory" parameterType="int" resultType="int">
-		select count(*) from fa_category where pid = #{id}
+		SELECT count(*) from fa_category where pid = #{id}
 	</select>
 
 	<!--更新文章状态-->
@@ -67,26 +67,26 @@
 
     <!--统计文章数 -->
     <select id="countArticle" resultType="int">
-		select count(*) from fa_article where status = 'normal'
+		SELECT count(*) FROM fa_article where status = 'normal'
 	</select>
 
 	<!--文章上一篇-->
 	<select id="preArticle" parameterType="int" resultType="main.blog.entity.Article">
-		select id,title from fa_article where id &lt; #{id} order by id desc limit 1
+		SELECT id, title FROM fa_article where id &lt; #{id} order by id desc limit 1
 	</select>
 
 	<!--文章下一篇-->
 	<select id="nextArticle" parameterType="int" resultType="main.blog.entity.Article">
-		select id,title from fa_article where id &gt; #{id} order by id desc limit 1
+		SELECT id,title FROM fa_article where id &gt; #{id} order by id desc limit 1
 	</select>
 
 	<!--按月统计-->
 	<select id="monthArticle" resultType="map">
-		select DATE_FORMAT(create_time,'%Y-%m') months, count(id) count from fa_article group by months
+		SELECT DATE_FORMAT(create_time,'%Y-%m') months, count(id) count from fa_article group by months
 	</select>
 
 	<!--按月统计-->
 	<select id="getMonthArticle" parameterType="string" resultType="main.blog.entity.Article">
-		select * from fa_article where DATE_FORMAT(create_time, '%Y-%m')=#{month}
+		SELECT * FROM fa_article where DATE_FORMAT(create_time, '%Y-%m')=#{month}
 	</select>
 </mapper>

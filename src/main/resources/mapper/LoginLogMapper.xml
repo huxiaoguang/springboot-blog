@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main.blog.mapper.LoginLogMapper">
 
+	<!--查询操作日志-->
+	<select id="listLoginLog" parameterType="main.blog.dto.admin.LoginLogSearchDTO" resultType="main.blog.entity.LoginLog">
+		SELECT * FROM fa_login_log
+		<where>
+			log_id > 0
+			<if test="username!='' and username!=null">
+				AND username LIKE concat('%',#{username},'%')
+			</if>
+			<if test="ip!='' and ip!=null">
+				AND ip LIKE concat('%',#{ip},'%')
+			</if>
+			<if test="status!='' and status!=null">
+				AND status LIKE concat('%',#{status},'%')
+			</if>
+			<if test="createBy!='' and createBy!=null">
+				AND create_by LIKE concat('%',#{createBy},'%')
+			</if>
+			<if test="startDate!='' and startDate!=null">
+				AND create_time >= #{startDate}
+			</if>
+			<if test="endDate!='' and endDate!=null">
+				AND create_time &lt; #{endDate}
+			</if>
+		</where>
+		ORDER BY log_id DESC
+	</select>
+
 	<!--新增登录日志-->
 	<insert id="insertLoginLog" parameterType="main.blog.dto.admin.LoginLogDTO">
 		INSERT INTO fa_login_log (`username`, `status`, `browser`, `os`, `ip`, `params`, `response`, `location`, `create_by`, `update_by`, `create_time`,`update_time`) VALUES

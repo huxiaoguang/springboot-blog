@@ -1,30 +1,19 @@
 package main.blog.controller.admin;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
-import cn.hutool.core.util.ObjectUtil;
+import main.blog.annotation.Log;
 import main.blog.dto.admin.LinkSearchDTO;
 import main.blog.dto.admin.StatusDTO;
-import main.blog.dto.admin.TagSearchDTO;
+import main.blog.entity.Link;
+import main.blog.enums.BusinessType;
+import main.blog.service.LinkService;
 import main.blog.utils.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageInfo;
-
-import main.blog.entity.Link;
-import main.blog.service.LinkService;
+import javax.annotation.Resource;
 
 @Controller("Link")
 @RequestMapping(value = "/admin")
@@ -80,21 +69,15 @@ public class LinkController {
 	}
 
 	/**
-	 * 添加编辑友链操作
+	 * 添加友链
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "link/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(Link link)
+	@Log(title = "添加友链", businessType = BusinessType.INSERT)
+	@RequestMapping(value = "link/insert", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result insert(Link link)
 	{
-		Boolean result = false;
-		if(ObjectUtil.isEmpty(link.getId()))
-		{
-			result = linkService.addLink(link);
-		}else {
-			result = linkService.editLink(link);
-		}
-		if (result)
+		if (linkService.addLink(link))
 		{
 			return Result.success("/admin/link/index","操作成功");
 		} else {
@@ -103,10 +86,28 @@ public class LinkController {
 	}
 
 	/**
-	 * 删除友链操作
+	 * 编辑友链
+	 * @return
+	 */
+	@ResponseBody
+	@Log(title = "编辑友链", businessType = BusinessType.UPDATE)
+	@RequestMapping(value = "link/update", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result update(Link link)
+	{
+		if (linkService.editLink(link))
+		{
+			return Result.success("/admin/link/index","操作成功");
+		} else {
+			return Result.failed("操作失败");
+		}
+	}
+
+	/**
+	 * 删除友链
 	 * @return string
 	 */
 	@ResponseBody
+	@Log(title = "删除友链", businessType = BusinessType.DELETE)
 	@RequestMapping(value = "link/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
@@ -122,6 +123,7 @@ public class LinkController {
 	 * @return
 	 */
 	@ResponseBody
+	@Log(title = "更新友链状态", businessType = BusinessType.UPDATE)
 	@RequestMapping(value = "link/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result updateStatus(StatusDTO dto)
 	{

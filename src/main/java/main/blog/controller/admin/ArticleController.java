@@ -1,11 +1,12 @@
 package main.blog.controller.admin;
 
-import cn.hutool.core.util.ObjectUtil;
+import main.blog.annotation.Log;
 import main.blog.dto.admin.ArticleSaveDTO;
 import main.blog.dto.admin.ArticleSearchDTO;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Article;
 import main.blog.entity.Category;
+import main.blog.enums.BusinessType;
 import main.blog.service.ArticleService;
 import main.blog.service.CategoryService;
 import main.blog.utils.Result;
@@ -84,10 +85,11 @@ public class ArticleController
 	}
 
 	/**
-	 * 删除文章操作
+	 * 删除文章
 	 * @return string
 	 */
 	@ResponseBody
+	@Log(title = "删除文章", businessType = BusinessType.DELETE)
 	@RequestMapping(value = "article/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result<Boolean> delete(@RequestParam(defaultValue = "0") Integer id)
 	{
@@ -104,6 +106,7 @@ public class ArticleController
 	 * @return string
 	 */
 	@ResponseBody
+	@Log(title = "图片上传", businessType = BusinessType.UPLOAD)
 	@RequestMapping(value = "article/upload", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result upload(HttpServletRequest request, @RequestParam("file") MultipartFile file)
 	{
@@ -137,21 +140,15 @@ public class ArticleController
 	}
 
 	/**
-	 * 添加编辑文章操作
+	 * 新增文章
 	 * @return json
 	 */
 	@ResponseBody
-	@RequestMapping(value = "article/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(@Validated ArticleSaveDTO dto)
+	@Log(title = "新增文章", businessType = BusinessType.INSERT)
+	@RequestMapping(value = "article/insert", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result insert(@Validated ArticleSaveDTO dto)
 	{
-		Boolean result = false;
-		if(ObjectUtil.isEmpty(dto.getId()))
-		{
-			result = articleService.addArticle(dto);
-		}else {
-			result = articleService.editArticle(dto);
-		}
-		if (result)
+		if (articleService.addArticle(dto))
 		{
 			return Result.success("/admin/article/index", "操作成功");
 		} else {
@@ -160,10 +157,28 @@ public class ArticleController
 	}
 
 	/**
-	 * 文章状态更新
+	 * 编辑文章
+	 * @return json
+	 */
+	@ResponseBody
+	@Log(title = "编辑文章", businessType = BusinessType.UPDATE)
+	@RequestMapping(value = "article/update", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result update(@Validated ArticleSaveDTO dto)
+	{
+		if (articleService.editArticle(dto))
+		{
+			return Result.success("/admin/article/index", "操作成功");
+		} else {
+			return Result.failed("操作失败");
+		}
+	}
+
+	/**
+	 * 更新文章状态
 	 * @return
 	 */
 	@ResponseBody
+	@Log(title = "更新文章状态", businessType = BusinessType.UPDATE)
 	@RequestMapping(value = "article/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result updateStatus(StatusDTO dto)
 	{

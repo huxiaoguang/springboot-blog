@@ -5,8 +5,10 @@ import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.OperLogDTO;
+import main.blog.entity.Admin;
 import main.blog.enums.BusinessStatus;
 import main.blog.service.OperLogService;
+import main.blog.utils.IpParseUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -24,6 +26,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
@@ -74,27 +77,38 @@ public class LogAspect
     {
         try
         {
+            HttpSession session = request.getSession();
+
             Log controllerLog = getAnnotationLog(joinPoint);
             if (controllerLog == null) {
                 return;
             }
             OperLogDTO operLog = new OperLogDTO();
 
-            operLog.setStatus(BusinessStatus.SUCCESS.getCode());
-            operLog.setIp(ServletUtil.getClientIP(request));
-            operLog.setResponse(JSONUtil.toJsonStr(jsonResult));
-            operLog.setUri(request.getRequestURI());
+            Admin admin = (Admin) session.getAttribute("admin");
+            String className = joinPoint.getTarget().getClass().getName();
+            String methodName = joinPoint.getSignature().getName();
+            String ipStr = ServletUtil.getClientIP(request);
 
             if (exception != null) {
                 operLog.setStatus(BusinessStatus.FAIL.getCode());
                 operLog.setErrorMsg(exception.getMessage());
             }
+            if (controllerLog.isSaveRequestData()) {
+                setRequestValue(joinPoint, operLog);
+            }
 
-            String className = joinPoint.getTarget().getClass().getName();
-            String methodName = joinPoint.getSignature().getName();
+            operLog.setStatus(BusinessStatus.SUCCESS.getCode());
+            operLog.setIp(ipStr);
+            operLog.setLocation(IpParseUtil.parse(ipStr));
+            operLog.setResponse(JSONUtil.toJsonStr(jsonResult));
+            operLog.setUri(request.getRequestURI());
             operLog.setAction(className + "." + methodName + "()");
             operLog.setMethod(request.getMethod());
-            getControllerMethodDescription(joinPoint, controllerLog, operLog);
+            operLog.setTitle(controllerLog.title());
+            operLog.setBusiness(controllerLog.businessType().ordinal());
+            operLog.setCreateBy(admin.getUsername());
+            operLog.setUpdateBy(admin.getUsername());
 
             operLogService.insertOperLog(operLog);
         } catch (Exception e)
@@ -105,29 +119,13 @@ public class LogAspect
     }
 
     /**
-     * 获取注解中对方法的描述信息
-     * @param log 日志
-     * @param operLog 操作日志
-     * @throws Exception
-     */
-    public void getControllerMethodDescription(JoinPoint joinPoint, Log log, OperLogDTO operLog)
-    {
-        operLog.setTitle(log.title());
-        operLog.setBusiness(log.businessType().ordinal());
-
-        if (log.isSaveRequestData()) {
-            setRequestValue(joinPoint, operLog);
-        }
-    }
-
-    /**
      * 获取请求的参数，放到log中
      * @param operLog 操作日志
      * @throws Exception 异常
      */
     private void setRequestValue(JoinPoint joinPoint, OperLogDTO operLog)
     {
-        String requestMethod = operLog.getMethod();
+        String requestMethod = request.getMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod))
         {
             String params = argsArrayToString(joinPoint.getArgs());

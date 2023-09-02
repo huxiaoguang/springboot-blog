@@ -1,16 +1,12 @@
 package main.blog.controller.admin;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import cn.hutool.core.util.ObjectUtil;
-import main.blog.dto.admin.ArticleSearchDTO;
+import main.blog.annotation.Log;
 import main.blog.dto.admin.CategorySaveDTO;
 import main.blog.dto.admin.CategorySearchDTO;
 import main.blog.dto.admin.StatusDTO;
+import main.blog.enums.BusinessType;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import main.blog.entity.Category;
-import main.blog.service.ArticleService;
 import main.blog.service.CategoryService;
 
 @Controller("Category")
@@ -90,6 +85,7 @@ public class CategoryController
 	 * @return string
 	 */
 	@ResponseBody
+	@Log(title = "删除分类", businessType = BusinessType.DELETE)
 	@RequestMapping(value = "category/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
@@ -101,21 +97,32 @@ public class CategoryController
 	}
 
 	/**
-	 * 添加编辑分类操作
+	 * 新增分类
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "category/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(@Validated CategorySaveDTO dto)
+	@Log(title = "新增分类", businessType = BusinessType.INSERT)
+	@RequestMapping(value = "category/insert", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result insert(@Validated CategorySaveDTO dto)
 	{
-		Boolean result = false;
-		if(ObjectUtil.isEmpty(dto.getCid()))
+		if (categoryService.addCategory(dto))
 		{
-			result = categoryService.addCategory(dto);
-		}else {
-			result = categoryService.editCategory(dto);
+			return Result.success("操作成功");
+		} else {
+			return Result.failed("操作失败");
 		}
-		if (result)
+	}
+
+	/**
+	 * 编辑分类
+	 * @return
+	 */
+	@ResponseBody
+	@Log(title = "编辑分类", businessType = BusinessType.UPDATE)
+	@RequestMapping(value = "category/update", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result update(@Validated CategorySaveDTO dto)
+	{
+		if (categoryService.editCategory(dto))
 		{
 			return Result.success("操作成功");
 		} else {
@@ -128,6 +135,7 @@ public class CategoryController
 	 * @return
 	 */
 	@ResponseBody
+	@Log(title = "更新分类状态̬", businessType = BusinessType.UPDATE)
 	@RequestMapping(value = "/category/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result updateStatus(StatusDTO dto)
 	{

@@ -121,9 +121,9 @@
 			url: url,
 			limit: 15,
 			method: 'post',
-			limits: [15,30,45,60,75,90,105,120,135,150],
+			limits: [15, 30, 45, 60, 75, 90, 105, 120, 135, 150],
 			page: true,
-			toolbar: "#toolbar",
+			toolbar: toolbar==false ? false : "#toolbar",
 			defaultToolbar: [],
 			cols: [cols],
 			response:{

@@ -2,8 +2,10 @@ package main.blog.controller.admin;
 
 import javax.annotation.Resource;
 import cn.hutool.core.util.ObjectUtil;
+import main.blog.annotation.Log;
 import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.TagSearchDTO;
+import main.blog.enums.BusinessType;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +30,7 @@ public class TagController {
 	@RequestMapping(value = "tag/index", method = RequestMethod.GET)
 	public String index(@RequestParam(defaultValue = "0") Integer type)
 	{
-		if(type.equals("1"))
+		if(type.equals(1))
 		{
 			return "admin/tag/tagbox";
 		}else {
@@ -72,22 +74,34 @@ public class TagController {
 	}
 
 	/**
-	 * 添加编辑导航操作
+	 * 添加标签
 	 * @return
 	 * @throws Exception
 	 */
 	@ResponseBody
-	@RequestMapping(value = "tag/save", method = RequestMethod.POST, headers = "Accept=application/json")
-	public Result save(Tag tag)
+	@Log(title = "添加标签", businessType = BusinessType.INSERT)
+	@RequestMapping(value = "tag/insert", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result insert(Tag tag)
 	{
-		Boolean result = false;
-		if(ObjectUtil.isEmpty(tag.getId()))
+		if (tagService.addTag(tag))
 		{
-			result = tagService.addTag(tag);
-		}else {
-			result = tagService.editTag(tag);
+			return Result.success("/admin/tag/index", "操作成功");
+		} else {
+			return Result.failed("操作失败");
 		}
-		if (result)
+	}
+
+	/**
+	 * 编辑标签
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@Log(title = "编辑标签", businessType = BusinessType.UPDATE)
+	@RequestMapping(value = "tag/update", method = RequestMethod.POST, headers = "Accept=application/json")
+	public Result update(Tag tag)
+	{
+		if (tagService.editTag(tag))
 		{
 			return Result.success("/admin/tag/index", "操作成功");
 		} else {
@@ -100,6 +114,7 @@ public class TagController {
 	 * @return string
 	 */
 	@ResponseBody
+	@Log(title = "删除标签", businessType = BusinessType.DELETE)
 	@RequestMapping(value = "tag/delete", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result delete(@RequestParam(defaultValue = "0") Integer id)
 	{
@@ -115,6 +130,7 @@ public class TagController {
 	 * @return
 	 */
 	@ResponseBody
+	@Log(title = "更新标签状态", businessType = BusinessType.DELETE)
 	@RequestMapping(value = "tag/updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result updateStatus(StatusDTO dto)
 	{
