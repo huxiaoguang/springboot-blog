@@ -1,0 +1,124 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{admin/layout}">
+<head>
+	<title>菜单管理</title>
+</head>
+
+<body>
+<div class="layui-body p-15" layout:fragment="content">
+	<div class="layui-breadcrumb">
+		<a href="#">基础资料</a><a><cite>菜单管理</cite></a>
+	</div>
+	<hr />
+	<form class="layui-form" lay-size="sm">
+		<div class="layui-panel-search">
+			<div class="layui-input-inline">
+				<label class="layui-form-label">菜单名称：</label>
+				<div class="layui-input-block">
+					<input lay-verify="verifInput" name="keywords" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" type="text">
+				</div>
+			</div>
+			<button class="layui-btn layui-btn-normal layui-btn-search layui-btn-sm" type="button" lay-submit lay-filter="search">
+				<i class="layui-icon layui-icon-search"></i>搜 索
+			</button>
+		</div>
+	</form>
+	<script type="text/html" id="toolbar">
+		<div class="layui-btn-container">
+			<button class="layui-btn layui-btn-sm layui-btn-info" lay-event="refresh">
+				<i class="layui-icon layui-icon-refresh"></i> 刷新
+			</button>
+			<button href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增菜单', 700, 700, 1, '/admin/menu/add')">
+				<i class="layui-icon layui-icon-addition"></i>新增菜单
+			</button>
+		</div>
+	</script>
+	<div class="layui-form">
+		<table id="table" lay-filter="menu"></table>
+	</div>
+	<script th:inline="javascript" type="text/html" id="bartool">
+		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
+			<i class="layui-icon layui-icon-edit"></i>编辑
+		</a>
+		<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="del">
+			<i class="layui-icon layui-icon-delete"></i>删除
+		</a>
+	</script>
+</div>
+
+<script src="/admin/js/common.js"></script>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+	layui.use(['jquery', 'form', 'layer', 'table'], function()
+	{
+		var table = layui.table, $ = layui.jquery, form = layui.form, search = window.location.search;
+
+		// 输入框验证
+		form.verify({
+			verifInput:function(value, dom)
+			{
+				return verifInputValue(value);
+			}
+		})
+		let cols = [
+			{type: 'numbers', title: '序号', width:'5%'},
+			{field: 'menuName', title: '菜单名称',  width: '10%'},
+			{field: 'urlType', title: '菜单类型', width:'10%', templet:
+				function (row)
+				{
+					if(row.urlType==1) {
+						return "模块";
+					}
+					if(row.urlType==2) {
+						return "菜单";
+					}
+					if(row.urlType==3) {
+						return "按钮";
+					}
+				}},
+			{field: 'status', title: '状态', width:'15%', templet:
+				function (row) {
+					return row.status==1?"启用":"禁用";
+				}},
+			{field: 'url', title: '菜单路径',  width: '15%'},
+			{field: 'sort', title: '排序',  width: '15%'},
+			{field: 'permission', title: '权限标识'},
+			{align: 'center', title: '操作', toolbar: '#bartool'},
+		];
+		let tableData = table.render(renderOptions('/admin/menu/data', cols));
+
+		// 数据查询
+		form.on('submit(search)', function (data)
+		{
+			layui.table.reload('table', {where: data.field});
+		});
+		table.on('toolbar(menu)', function(obj)
+		{
+			if(obj.event==='refresh') {
+				tableData.reload();
+			}
+		})
+
+		table.on('tool(menu)', function(obj)
+		{
+			var data = obj.data;
+			if(obj.event === 'del')
+			{
+				layer.confirm('确定要删除吗？', function(index)
+				{
+					$.post("/admin/menu/delete", {id: data.menuId}, function(json) {
+						if(json.code==200) {
+							parent.layer.closeAll();
+							tableData.reload();
+						}else{
+							layer.msg(json.msg);
+						}
+					},"json");
+				});
+			} else if(obj.event === 'edit')
+			{
+				showBox('编辑菜单', 700, 700, 1, '/admin/menu/edit?id='+data.menuId);
+			}
+		});
+	})
+</script>
+</body>
+</html>
