@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.RoleMapper">
+
+	<!--角色查询-->
+	<select id="getRoleList" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="main.blog.entity.Role">
+    	select * from fa_role
+    	<where>
+	       	 <if test="keywords!= null">
+				 role_name LIKE concat('%',#{keywords},'%')
+	       	 </if>
+		</where>
+    	order by role_id desc
+    </select>
+
+	<!--新增标签-->
+	<insert id="insertRole" parameterType="main.blog.dto.admin.RoleSaveDTO">
+		insert into fa_role (role_name, status, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
+	</insert>
+
+	<!--编辑标签-->
+	<update id="updateRole" parameterType="main.blog.dto.admin.RoleSaveDTO">
+		update fa_role set role_name = #{roleName}, status = #{status}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() where role_id = #{roleId}
+	</update>
+
+	<!--删除角色-->
+	<delete id="deleteRole" parameterType="int">
+		delete from fa_role where role_id = #{roleId}
+	</delete>
+</mapper>
