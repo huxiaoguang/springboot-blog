@@ -58,5 +58,5 @@ public interface RoleService
      * @param roleName
      * @return
      */
-    Boolean existRole(String roleName);
+    Boolean existRoleByName(String roleName);
 }

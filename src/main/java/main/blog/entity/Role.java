@@ -1,8 +1,6 @@
 package main.blog.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import main.blog.vo.admin.BaseEntity;
 
 /**
@@ -10,12 +8,10 @@ import main.blog.vo.admin.BaseEntity;
  * @author huxg
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Role extends BaseEntity
 {
     /** 角色ID */
-    private String roleId;
+    private Integer roleId;
 
     /** 系统角色 */
     private Integer userType = 0;

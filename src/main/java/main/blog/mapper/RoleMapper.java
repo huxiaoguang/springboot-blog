@@ -25,7 +25,7 @@ public interface RoleMapper
 
     /**
      * 编辑角色
-     * @param dto
+     * @param role
      * @return
      */
     Boolean updateRole(Role role);
@@ -36,4 +36,6 @@ public interface RoleMapper
      * @return
      */
     Boolean deleteRole(Integer roleId);
+
+    Boolean existRoleByName(String roleName);
 }

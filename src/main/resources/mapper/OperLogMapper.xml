@@ -36,6 +36,6 @@
 
 	<!--查询操作日志-->
 	<select id="getOperLogDetail" parameterType="int" resultType="main.blog.entity.OperLog">
-		SELECT * FROM fa_oper_log where log_id = #{logId} limit 1
+		SELECT * FROM fa_oper_log WHERE log_id = #{logId} limit 1
 	</select>
 </mapper>

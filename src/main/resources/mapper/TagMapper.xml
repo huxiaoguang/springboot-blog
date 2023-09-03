@@ -4,7 +4,7 @@
 
 	<!--查询标签-->
 	<select id="listTag" parameterType="main.blog.dto.admin.TagSearchDTO" resultType="main.blog.entity.Tag">
-    	select * from fa_tag
+		SELECT * FROM fa_tag
     	<where>
 	       	 <if test="keywords!= null">
 	       	 	tag_name LIKE concat('%',#{keywords},'%')
@@ -20,26 +20,26 @@
 
     <!--获取标签-->
     <select id="infoTag" parameterType="int" resultType="main.blog.entity.Tag">
-    	select * from fa_tag where id = #{id} limit 1
+		SELECT * FROM fa_tag WHERE id = #{id} limit 1
     </select>
 
     <!--编辑标签-->
     <update id="editTag" parameterType="main.blog.entity.Tag">
-    	update fa_tag set tag_name = #{tagName}, status = #{status}, description = #{description}, update_time = now() where id = #{id}
+    	update fa_tag set tag_name = #{tagName}, status = #{status}, description = #{description}, update_time = now() WHERE id = #{id}
     </update>
 
     <!--删除标签 -->
     <delete id="deleteTag" parameterType="int">
-    	delete from fa_tag where id = #{id}
+    	delete FROM fa_tag WHERE id = #{id}
     </delete>
 
     <!--更新标签状态-->
     <update id="updateTagStatus" parameterType="main.blog.dto.admin.StatusDTO">
-    	update fa_tag set status = #{status} where id = #{id}
+    	update fa_tag set status = #{status} WHERE id = #{id}
     </update>
 
     <!--外部调用-->
 	<select id="getListTag" parameterType="int" resultType="main.blog.entity.Tag">
-    	select * from fa_tag order by id desc limit #{limit}
+		SELECT * FROM fa_tag ORDER BY id DESC limit #{limit}
     </select>
 </mapper>

@@ -10,8 +10,6 @@ import main.blog.vo.admin.BaseEntity;
  * @author huxg
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Menu extends BaseEntity
 {
     /** 菜单ID */

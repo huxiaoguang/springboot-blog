@@ -2,15 +2,18 @@ package main.blog.dto.admin;
 
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class RoleSaveDTO implements Serializable
 {
     @NotNull(message = "角色ID不能为空", groups ={ValidGroupsDTO.Update.class})
-    private String roleId;
+    private Integer roleId;
 
     @NotBlank(message = "角色名称不能为空！")
     private String roleName;
@@ -25,8 +28,9 @@ public class RoleSaveDTO implements Serializable
     private Integer isDelete = 0;
 
     /** 备注说明 */
-    private String remarks = "";;
+    private String remarks = "";
 
-    @NotBlank(message = "请选择角色权限！")
-    private String menuIds;
+    @Valid
+    @NotEmpty(message = "请选择角色权限")
+    private List<Integer> menuId;
 }

@@ -4,27 +4,32 @@
 
 	<!--角色查询-->
 	<select id="getRoleList" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="main.blog.entity.Role">
-    	select * from fa_role
+		SELECT * FROM fa_role
     	<where>
 	       	 <if test="keywords!= null">
 				 role_name LIKE concat('%',#{keywords},'%')
 	       	 </if>
 		</where>
-    	order by role_id desc
+    	ORDER BY role_id DESC
     </select>
 
-	<!--新增标签-->
-	<insert id="insertRole" parameterType="main.blog.entity.Role">
-		insert into fa_role (role_name, status, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
+	<!--判断角色是否存在-->
+	<select id="existRoleByName" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="boolean">
+		SELECT COUNT(`role_id`) FROM fa_role WHERE `role_Name` = #{roleName}
+	</select>
+
+	<!--新增角色-->
+	<insert id="insertRole" parameterType="main.blog.entity.Role" useGeneratedKeys="true" keyProperty="roleId">
+		INSERT INTO fa_role (role_name, status, role_sort, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{roleSort}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
-	<!--编辑标签-->
+	<!--编辑角色-->
 	<update id="updateRole" parameterType="main.blog.entity.Role">
-		update fa_role set role_name = #{roleName}, status = #{status}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() where role_id = #{roleId}
+		UPDATE fa_role SET role_name = #{roleName}, status = #{status}, role_sort = #{roleSort}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() WHERE role_id = #{roleId}
 	</update>
 
 	<!--删除角色-->
 	<delete id="deleteRole" parameterType="int">
-		delete from fa_role where role_id = #{roleId}
+		DELETE FROM fa_role WHERE role_id = #{roleId}
 	</delete>
 </mapper>

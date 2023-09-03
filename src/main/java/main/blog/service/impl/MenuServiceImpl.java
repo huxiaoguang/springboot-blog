@@ -83,6 +83,7 @@ public class MenuServiceImpl implements MenuService
         {
             HashMap map = new HashMap();
             map.put("spread", true);
+            map.put("field", "menuId");
             map.put("title",  menu.getMenuName());
             nodeList.add(new TreeNode<>(menu.getMenuId().toString(), menu.getParentId().toString(), menu.getMenuName(), menu.getSort()).setExtra(map));
         }
