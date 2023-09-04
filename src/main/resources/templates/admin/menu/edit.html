@@ -160,7 +160,7 @@
 			}
 		})
 
-		$.get('/admin/menu/tree', function(json)
+		$.get('/admin/menu/tree', {field: 'parentId'}, function(json)
 		{
 			if(json.code==200)
 			{
@@ -170,7 +170,7 @@
 					data: json.data,
 					click: function(node)
 					{
-						var that = $($(this)[0].elem).parents(".layui-form-select");
+						var that = $(this)[0].elem.parents(".layui-form-select");
 						that.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.name).end().find("input:hidden[name='parentId']").val(node.data.id);
 					}
 				})

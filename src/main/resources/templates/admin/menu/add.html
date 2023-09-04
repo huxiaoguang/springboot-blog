@@ -15,7 +15,7 @@
 		<div class="layui-input-block">
 			<div class="layui-unselect layui-form-select treeSelect">
 				<div class="layui-select-title">
-					<span  class="layui-input layui-unselect" id="treeTest">选择上级菜单</span>
+					<span class="layui-input layui-unselect" id="treeTest">选择上级菜单</span>
 					<input class="layui-select" type="hidden" name="parentId" value="0" lay-verify="required" lay-reqText="请选择上级菜单">
 					<i class="layui-edge"></i>
 				</div>
@@ -160,7 +160,7 @@ layui.use(['jquery', 'form', 'layer', 'tree'], function()
 		}
 	})
 
-	$.get('/admin/menu/tree', function(json)
+	$.get('/admin/menu/tree', {field: 'parentId'}, function(json)
 	{
 		if(json.code==200)
 		{

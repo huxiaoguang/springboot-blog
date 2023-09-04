@@ -69,7 +69,6 @@ public class MenuController
         if(ObjectUtil.isNotNull(id))
         {
             Menu menu = menuService.getMenuInfo(id);
-            map.put("info", menu);
             if(!menu.getParentId().equals(0))
             {
                 Menu parent = menuService.getMenuInfo(menu.getParentId());
@@ -77,6 +76,7 @@ public class MenuController
             }else{
                 map.put("menuName", "选择上级菜单");
             }
+            map.put("info", menu);
         }
         return "admin/menu/edit";
     }
