@@ -17,6 +17,7 @@ import main.blog.service.MenuService;
 import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,6 +31,8 @@ public class MenuServiceImpl implements MenuService
     private HttpSession session;
     @Resource
     private MenuMapper menuMapper;
+    @Resource
+    private HttpServletRequest request;
 
     @Override
     public PageInfo<Menu> getMenuList(MenuSearchDTO dto)
@@ -100,7 +103,19 @@ public class MenuServiceImpl implements MenuService
     @Override
     public List<Tree<String>> getTreeRoleMenuList(Integer roleId)
     {
-        return null;
+        List<Menu> menuList = menuMapper.getMenuList(MenuSearchDTO.builder().status(1).build());
+        List<TreeNode<String>> nodeList = CollUtil.newArrayList();
+        String uri = request.getRequestURI();
+        for (Menu menu: menuList)
+        {
+            HashMap map = new HashMap();
+            map.put("url",     menu.getUrl());
+            map.put("icon",    menu.getIcon());
+            map.put("checked", uri.equals("/" + menu.getUrl().toLowerCase()) ? true : false);
+            nodeList.add(new TreeNode<>(menu.getMenuId().toString(), menu.getParentId().toString(), menu.getMenuName(), menu.getSort()).setExtra(map));
+        }
+        List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");
+        return treeList;
     }
 
     @Override

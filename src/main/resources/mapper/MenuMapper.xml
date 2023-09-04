@@ -13,7 +13,7 @@
 				status = #{status}
 			</if>
 		</where>
-    	order by menu_id desc
+    	order by sort desc
     </select>
 
 	<!--获取菜单-->
