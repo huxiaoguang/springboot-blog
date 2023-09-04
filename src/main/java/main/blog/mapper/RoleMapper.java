@@ -1,6 +1,5 @@
 package main.blog.mapper;
 
-import main.blog.dto.admin.RoleSaveDTO;
 import main.blog.dto.admin.RoleSearchDTO;
 import main.blog.entity.Role;
 import org.springframework.stereotype.Repository;
@@ -37,5 +36,17 @@ public interface RoleMapper
      */
     Boolean deleteRole(Integer roleId);
 
+    /**
+     * 角色查询
+     * @param roleId
+     * @return
+     */
+    Role getRoleInfo(Integer roleId);
+
+    /**
+     * 判断角色是否存在
+     * @param roleName
+     * @return
+     */
     Boolean existRoleByName(String roleName);
 }

@@ -1,6 +1,8 @@
 package main.blog.service;
 
 import main.blog.dto.admin.RoleMenuSaveDTO;
+import main.blog.entity.RoleMenu;
+import java.util.List;
 
 public interface RoleMenuService
 {
@@ -10,4 +12,10 @@ public interface RoleMenuService
      * @return
      */
     Boolean insertRoleMenu(RoleMenuSaveDTO dto);
+
+    Boolean deleteRoleMenu(Integer roleId);
+
+    List<RoleMenu> getRoleMenuList(Integer roleId);
+
+    List<Integer> getRoleMenuIds(Integer roleId);
 }

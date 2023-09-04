@@ -9,4 +9,13 @@
 			(#{roleMenu.menuId}, #{roleMenu.roleId}, #{roleMenu.createBy}, #{roleMenu.updateBy}, now(), now())
 		</foreach>
 	</insert>
+
+	<select id="getRoleMenuList" resultType="main.blog.entity.RoleMenu">
+		SELECT * FROM fa_role_menu WHERE role_id = #{roleId} ORDER BY id DESC
+	</select>
+
+	<!--删除角色权限-->
+	<delete id="deleteRoleMenu" parameterType="int">
+		delete from fa_role_menu where role_id = #{roleId}
+	</delete>
 </mapper>

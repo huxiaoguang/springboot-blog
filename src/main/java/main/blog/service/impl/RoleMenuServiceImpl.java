@@ -8,8 +8,8 @@ import main.blog.service.RoleMenuService;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RoleMenuServiceImpl implements RoleMenuService
@@ -35,5 +35,31 @@ public class RoleMenuServiceImpl implements RoleMenuService
             roleMenuList.add(roleMenu);
         }
         return roleMenuMapper.insertRoleMenu(roleMenuList);
+    }
+
+    @Override
+    public Boolean deleteRoleMenu(Integer roleId)
+    {
+        return roleMenuMapper.deleteRoleMenu(roleId);
+    }
+
+    @Override
+    public List<RoleMenu> getRoleMenuList(Integer roleId)
+    {
+        return roleMenuMapper.getRoleMenuList(roleId);
+    }
+
+    @Override
+    public List<Integer> getRoleMenuIds(Integer roleId)
+    {
+        List<Integer> menuIdArr = new ArrayList();
+        List<RoleMenu> roleMenuList = this.getRoleMenuList(roleId);
+
+        Map<Integer, List<Integer>> menuIds = roleMenuList.stream().collect(Collectors.groupingBy(RoleMenu::getRoleId, Collectors.mapping(RoleMenu::getMenuId, Collectors.toList())));
+        if(menuIds.size()>0)
+        {
+            menuIdArr = menuIds.get(roleId);
+        }
+        return menuIdArr;
     }
 }

@@ -5,12 +5,13 @@ import cn.hutool.core.util.ObjectUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.MenuSaveDTO;
 import main.blog.dto.admin.MenuSearchDTO;
+import main.blog.dto.admin.TreeSearchDTO;
 import main.blog.dto.admin.ValidGroupsDTO;
 import main.blog.entity.Menu;
 import main.blog.enums.BusinessType;
 import main.blog.service.MenuService;
+import main.blog.service.RoleMenuService;
 import main.blog.utils.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import javax.annotation.Resource;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +28,10 @@ import java.util.List;
 @RequestMapping("admin/menu")
 public class MenuController
 {
-    @Autowired
+    @Resource
     private MenuService menuService;
-
+    @Resource
+    private RoleMenuService roleMenuService;
     /**
      * 菜单管理
      */
@@ -52,9 +55,8 @@ public class MenuController
      * 新增菜单
      */
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String add(ModelMap map)
+    public String add()
     {
-        map.put("treeList", menuService.getTreeMenuList());
         return "admin/menu/add";
     }
 
@@ -143,8 +145,8 @@ public class MenuController
 
     @ResponseBody
     @RequestMapping(value = "tree", method = RequestMethod.GET, headers = "Accept=application/json")
-    public Result tree()
+    public Result tree(TreeSearchDTO dto)
     {
-        return Result.success(menuService.getTreeMenuList());
+        return Result.success(menuService.getTreeMenuList(dto));
     }
 }

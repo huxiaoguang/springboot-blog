@@ -14,4 +14,17 @@ public interface RoleMenuMapper
      * @return
      */
     Boolean insertRoleMenu(@Param("roleMenuList") List<RoleMenu> roleMenuList);
+
+    /**
+     * 删除角色权限
+     * @param roleId
+     * @return
+     */
+    Boolean deleteRoleMenu(Integer roleId);
+
+    /**
+     * 角色权限
+     * @return
+     */
+    List<RoleMenu> getRoleMenuList(@Param("roleId") Integer roleId);
 }

@@ -1,5 +1,6 @@
 package main.blog.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.RoleMenuSaveDTO;
@@ -39,8 +40,7 @@ public class RoleServiceImpl implements RoleService
     @Transactional(rollbackFor = Exception.class)
     public Boolean insertRole(RoleSaveDTO dto)
     {
-        if(this.existRoleByName(dto.getRoleName()))
-        {
+        if(this.existRoleByName(dto.getRoleName())) {
             throw new RuntimeException("角色名称已存在");
         }
         Admin admin = (Admin) session.getAttribute("admin");
@@ -54,27 +54,41 @@ public class RoleServiceImpl implements RoleService
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean updateRole(RoleSaveDTO dto)
     {
         Admin admin = (Admin) session.getAttribute("admin");
 
-        Role role = new Role();
+        Role role = this.getRoleInfo(dto.getRoleId());
+        if(ObjectUtil.isNull(role)) {
+            throw new RuntimeException("角色不存在");
+        }
+        if(!role.getRoleName().equals(dto.getRoleName())) {
+            if(this.existRoleByName(dto.getRoleName())) {
+                throw new RuntimeException("角色名称已存在");
+            }
+        }
+
         BeanCopier.create(RoleSaveDTO.class, Role.class, false).copy(dto, role,  null);
         role.setUpdateBy(admin.getUsername());
-        return roleMapper.updateRole(role);
+        Boolean result1 = roleMapper.updateRole(role);
+        Boolean result2 = roleMenuService.deleteRoleMenu(dto.getRoleId());
+        Boolean result3 = roleMenuService.insertRoleMenu(RoleMenuSaveDTO.builder().roleId(role.getRoleId()).menuIds(dto.getMenuId()).build());
+        return result1 && result2 && result3 ? true :false;
     }
 
     @Override
     public Boolean deleteRole(Integer roleId)
     {
-        return roleMapper.deleteRole(roleId);
+        Boolean result1 = roleMenuService.deleteRoleMenu(roleId);
+        Boolean result2 = roleMapper.deleteRole(roleId);
+        return result1 && result2 ? true :false;
     }
 
     @Override
     public Role getRoleInfo(Integer roleId)
     {
-        Role role = new Role();
-        return role;
+        return roleMapper.getRoleInfo(roleId);
     }
 
     @Override

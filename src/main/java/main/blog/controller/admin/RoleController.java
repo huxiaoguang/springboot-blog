@@ -1,19 +1,23 @@
 package main.blog.controller.admin;
 
+import cn.hutool.core.util.ObjectUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.RoleSaveDTO;
 import main.blog.dto.admin.RoleSearchDTO;
 import main.blog.dto.admin.ValidGroupsDTO;
 import main.blog.enums.BusinessType;
+import main.blog.service.RoleMenuService;
 import main.blog.service.RoleService;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin/role")
@@ -21,6 +25,8 @@ public class RoleController
 {
     @Resource
     private RoleService roleService;
+    @Resource
+    private RoleMenuService roleMenuService;
 
     /**
      * 角色管理
@@ -48,6 +54,20 @@ public class RoleController
     public String add()
     {
         return "admin/role/add";
+    }
+
+    /**
+     * 编辑角色
+     */
+    @RequestMapping(value = "edit", method = RequestMethod.GET)
+    public String edit(@RequestParam(value="id") Integer roleId, Model map)
+    {
+        if(ObjectUtil.isNotNull(roleId))
+        {
+            map.addAttribute("menuIds", roleMenuService.getRoleMenuIds(roleId));
+            map.addAttribute("info", roleService.getRoleInfo(roleId));
+        }
+        return "admin/role/edit";
     }
 
     /**

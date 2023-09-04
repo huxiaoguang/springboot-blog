@@ -1,6 +1,7 @@
 package main.blog.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
@@ -8,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.MenuSaveDTO;
 import main.blog.dto.admin.MenuSearchDTO;
+import main.blog.dto.admin.TreeSearchDTO;
 import main.blog.entity.Admin;
 import main.blog.entity.Menu;
 import main.blog.mapper.MenuMapper;
@@ -16,6 +18,7 @@ import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +78,7 @@ public class MenuServiceImpl implements MenuService
     }
 
     @Override
-    public List<Tree<String>> getTreeMenuList()
+    public List<Tree<String>> getTreeMenuList(TreeSearchDTO dto)
     {
         List<Menu> menuList = menuMapper.getMenuList(MenuSearchDTO.builder().status(1).build());
         List<TreeNode<String>> nodeList = CollUtil.newArrayList();
@@ -83,8 +86,11 @@ public class MenuServiceImpl implements MenuService
         {
             HashMap map = new HashMap();
             map.put("spread", true);
-            map.put("field", "menuId");
+            map.put("field", dto.getField());
             map.put("title",  menu.getMenuName());
+            if(dto.getChecked().contains(menu.getMenuId())) {
+                map.put("checked", true);
+            }
             nodeList.add(new TreeNode<>(menu.getMenuId().toString(), menu.getParentId().toString(), menu.getMenuName(), menu.getSort()).setExtra(map));
         }
         List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");

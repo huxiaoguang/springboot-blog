@@ -103,7 +103,7 @@ layui.use(['jquery', 'form', 'layer', 'tree'], function()
 		},
 	})
 
-	$.get('/admin/menu/tree', function(json)
+	$.get('/admin/menu/tree', {field: 'menuId'}, function(json)
 	{
 		if(json.code==200)
 		{
@@ -114,41 +114,22 @@ layui.use(['jquery', 'form', 'layer', 'tree'], function()
 				showCheckbox: true,
 				oncheck: function(node)
 				{
-					var menuText = "", menuIds = "", checkData = tree.getChecked('menuId');
-					if(checkData.length > 0)
+					var menuText = [], that = $(this)[0].elem.parents(".layui-form-select");
+					setTimeout(function ()
 					{
-						menuIds = getCheckedTreeIds(checkData);
-						menuText = getCheckedTreeNames(checkData);
-					}else{
-						menuText = ["选择角色权限"];
-					}
-					var that = $($(this)[0].elem).parents(".layui-form-select");
-					// that.find(".layui-select-title span").html(menuText).end().find("input:hidden[name='menuIds']").val(menuIds);
-					that.find(".layui-select-title span").html(menuText);
+						 checkData = tree.getChecked('menuId');
+						if(checkData.length > 0)
+						{
+							menuText = getCheckedTreeNames(checkData);
+						}else{
+							menuText = ["选择角色权限"];
+						}
+						that.find(".layui-select-title span").html(menuText);
+					})
 				}
 			})
 		}
 	}, 'json')
-
-	function getCheckedTreeIds(data)
-	{
-		var ids = "";
-		$.each(data, function (index, item)
-		{
-			if (ids != "")
-			{
-				ids = ids + "," + item.id;
-			}
-			else {
-				ids = item.id;
-			}
-			var i = getCheckedTreeIds(item.children);
-			if (i != "") {
-				ids = ids + "," + i;
-			}
-		});
-		return ids;
-	}
 
 	function getCheckedTreeNames(data)
 	{
@@ -174,8 +155,7 @@ layui.use(['jquery', 'form', 'layer', 'tree'], function()
 	{
 		$(this).parents(".treeSelect").toggleClass("layui-form-selected");
 		layui.stope(e);
-	}).on("click", "dl i", function(e)
-	{
+	}).on("click", "dl i", function(e) {
 		layui.stope(e);
 	});
 
