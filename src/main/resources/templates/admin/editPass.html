@@ -71,7 +71,7 @@ layui.use(['jquery', 'form', 'layer'], function()
 		}
 	})
 
-	//提交表单
+	// 提交表单
 	ajaxform('password-submit', '/admin/editPass', 'password-form',
 	function(json)
 	{
@@ -79,7 +79,15 @@ layui.use(['jquery', 'form', 'layer'], function()
 		{
 			layer.msg(json.msg,	{time: 1000}, function()
 			{
-				parent.layer.closeAll();
+				$.get('/admin/logout', function(res) {
+					if(res.code==200)
+					{
+						parent.layer.closeAll();
+						window.reload()
+					}else{
+						layer.msg(res.msg);
+					}
+				}, 'json');
 			})
 		}else{
 			layer.msg(json.msg);

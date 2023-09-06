@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.blog.dto.admin.AdminSearchDTO;
+import main.blog.dto.admin.EditPassDTO;
 import main.blog.dto.admin.StatusDTO;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +26,27 @@ public interface AdminMapper
 	 * @return
 	 */
 	Boolean insertAdmin(Admin admin);
+
+	/**
+	 * 判断用户名存在
+	 * @param userName
+	 * @return
+	 */
+	Boolean existUsername(String userName);
+
+	/**
+	 * 判断手机存在
+	 * @param phone
+	 * @return
+	 */
+	Boolean existMobile(String phone);
+
+	/**
+	 * 判断邮箱存在
+	 * @param email
+	 * @return
+	 */
+	Boolean existEmail(String email);
 
 	/**
 	 * 更新用户信息
@@ -74,4 +96,11 @@ public interface AdminMapper
 	 * @return
 	 */
 	Boolean updateAdminStatus(StatusDTO dto);
+
+	/**
+	 * 修改密码
+	 * @param edit
+	 * @return
+	 */
+	Boolean updatePassWord(Map<String, Object> edit);
 }

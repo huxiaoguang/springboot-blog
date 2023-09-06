@@ -519,23 +519,6 @@
 		}else{
 			window.location.reload();
 		}
-
-		/*
-		$(document).ready
-		(
-			function(){layer.closeAll()}
-		).on('pjax:send',
-			function(){load('正在努力加载页面....')}
-		).on('pjax:complete',
-			function(){form.render();element.init();layer.closeAll();}
-		)
-
-		if(url)
-		{
-			$.pjax({url:url,container: '#page-wrapper',timeout:5000});
-		}else{
-			$.pjax.reload('#page-wrapper');
-		}*/
 	}
 
 	/**
@@ -553,7 +536,7 @@
 				}else{
 					layer.msg(json.msg);
 				}
-			},'json');
+			}, 'json');
 		});
 	});
 

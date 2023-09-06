@@ -2,17 +2,18 @@ package main.blog.dto.admin;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
-public class EditPassDTO
+public class EditPassDTO implements Serializable
 {
-	@NotEmpty(message = "原密码不能为空")
-	private String password;
+    @NotBlank(message = "用户ID不能为空")
+    private String adminId;
 
-	@NotEmpty(message = "新密码不能为空")
-	private String newpass;
+    @NotBlank(message = "新密码不能为空")
+    private String newpass;
 
-	@NotEmpty(message = "重输不能为空")
-	private String renewpass;
+    @NotBlank(message = "请输入重输新密码")
+    private String renewpass;
 }

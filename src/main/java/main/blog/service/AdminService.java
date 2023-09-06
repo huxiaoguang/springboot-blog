@@ -1,10 +1,7 @@
 package main.blog.service;
 
 import com.github.pagehelper.PageInfo;
-import main.blog.dto.admin.AdminSaveDTO;
-import main.blog.dto.admin.EditPassDTO;
-import main.blog.dto.admin.AdminSearchDTO;
-import main.blog.dto.admin.StatusDTO;
+import main.blog.dto.admin.*;
 import main.blog.entity.Admin;
 
 public interface AdminService
@@ -64,7 +61,7 @@ public interface AdminService
 	 * 修改密码接口
 	 * @return
 	 */
-	Boolean editPass(EditPassDTO dto);
+	Boolean editPass(EditProfilePassDTO dto);
 
 	/**
 	 * 获取管理员信息
@@ -74,4 +71,11 @@ public interface AdminService
 	Boolean deleteAdmin(Integer adminId);
 
 	Boolean updateAdminStatus(StatusDTO dto);
+
+	/**
+	 * 修改密码
+	 * @param dto
+	 * @return
+	 */
+	Boolean updatePassWord(EditPassDTO dto);
 }

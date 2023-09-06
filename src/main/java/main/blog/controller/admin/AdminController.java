@@ -2,10 +2,7 @@ package main.blog.controller.admin;
 
 import cn.hutool.core.util.ObjectUtil;
 import main.blog.annotation.Log;
-import main.blog.dto.admin.AdminSaveDTO;
-import main.blog.dto.admin.AdminSearchDTO;
-import main.blog.dto.admin.StatusDTO;
-import main.blog.dto.admin.ValidGroupsDTO;
+import main.blog.dto.admin.*;
 import main.blog.enums.BusinessType;
 import main.blog.service.AdminService;
 import main.blog.service.RoleAdminService;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "system/admin")
@@ -121,11 +119,37 @@ public class AdminController
     }
 
     /**
-     * 更新标签状态
+     * 修改密码
+     */
+    @RequestMapping(value = "editPass", method = RequestMethod.GET)
+    public String pass(@RequestParam Map params, ModelMap search)
+    {
+        search.put("params", params);
+        return "admin/admin/editPass";
+    }
+
+    /**
+     * 修改密码
+     */
+    @ResponseBody
+    @Log(title = "修改密码", businessType = BusinessType.UPDATE)
+    @RequestMapping(value = "editPass", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Result editPass(@Validated EditPassDTO dto)
+    {
+        if(adminService.updatePassWord(dto))
+        {
+            return Result.success("修改密码成功");
+        }else{
+            return Result.failed("修改密码成功");
+        }
+    }
+
+    /**
+     * 更新账号状态
      * @return
      */
     @ResponseBody
-    @Log(title = "更新标签状态", businessType = BusinessType.UPDATE)
+    @Log(title = "更新账号状态", businessType = BusinessType.UPDATE)
     @RequestMapping(value = "updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result updateStatus(StatusDTO dto)
     {

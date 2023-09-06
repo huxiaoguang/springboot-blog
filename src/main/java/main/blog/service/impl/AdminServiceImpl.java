@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.*;
@@ -45,6 +46,18 @@ public class AdminServiceImpl implements AdminService
 	@Transactional
 	public Boolean insertAdmin(AdminSaveDTO dto)
 	{
+		if(adminMapper.existUsername(dto.getUsername()))
+		{
+			throw new RuntimeException("用户名已存在");
+		}
+		if(adminMapper.existMobile(dto.getMobile()))
+		{
+			throw new RuntimeException("手机号已存在");
+		}
+		if(adminMapper.existEmail(dto.getEmail()))
+		{
+			throw new RuntimeException("邮箱已存在");
+		}
 		Admin admin = (Admin) session.getAttribute("admin");
 		Admin user = new Admin();
 		BeanCopier.create(AdminSaveDTO.class, Admin.class, false).copy(dto, user,  null);
@@ -63,11 +76,32 @@ public class AdminServiceImpl implements AdminService
 	@Override
 	public Boolean updateAdmin(AdminSaveDTO dto)
 	{
+		Admin adminInfo = this.getAdminInfo(dto.getId());
+		if(ObjectUtil.isNull(adminInfo)) {
+			throw new RuntimeException("用户不存在");
+		}
+
+		if(!dto.getUsername().equals(adminInfo.getUsername())) {
+			if(adminMapper.existUsername(dto.getUsername())) {
+				throw new RuntimeException("用户名已存在");
+			}
+		}
+		if(!dto.getMobile().equals(adminInfo.getMobile())) {
+			if(adminMapper.existMobile(dto.getMobile())) {
+				throw new RuntimeException("手机号已存在");
+			}
+		}
+		if(!dto.getEmail().equals(adminInfo.getEmail())) {
+			if(adminMapper.existEmail(dto.getEmail())) {
+				throw new RuntimeException("邮箱已存在");
+			}
+		}
+
 		Admin admin = (Admin) session.getAttribute("admin");
 		Admin user = new Admin();
 		BeanCopier.create(AdminSaveDTO.class, Admin.class, false).copy(dto, user,  null);
-		user.setUpdateBy(admin.getUsername());
 
+		user.setUpdateBy(admin.getUsername());
 		List<Integer> roleIds = Arrays.stream(dto.getRoleIds().split(",")).map(Integer::parseInt).collect(Collectors.toList());
 		Boolean result1 = adminMapper.updateAdmin(user);
 		Boolean result2 = roleAdminService.deleteRoleAdmin(dto.getId());
@@ -123,7 +157,7 @@ public class AdminServiceImpl implements AdminService
 	}
 
 	@Override
-	public Boolean editPass(EditPassDTO dto)
+	public Boolean editPass(EditProfilePassDTO dto)
 	{
 		HttpSession session = request.getSession();
 		Admin info = (Admin) session.getAttribute("admin");
@@ -175,5 +209,19 @@ public class AdminServiceImpl implements AdminService
 			throw new RuntimeException("超级管理员不能禁用");
 		}
 		return adminMapper.updateAdminStatus(dto);
+	}
+
+	@Override
+	public Boolean updatePassWord(EditPassDTO dto)
+	{
+		if(!dto.getNewpass().equals(dto.getRenewpass())) {
+			throw new RuntimeException("两次输入德密码不一致");
+		}
+		Map<String, Object> map = new HashMap();
+		String salt = RandomUtil.generateString(6);
+		map.put("salt", salt);
+		map.put("adminId", dto.getAdminId());
+		map.put("password", Md5Util.md5(Md5Util.md5(dto.getNewpass()) + salt));
+		return adminMapper.updatePassWord(map);
 	}
 }

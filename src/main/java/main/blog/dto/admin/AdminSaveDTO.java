@@ -22,18 +22,20 @@ public class AdminSaveDTO implements Serializable
     @NotBlank(message = "用户昵称不能为空！")
     private String nickname;
 
-    /** 用户邮箱 */
-    private String email = "";
+    /** 邮箱 */
+    @NotBlank(message = "邮箱不能为空！")
+    private String email;
 
     /** 手机号码 */
     @NotBlank(message = "手机号码不能为空！")
     private String mobile;
 
-    /** 用户性别 */
-    private Integer sex = 1;
+    /** 性别 */
+    @NotNull(message = "性别不能为空")
+    private Integer sex = 0;
 
-    /** 密码 */
-    @NotBlank(message = "密码不能为空", groups ={ValidGroupsDTO.Insert.class})
+    /** 登录密码 */
+    @NotBlank(message = "登录密码不能为空", groups ={ValidGroupsDTO.Insert.class})
     private String password;
 
     /** 角色Id */
