@@ -3,15 +3,22 @@
 <mapper namespace="main.blog.mapper.RoleMapper">
 
 	<!--角色查询-->
-	<select id="getRoleList" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="main.blog.entity.Role">
+	<select id="getRolePage" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="main.blog.entity.Role">
 		SELECT * FROM fa_role
     	<where>
 	       	 <if test="keywords!= null">
 				 role_name LIKE concat('%',#{keywords},'%')
 	       	 </if>
+			<if test="status!='' and status!=null">
+				status = #{status}
+			</if>
 		</where>
     	ORDER BY role_id DESC
     </select>
+
+	<select id="getRoleList" resultType="main.blog.entity.Role">
+		SELECT * FROM fa_role WHERE status = 1 ORDER BY role_id DESC
+	</select>
 
 	<!--获取角色-->
 	<select id="getRoleInfo" parameterType="int" resultType="main.blog.entity.Role">

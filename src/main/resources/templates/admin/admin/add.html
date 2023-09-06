@@ -1,0 +1,159 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增工单</title>
+	<link rel="stylesheet" href="/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/admin/css/main.css" />
+</head>
+
+<body class="mt-30 mr-30 ml-20">
+<form id="form" class="layui-form" method="post" lay-size="sm">
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">用户名</label>
+		<div class="layui-input-block">
+			<input type="text" name="username" id="username" lay-verify="required|verifInput|verifySpace|verifyLength" lay-verType="tips" lay-reqText="请输入用户名" placeholder="请输入用户名" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">昵称</label>
+		<div class="layui-input-block">
+			<input type="text" name="nickname" id="nickname" lay-verify="required|verifInput|verifySpace|verifyLength" lay-verType="tips" lay-reqText="请输入用户昵称" placeholder="请输入用户昵称" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">性别</label>
+		<div class="layui-input-block">
+			<select name="sex" id="sex" lay-verify="required" lay-verType="tips" lay-reqText="请选择性别" class="layui-select">
+				<option value="0">请选择性别</option>
+				<option value="1">男</option>
+				<option value="2">女</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">手机</label>
+		<div class="layui-input-block">
+			<input type="text" name="mobile" id="mobile" lay-verify="required|mobile|number" lay-verType="tips" lay-reqText="请输入手机号码" placeholder="请输入手机号码" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">邮箱</label>
+		<div class="layui-input-block">
+			<input type="text" name="email" id="email" lay-verify="email" lay-verType="tips" placeholder="请输入用户邮箱" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">角色</label>
+		<div class="layui-input-block" id="role-select"></div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label">状态</label>
+		<div class="layui-input-block">
+			<input id="status" type="hidden" name="status" value="normal" />
+			<input lay-filter="switch-status" lay-skin="switch" lay-text="是|否" checked="true" type="checkbox" />
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">登录密码</label>
+		<div class="layui-input-block">
+			<input type="password" name="password" id="password" lay-verify="required" lay-verType="tips" lay-reqText="请输入登录密码" placeholder="请输入登录密码" class="layui-input">
+		</div>
+	</div>
+
+	<div class="layui-form-item">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn-normal layui-btn-sm" type="button" lay-submit="submit" lay-filter="submit">
+				<i class="layui-icon layui-icon-ok"></i> 提交
+			</button>
+			<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
+				<i class="layui-icon layui-icon-return"></i> 重置
+			</button>
+		</div>
+	</div>
+</form>
+
+<script src="/admin/layui/layui.js"></script>
+<script src="/admin/js/common.js"></script>
+<script type="text/javascript">
+layui.config({base: '/admin/layui/modules/xmSelect/'}).extend({xmSelect:'xm-select'});
+layui.use(['jquery', 'form', 'layer', 'laydate', 'laydate', 'xmSelect'], function()
+{
+	var $ = layui.jquery, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+
+	laydate.render({
+		elem: '#mfgDate'
+	});
+
+	var roleSelect = xmSelect.render({
+		el: '#role-select',
+		name: 'roleId',
+		tips: '请选择角色',
+		prop: {
+			name: 'roleName',
+			value: 'roleId',
+		},
+		size: 'small',
+		theme: {color: '#1E9FFF'},
+		layVerify: 'required',
+		layVerType: 'tips',
+		layReqText: "请选择角色",
+		data: []
+	})
+
+	$.get("/admin/role/list", function(json)
+	{
+		if(json.code==200) {
+			roleSelect.update({data: json.data})
+		}
+	}, "json");
+
+	form.verify({
+		verifInput: function(value,dom)
+		{
+			return verifInputValue(value);
+		},
+		verifySpace: function (value)
+		{
+			return verifySpace(value);
+		},
+		verifyLength: function (value)
+		{
+			return verifLength(value, 12);
+		}
+	})
+
+	// 监听指定开关
+	form.on('switch(switch-status)', function(data)
+	{
+		if(this.checked) {
+			$("#status").val('normal');
+		}else{
+			$("#status").val('hidden');
+		}
+	});
+
+	ajaxform('submit', '/system/admin/insert', 'form', function(json)
+	{
+		if(json.code==200)
+		{
+			layer.msg(json.msg, {time: 1000}, function() {
+				parent.layer.closeAll();
+				parent.location.reload();
+			});
+		}else{
+			layer.msg(json.msg);
+		}
+	})
+})
+</script>
+</body>
+</html>

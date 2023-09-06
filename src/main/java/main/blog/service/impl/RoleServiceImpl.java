@@ -29,10 +29,10 @@ public class RoleServiceImpl implements RoleService
     private RoleMenuService roleMenuService;
 
     @Override
-    public PageInfo<Role> getRoleList(RoleSearchDTO dto)
+    public PageInfo<Role> getRolePage(RoleSearchDTO dto)
     {
         PageHelper.startPage(dto.getPage(), dto.getLimit());
-        List<Role> list = roleMapper.getRoleList(dto);
+        List<Role> list = roleMapper.getRolePage(dto);
         return new PageInfo<>(list);
     }
 
@@ -94,13 +94,7 @@ public class RoleServiceImpl implements RoleService
     @Override
     public List<Role> getRoleList()
     {
-        return null;
-    }
-
-    @Override
-    public List<Role> getRoleListNeSys()
-    {
-        return null;
+        return roleMapper.getRoleList();
     }
 
     @Override

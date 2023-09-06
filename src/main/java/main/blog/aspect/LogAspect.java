@@ -8,6 +8,7 @@ import main.blog.dto.admin.OperLogDTO;
 import main.blog.entity.Admin;
 import main.blog.enums.BusinessStatus;
 import main.blog.service.OperLogService;
+import main.blog.utils.BitwalkerUtil;
 import main.blog.utils.IpParseUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
@@ -88,7 +89,7 @@ public class LogAspect
             Admin admin = (Admin) session.getAttribute("admin");
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
-            String ipStr = ServletUtil.getClientIP(request);
+            String ipStr = BitwalkerUtil.getClientIp(request);
 
             if (exception != null) {
                 operLog.setStatus(BusinessStatus.FAIL.getCode());

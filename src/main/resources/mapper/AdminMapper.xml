@@ -2,18 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main.blog.mapper.AdminMapper">
 
-	<!--根据用户名查询用户基本信息 -->
-    <select id="adminInfo"	 parameterType="string" resultType="main.blog.entity.Admin">
-        select id, username, salt, email, nickname, logintime from fa_admin where username = #{username}
+    <!--查询账号-->
+    <select id="getAdminList" parameterType="main.blog.dto.admin.AdminSearchDTO" resultType="main.blog.entity.Admin">
+        SELECT * FROM fa_admin
+        <where>
+            <if test="username!='' and username!=null">
+                username LIKE concat('%',#{username},'%')
+            </if>
+        </where>
+        ORDER BY id DESC
     </select>
 
-    <!--用户登录验证-->
-    <select id="adminLogin"	 parameterType="map" resultType="boolean">
-        select count(*) from fa_admin where username = #{username} and password = #{password}
-    </select>
+    <!--新增账号-->
+    <insert id="insertAdmin" parameterType="main.blog.entity.Admin">
+        INSERT INTO fa_admin (`username`, `mobile`, `nickname`, `password`, `salt`, `avatar`, `email`, `error_num`, `status`, `login_time`, `create_by`, `update_by`, `create_time`, `update_time`)
+        VALUES (#{username}, #{mobile}, #{nickname}, #{password}, #{salt}, #{avatar}, #{email}, #{errorNum}, #{status}, now(), #{createBy}, #{updateBy}, now(), now())
+    </insert>
 
-    <!--修改管理员密码 -->
-    <update id="editPass" parameterType="map">
-    	update fa_admin set password = #{password}, salt = #{salt} where username = #{username}
+    <!--文章更新 -->
+    <update id="updateAdmin" parameterType="main.blog.entity.Category">
+        UPDATE fa_admin set `username`=#{username}, `mobile`=#{mobile}, `nickname`=#{nickname}, `password`=#{password}, `salt`=#{salt}, `avatar`=#{avatar}, `email`=#{email}, `error_num`=#{errorNum}, `status`=#{status}, `update_by`=#{updateBy}, `login_time`= now(), `update_time`= now() WHERE `id`=#{id}
     </update>
+
+    <!--查询用户-->
+    <select id="getAdminInfo" parameterType="int" resultType="main.blog.entity.Admin">
+        SELECT * from fa_admin WHERE id = #{adminId}
+    </select>
+
+	<!--查询用户-->
+    <select id="getAdminByUsername" parameterType="string" resultType="main.blog.entity.Admin">
+        SELECT id, username, salt, email, nickname, login_time from fa_admin WHERE username = #{username}
+    </select>
+
+    <!--用户账号验证-->
+    <select id="adminLogin"	 parameterType="map" resultType="boolean">
+        SELECT count(*) from fa_admin WHERE username = #{username} AND password = #{password}
+    </select>
+
+    <!--修改账号密码-->
+    <update id="editPass" parameterType="map">
+        UPDATE fa_admin set password = #{password}, salt = #{salt} WHERE username = #{username}
+    </update>
+
+    <!--删除账号-->
+    <delete id="deleteAdmin" parameterType="int">
+        DELETE FROM fa_admin WHERE id = #{adminId}
+    </delete>
 </mapper>

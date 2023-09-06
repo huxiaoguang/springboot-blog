@@ -13,7 +13,13 @@ public interface RoleMapper
      * @param dto
      * @return
      */
-    List<Role> getRoleList(RoleSearchDTO dto);
+    List<Role> getRolePage(RoleSearchDTO dto);
+
+    /**
+     * 所有角色列表
+     * @return
+     */
+    List<Role> getRoleList();
 
     /**
      * 新曾角色

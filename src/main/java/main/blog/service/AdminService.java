@@ -1,16 +1,47 @@
 package main.blog.service;
 
+import com.github.pagehelper.PageInfo;
+import main.blog.dto.admin.AdminSaveDTO;
 import main.blog.dto.admin.EditPassDTO;
+import main.blog.dto.admin.AdminSearchDTO;
 import main.blog.entity.Admin;
 
-public interface AdminService {
+public interface AdminService
+{
+	/**
+	 * 用户列表
+	 * @param dto
+	 * @return
+	 */
+	PageInfo<Admin> getAdminList(AdminSearchDTO dto);
+
+	/**
+	 * 获取管理员信息
+	 * @param adminId
+	 * @return
+	 */
+	Admin getAdminInfo(Integer adminId);
 
 	/**
 	 * 获取管理员信息
 	 * @param username
 	 * @return
 	 */
-	Admin adminInfo(String username);
+	Admin getAdminByUsername(String username);
+
+	/**
+	 * 新增用户
+	 * @param dto
+	 * @return
+	 */
+	Boolean insertAdmin(AdminSaveDTO dto);
+
+	/**
+	 * 更新用户
+	 * @param dto
+	 * @return
+	 */
+	Boolean updateAdmin(AdminSaveDTO dto);
 
 	/**
 	 * 验证用户名和密码
@@ -33,4 +64,11 @@ public interface AdminService {
 	 * @return
 	 */
 	Boolean editPass(EditPassDTO dto);
+
+	/**
+	 * 获取管理员信息
+	 * @param adminId
+	 * @return
+	 */
+	Boolean deleteAdmin(Integer adminId);
 }

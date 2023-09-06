@@ -16,8 +16,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class BaseEntity implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-
     /**操作人*/
     private String createBy;
 

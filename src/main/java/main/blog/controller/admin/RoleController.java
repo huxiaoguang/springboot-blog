@@ -44,7 +44,17 @@ public class RoleController
     @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result data(RoleSearchDTO dto)
     {
-        return Result.success(roleService.getRoleList(dto));
+        return Result.success(roleService.getRolePage(dto));
+    }
+
+    /**
+     * 角色列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "list", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Result list()
+    {
+        return Result.success(roleService.getRoleList());
     }
 
     /**

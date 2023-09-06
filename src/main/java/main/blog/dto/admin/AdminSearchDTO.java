@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RoleSearchDTO extends PageDTO
+public class AdminSearchDTO extends PageDTO
 {
 	private Integer status;
 
-	private String keywords;
+	private String username;
 }

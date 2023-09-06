@@ -11,7 +11,13 @@ public interface RoleService
     /**
      * 获取角色
      */
-    PageInfo<Role> getRoleList(RoleSearchDTO dto);
+    PageInfo<Role> getRolePage(RoleSearchDTO dto);
+
+    /**
+     * 获取所有角色列表
+     * @return
+     */
+    List<Role> getRoleList();
 
     /**
      * 新增角色
@@ -40,18 +46,6 @@ public interface RoleService
      * @return
      */
     Role getRoleInfo(Integer roleId);
-
-    /**
-     * 获取所有角色列表
-     * @return
-     */
-    List<Role> getRoleList();
-
-    /**
-     * 获取所有角色列表 过滤掉系统管理员权限
-     * @return
-     */
-    List<Role> getRoleListNeSys();
 
     /**
      * 判断角色是否存在

@@ -1,13 +1,20 @@
 package main.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import main.blog.vo.admin.BaseEntity;
+import java.util.Date;
 
 @Data
-public class Admin
+public class Admin extends BaseEntity
 {
 	private Integer id;
 
 	private String username;
+
+	private String mobile;
+
+	private String nickname;
 
 	private String password;
 
@@ -15,9 +22,14 @@ public class Admin
 
 	private String email;
 
+	private Integer sex;
+
 	private String status;
 
-	private String nickname;
+	private String avatar;
 
-	private Long logintime;
+	private Integer errorNum;
+
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private Date loginTime;
 }

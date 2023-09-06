@@ -51,8 +51,12 @@
 		let cols = [
 			{type: 'numbers', title: '序号', width:'5%'},
 			{field: 'name', title: '分类名称',  width: '15%'},
-			{field: 'isnav', title: '是否导航',  width: '15%'},
-			{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
+			{field: 'isnav', title: '是否导航', width:'15%', templet:
+				function (row) {
+					return row.isnav==1 ? "是" : "否";
+				}
+			},
+			{field: 'status', title: '状态', width:'10%', templet:"#switchTpl"},
 			{field: 'createTime', title: '创建时间'},
 			{align: 'center', title: '操作', toolbar: '#tool', width: '20%',fixed: 'right', hide: false}
 		];
