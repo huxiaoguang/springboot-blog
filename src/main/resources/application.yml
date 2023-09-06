@@ -1,28 +1,3 @@
-server:
-  port: 8080
-
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://146.56.204.52:3306/larblog?serverTimezone=GMT%2B8&characterEncoding=utf-8&useSSL=false
-    username: root
-    password: Huxg@163.cn.com
-  thymeleaf:
-    mode: HTML
-
-mybatis:
-  type-aliases-package: main.blog.entity
-  mapper-locations: classpath:mapper/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
-
-#开启logging myabtis语句打印
-logging:
-  level:
-    main.blog.mapper: trace
-
-pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql
+  profiles:
+    active: prod
