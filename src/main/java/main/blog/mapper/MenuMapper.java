@@ -13,7 +13,7 @@ public interface MenuMapper
      * @param dto
      * @return
      */
-    List<Menu> getMenuList(MenuSearchDTO dto);
+    List<Menu> getMenuPage(MenuSearchDTO dto);
 
     Menu getMenuInfo(Integer menuId);
 

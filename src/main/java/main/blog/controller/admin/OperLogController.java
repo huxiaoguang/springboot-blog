@@ -32,7 +32,7 @@ public class OperLogController
     @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result data(OperLogSearchDTO dto)
     {
-        return Result.success(operLogService.listOperLog(dto));
+        return Result.success(operLogService.getOperLogPage(dto));
     }
 
     /**

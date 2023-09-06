@@ -4,7 +4,7 @@
 <mapper namespace="main.blog.mapper.CategoryMapper">
 
 	<!--分类列表 -->
-	<select id="listCategory" parameterType="main.blog.dto.admin.CategorySearchDTO" resultType="main.blog.vo.admin.CategoryVO">
+	<select id="getCategoryPage" parameterType="main.blog.dto.admin.CategorySearchDTO" resultType="main.blog.vo.admin.CategoryVO">
 		select * from fa_category
 		<where>
 	       	 <if test="keywords!='' and keywords!= null">

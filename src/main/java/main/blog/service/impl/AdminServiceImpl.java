@@ -34,10 +34,10 @@ public class AdminServiceImpl implements AdminService
 	private RoleAdminService roleAdminService;
 
 	@Override
-	public PageInfo<Admin> getAdminList(AdminSearchDTO dto)
+	public PageInfo<Admin> getAdminPage(AdminSearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
-		List<Admin> list = adminMapper.getAdminList(dto);
+		List<Admin> list = adminMapper.getAdminPage(dto);
 		return new PageInfo<>(list);
 	}
 

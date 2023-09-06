@@ -3,7 +3,7 @@
 <mapper namespace="main.blog.mapper.LoginLogMapper">
 
 	<!--查询操作日志-->
-	<select id="listLoginLog" parameterType="main.blog.dto.admin.LoginLogSearchDTO" resultType="main.blog.entity.LoginLog">
+	<select id="getLoginLogPage" parameterType="main.blog.dto.admin.LoginLogSearchDTO" resultType="main.blog.entity.LoginLog">
 		SELECT * FROM fa_login_log
 		<where>
 			log_id > 0

@@ -3,7 +3,7 @@
 <mapper namespace="main.blog.mapper.LinkMapper">
 
 	<!--查询友情链接-->
-	<select id="listLink" parameterType="main.blog.dto.admin.LinkSearchDTO" resultType="main.blog.entity.Link">
+	<select id="getLinkPage" parameterType="main.blog.dto.admin.LinkSearchDTO" resultType="main.blog.entity.Link">
     	select * from fa_link
     	<where>
 			<if test="keywords!='' and keywords!=null">

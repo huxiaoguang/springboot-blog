@@ -18,7 +18,7 @@ public interface LinkMapper {
 	 * @param dto
 	 * @return
 	 */
-	List<Link> listLink(LinkSearchDTO dto);
+	List<Link> getLinkPage(LinkSearchDTO dto);
 
 	/**
 	 * 友链详情

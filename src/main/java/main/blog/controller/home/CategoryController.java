@@ -33,7 +33,7 @@ public class CategoryController extends HomeController
 			ArticleSearchDTO dto = new ArticleSearchDTO();
 			dto.setCname(cname);
 
-			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);
+			PageInfo<ArticleVO> pageinfo = articleService.getArticlePage(dto);
 			model.addAttribute("cname", cname);
 			model.addAttribute("page",  pageinfo);
 			model.addAttribute("list",  pageinfo.getList());

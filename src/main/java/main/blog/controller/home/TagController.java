@@ -34,7 +34,7 @@ public class TagController extends HomeController
 	@RequestMapping(value="tag-cloud")
 	public String tagcloud(TagSearchDTO dto, Model model)
 	{
-		PageInfo<Tag> list = tagService.listTag(dto);
+		PageInfo<Tag> list = tagService.getTagPage(dto);
 		model.addAttribute("list", list.getList());
 		return "home/tag";
 	}
@@ -52,7 +52,7 @@ public class TagController extends HomeController
 			ArticleSearchDTO dto = new ArticleSearchDTO();
 			dto.setKeywords(keywords);
 
-			PageInfo<ArticleVO> pageinfo = articleService.listArticle(dto);
+			PageInfo<ArticleVO> pageinfo = articleService.getArticlePage(dto);
 			model.addAttribute("list", pageinfo.getList());
 			model.addAttribute("keywords", keywords);
 			model.addAttribute("page", pageinfo);

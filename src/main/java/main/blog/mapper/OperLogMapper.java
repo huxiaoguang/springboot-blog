@@ -11,7 +11,7 @@ public interface OperLogMapper
 {
     Boolean insertOperLog(OperLogDTO dto);
 
-    List<OperLog> listOperLog(OperLogSearchDTO dto);
+    List<OperLog> getOperLogPage(OperLogSearchDTO dto);
 
     OperLog getOperLogDetail(Integer logId);
 }

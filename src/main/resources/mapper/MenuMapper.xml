@@ -3,7 +3,7 @@
 <mapper namespace="main.blog.mapper.MenuMapper">
 
 	<!--菜单查询-->
-	<select id="getMenuList" parameterType="main.blog.dto.admin.MenuSearchDTO" resultType="main.blog.entity.Menu">
+	<select id="getMenuPage" parameterType="main.blog.dto.admin.MenuSearchDTO" resultType="main.blog.entity.Menu">
     	select * from fa_menu
     	<where>
 	       	 <if test="keywords!='' and keywords!=null">

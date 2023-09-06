@@ -32,10 +32,10 @@ public class LinkServiceImpl implements LinkService
 	}
 
 	@Override
-	public PageInfo<Link> listLink(LinkSearchDTO dto)
+	public PageInfo<Link> getLinkPage(LinkSearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
-		List<Link> list = linkMapper.listLink(dto);
+		List<Link> list = linkMapper.getLinkPage(dto);
 		return new PageInfo<>(list);
 	}
 

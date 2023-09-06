@@ -17,5 +17,5 @@ public interface LoginLogService
      * 操作日志查询
      * @return
      */
-    PageInfo<LoginLog> listLoginLog(LoginLogSearchDTO dto);
+    PageInfo<LoginLog> getLoginLogPage(LoginLogSearchDTO dto);
 }

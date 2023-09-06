@@ -44,7 +44,7 @@ public class AdminController
     @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result data(AdminSearchDTO dto)
     {
-        return Result.success(adminService.getAdminList(dto));
+        return Result.success(adminService.getAdminPage(dto));
     }
 
     /**

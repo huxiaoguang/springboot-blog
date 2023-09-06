@@ -26,10 +26,10 @@ public class OperLogServiceImpl implements OperLogService
     }
 
     @Override
-    public PageInfo<OperLog> listOperLog(OperLogSearchDTO dto)
+    public PageInfo<OperLog> getOperLogPage(OperLogSearchDTO dto)
     {
         PageHelper.startPage(dto.getPage(), dto.getLimit());
-        List<OperLog> list = operLogMapper.listOperLog(dto);
+        List<OperLog> list = operLogMapper.getOperLogPage(dto);
         return new PageInfo<>(list);
     }
 

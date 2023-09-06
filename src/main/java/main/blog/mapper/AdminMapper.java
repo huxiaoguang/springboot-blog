@@ -17,7 +17,7 @@ public interface AdminMapper
 	 * @param dto
 	 * @return
 	 */
-	List<Admin> getAdminList(AdminSearchDTO dto);
+	List<Admin> getAdminPage(AdminSearchDTO dto);
 
 	/**
 	 * 新增用户

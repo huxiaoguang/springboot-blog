@@ -14,7 +14,7 @@ public interface AdminService
 	 * @param dto
 	 * @return
 	 */
-	PageInfo<Admin> getAdminList(AdminSearchDTO dto);
+	PageInfo<Admin> getAdminPage(AdminSearchDTO dto);
 
 	/**
 	 * 获取管理员信息

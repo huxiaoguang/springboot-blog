@@ -17,7 +17,7 @@ public interface OperLogService
      * 操作日志查询
      * @return
      */
-    PageInfo<OperLog> listOperLog(OperLogSearchDTO dto);
+    PageInfo<OperLog> getOperLogPage(OperLogSearchDTO dto);
 
     /**
      * 操作日志详情

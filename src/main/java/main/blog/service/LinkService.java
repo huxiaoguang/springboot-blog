@@ -16,7 +16,7 @@ public interface LinkService {
 	 * 友连管理
 	 * @return
 	 */
-	PageInfo<Link> listLink(LinkSearchDTO dto);
+	PageInfo<Link> getLinkPage(LinkSearchDTO dto);
 
 	/**
 	 * 友情链接

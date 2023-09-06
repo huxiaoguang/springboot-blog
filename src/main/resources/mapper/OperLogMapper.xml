@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="main.blog.mapper.OperLogMapper">
 	<!--查询操作日志-->
-	<select id="listOperLog" parameterType="main.blog.dto.admin.OperLogSearchDTO" resultType="main.blog.entity.OperLog">
+	<select id="getOperLogPage" parameterType="main.blog.dto.admin.OperLogSearchDTO" resultType="main.blog.entity.OperLog">
 		SELECT * FROM fa_oper_log
 		<where>
 		    log_id > 0

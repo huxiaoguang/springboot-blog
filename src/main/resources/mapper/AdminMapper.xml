@@ -3,7 +3,7 @@
 <mapper namespace="main.blog.mapper.AdminMapper">
 
     <!--查询账号-->
-    <select id="getAdminList" parameterType="main.blog.dto.admin.AdminSearchDTO" resultType="main.blog.entity.Admin">
+    <select id="getAdminPage" parameterType="main.blog.dto.admin.AdminSearchDTO" resultType="main.blog.entity.Admin">
         SELECT * FROM fa_admin
         <where>
             <if test="username!='' and username!=null">

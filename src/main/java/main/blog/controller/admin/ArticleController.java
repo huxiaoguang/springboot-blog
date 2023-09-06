@@ -50,7 +50,7 @@ public class ArticleController
 	@RequestMapping(value = "article/data", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result data(ArticleSearchDTO dto)
 	{
-		return Result.success(articleService.listArticle(dto));
+		return Result.success(articleService.getArticlePage(dto));
 	}
 
 	/**

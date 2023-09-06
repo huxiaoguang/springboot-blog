@@ -13,5 +13,5 @@ public interface LoginLogMapper
 {
     Boolean insertLoginLog(LoginLogDTO dto);
 
-    List<LoginLog> listLoginLog(LoginLogSearchDTO dto);
+    List<LoginLog> getLoginLogPage(LoginLogSearchDTO dto);
 }

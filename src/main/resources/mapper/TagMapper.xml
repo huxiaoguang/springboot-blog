@@ -3,7 +3,7 @@
 <mapper namespace="main.blog.mapper.TagMapper">
 
 	<!--查询标签-->
-	<select id="listTag" parameterType="main.blog.dto.admin.TagSearchDTO" resultType="main.blog.entity.Tag">
+	<select id="getTagPage" parameterType="main.blog.dto.admin.TagSearchDTO" resultType="main.blog.entity.Tag">
 		SELECT * FROM fa_tag
     	<where>
 	       	 <if test="keywords!= null">

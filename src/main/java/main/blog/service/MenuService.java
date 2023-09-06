@@ -15,7 +15,7 @@ public interface MenuService
      * 获取菜单
      * @return
      */
-    PageInfo<Menu> getMenuList(MenuSearchDTO dto);
+    PageInfo<Menu> getMenuPage(MenuSearchDTO dto);
 
     /**
      * 新增菜单

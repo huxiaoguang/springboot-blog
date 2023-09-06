@@ -42,10 +42,10 @@ public class CategoryServiceImpl implements CategoryService
 	}
 
 	@Override
-	public PageInfo<CategoryVO> listCategory(CategorySearchDTO dto)
+	public PageInfo<CategoryVO> getCategoryPage(CategorySearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
-		List<CategoryVO> list = categoryMapper.listCategory(dto);
+		List<CategoryVO> list = categoryMapper.getCategoryPage(dto);
 		return new PageInfo<>(list);
 	}
 

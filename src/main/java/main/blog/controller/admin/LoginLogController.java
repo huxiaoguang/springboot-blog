@@ -32,6 +32,6 @@ public class LoginLogController
     @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result data(LoginLogSearchDTO dto)
     {
-        return Result.success(loginLogService.listLoginLog(dto));
+        return Result.success(loginLogService.getLoginLogPage(dto));
     }
 }

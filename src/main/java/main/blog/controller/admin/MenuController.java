@@ -30,8 +30,7 @@ public class MenuController
 {
     @Resource
     private MenuService menuService;
-    @Resource
-    private RoleMenuService roleMenuService;
+
     /**
      * 菜单管理
      */
@@ -48,7 +47,7 @@ public class MenuController
     @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
     public Result data(MenuSearchDTO dto)
     {
-        return Result.success(menuService.getMenuList(dto));
+        return Result.success(menuService.getMenuPage(dto));
     }
 
     /**

@@ -25,7 +25,7 @@ public interface ArticleMapper {
 	 * @param dto
 	 * @return
 	 */
-	List<ArticleVO> listArticle(ArticleSearchDTO dto);
+	List<ArticleVO> getArticlePage(ArticleSearchDTO dto);
 
 	/**
 	 * 文章详情

@@ -35,10 +35,10 @@ public class MenuServiceImpl implements MenuService
     private HttpServletRequest request;
 
     @Override
-    public PageInfo<Menu> getMenuList(MenuSearchDTO dto)
+    public PageInfo<Menu> getMenuPage(MenuSearchDTO dto)
     {
         PageHelper.startPage(dto.getPage(), dto.getLimit());
-        List<Menu> list = menuMapper.getMenuList(dto);
+        List<Menu> list = menuMapper.getMenuPage(dto);
         return new PageInfo<>(list);
     }
 
@@ -83,7 +83,7 @@ public class MenuServiceImpl implements MenuService
     @Override
     public List<Tree<String>> getTreeMenuList(TreeSearchDTO dto)
     {
-        List<Menu> menuList = menuMapper.getMenuList(MenuSearchDTO.builder().status(1).build());
+        List<Menu> menuList = menuMapper.getMenuPage(MenuSearchDTO.builder().status(1).build());
         List<TreeNode<String>> nodeList = CollUtil.newArrayList();
         for (Menu menu: menuList)
         {
@@ -100,7 +100,7 @@ public class MenuServiceImpl implements MenuService
     @Override
     public List<Tree<String>> getTreeRoleMenuList(Integer roleId)
     {
-        List<Menu> menuList = menuMapper.getMenuList(MenuSearchDTO.builder().status(1).build());
+        List<Menu> menuList = menuMapper.getMenuPage(MenuSearchDTO.builder().status(1).build());
         List<TreeNode<String>> nodeList = CollUtil.newArrayList();
         String uri = request.getRequestURI();
         for (Menu menu: menuList)

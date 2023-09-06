@@ -15,7 +15,7 @@ public interface TagService {
 	 * Tag管理
 	 * @return
 	 */
-	PageInfo<Tag> listTag(TagSearchDTO dto);
+	PageInfo<Tag> getTagPage(TagSearchDTO dto);
 
 	/**
 	 * 网站标签

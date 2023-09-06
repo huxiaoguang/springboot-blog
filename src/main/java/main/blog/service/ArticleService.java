@@ -66,7 +66,7 @@ public interface ArticleService {
 	 * 文章列表
 	 * @return
 	 */
-	PageInfo<ArticleVO> listArticle(ArticleSearchDTO dto);
+	PageInfo<ArticleVO> getArticlePage(ArticleSearchDTO dto);
 
 	/**
 	 * 统计文章总数

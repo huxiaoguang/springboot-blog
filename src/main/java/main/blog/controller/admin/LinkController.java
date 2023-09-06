@@ -40,7 +40,7 @@ public class LinkController {
 	@RequestMapping(value = "link/data", method = RequestMethod.POST, headers = "Accept=application/json")
 	public Result data(LinkSearchDTO dto)
 	{
-		return Result.success(linkService.listLink(dto));
+		return Result.success(linkService.getLinkPage(dto));
 	}
 
 	/**

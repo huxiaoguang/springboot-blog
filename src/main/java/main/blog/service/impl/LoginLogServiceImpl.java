@@ -27,10 +27,10 @@ public class LoginLogServiceImpl implements LoginLogService
     }
 
     @Override
-    public PageInfo<LoginLog> listLoginLog(LoginLogSearchDTO dto)
+    public PageInfo<LoginLog> getLoginLogPage(LoginLogSearchDTO dto)
     {
         PageHelper.startPage(dto.getPage(), dto.getLimit());
-        List<LoginLog> list = loginLogMapper.listLoginLog(dto);
+        List<LoginLog> list = loginLogMapper.getLoginLogPage(dto);
         return new PageInfo<>(list);
     }
 }

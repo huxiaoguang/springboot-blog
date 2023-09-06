@@ -18,7 +18,7 @@ public interface CategoryMapper {
 	 * 文章分类
 	 * @return
 	 */
-	List<CategoryVO> listCategory(CategorySearchDTO dto);
+	List<CategoryVO> getCategoryPage(CategorySearchDTO dto);
 
 	/**
 	 * 外部调用

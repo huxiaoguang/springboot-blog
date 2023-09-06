@@ -16,7 +16,7 @@ public interface CategoryService {
 	 * 文章分类列表
 	 * @return
 	 */
-	PageInfo<CategoryVO> listCategory(CategorySearchDTO dto);
+	PageInfo<CategoryVO> getCategoryPage(CategorySearchDTO dto);
 
 	/**
 	 * 添加分类

@@ -31,10 +31,10 @@ public class TagServiceImpl implements TagService
 	}
 
 	@Override
-	public PageInfo<Tag> listTag(TagSearchDTO dto)
+	public PageInfo<Tag> getTagPage(TagSearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
-		List<Tag> list = tagMapper.listTag(dto);
+		List<Tag> list = tagMapper.getTagPage(dto);
 		return new PageInfo<>(list);
 	}
 

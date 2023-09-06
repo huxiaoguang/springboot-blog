@@ -17,7 +17,7 @@ public interface TagMapper {
      * @param dto
      * @return
      */
-    List<Tag> listTag(TagSearchDTO dto);
+    List<Tag> getTagPage(TagSearchDTO dto);
 
     /**
      * 添加标签

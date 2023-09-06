@@ -67,10 +67,10 @@ public class ArticleServiceImpl implements ArticleService
 	}
 
 	@Override
-	public PageInfo<ArticleVO> listArticle(ArticleSearchDTO dto)
+	public PageInfo<ArticleVO> getArticlePage(ArticleSearchDTO dto)
 	{
 		PageHelper.startPage(dto.getPage(), dto.getLimit());
-		List<ArticleVO> list = articleMapper.listArticle(dto);
+		List<ArticleVO> list = articleMapper.getArticlePage(dto);
 		return new PageInfo<>(list);
 	}
 
