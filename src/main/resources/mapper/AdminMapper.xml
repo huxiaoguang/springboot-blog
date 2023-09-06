@@ -14,14 +14,14 @@
     </select>
 
     <!--新增账号-->
-    <insert id="insertAdmin" parameterType="main.blog.entity.Admin">
+    <insert id="insertAdmin" parameterType="main.blog.entity.Admin" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO fa_admin (`username`, `mobile`, `nickname`, `password`, `salt`, `avatar`, `email`, `error_num`, `status`, `login_time`, `create_by`, `update_by`, `create_time`, `update_time`)
         VALUES (#{username}, #{mobile}, #{nickname}, #{password}, #{salt}, #{avatar}, #{email}, #{errorNum}, #{status}, now(), #{createBy}, #{updateBy}, now(), now())
     </insert>
 
     <!--文章更新 -->
     <update id="updateAdmin" parameterType="main.blog.entity.Category">
-        UPDATE fa_admin set `username`=#{username}, `mobile`=#{mobile}, `nickname`=#{nickname}, `password`=#{password}, `salt`=#{salt}, `avatar`=#{avatar}, `email`=#{email}, `error_num`=#{errorNum}, `status`=#{status}, `update_by`=#{updateBy}, `login_time`= now(), `update_time`= now() WHERE `id`=#{id}
+        UPDATE fa_admin set `username`=#{username}, `mobile`=#{mobile}, `nickname`=#{nickname}, `avatar`=#{avatar}, `email`=#{email}, `error_num`=#{errorNum}, `status`=#{status}, `update_by`=#{updateBy}, `login_time`= now(), `update_time`= now() WHERE `id`=#{id}
     </update>
 
     <!--查询用户-->
@@ -48,4 +48,9 @@
     <delete id="deleteAdmin" parameterType="int">
         DELETE FROM fa_admin WHERE id = #{adminId}
     </delete>
+
+    <!--更新账号状态-->
+    <update id="updateAdminStatus" parameterType="main.blog.dto.admin.StatusDTO">
+        update fa_admin set status = #{status} WHERE id = #{id}
+    </update>
 </mapper>

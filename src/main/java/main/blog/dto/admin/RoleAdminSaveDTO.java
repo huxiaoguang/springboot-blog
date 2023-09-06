@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TreeSearchDTO extends PageDTO
+public class RoleAdminSaveDTO implements Serializable
 {
-    /**节点名称*/
-    private String field = "menuId";
+    private Integer adminId;
+
+    private List<Integer> roleIds;
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.RoleAdminMapper">
+
+	<!--新增角色权限-->
+	<insert id="insertRoleAdmin" parameterType="main.blog.entity.RoleAdmin">
+		INSERT INTO fa_role_admin(`admin_id`, `role_id`, `create_by`, `update_by`, `create_time`, `update_time`) VALUES
+		<foreach collection="roleAdminList" index="" item="roleAdmin" separator=",">
+			(#{roleAdmin.adminId}, #{roleAdmin.roleId}, #{roleAdmin.createBy}, #{roleAdmin.updateBy}, now(), now())
+		</foreach>
+	</insert>
+
+	<select id="getRoleAdminList" parameterType="int" resultType="main.blog.entity.RoleAdmin">
+		SELECT * FROM fa_role_admin WHERE admin_id = #{adminId} ORDER BY id DESC
+	</select>
+
+	<!--删除角色权限-->
+	<delete id="deleteRoleAdmin" parameterType="int">
+		delete from fa_role_admin where admin_id = #{adminId}
+	</delete>
+</mapper>

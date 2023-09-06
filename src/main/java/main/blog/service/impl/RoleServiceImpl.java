@@ -8,6 +8,7 @@ import main.blog.dto.admin.RoleSaveDTO;
 import main.blog.dto.admin.RoleSearchDTO;
 import main.blog.entity.Admin;
 import main.blog.entity.Role;
+import main.blog.entity.RoleAdmin;
 import main.blog.mapper.RoleMapper;
 import main.blog.service.RoleMenuService;
 import main.blog.service.RoleService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service

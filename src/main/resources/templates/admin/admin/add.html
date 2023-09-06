@@ -74,8 +74,8 @@
 			<button class="layui-btn layui-btn-normal layui-btn-sm" type="button" lay-submit="submit" lay-filter="submit">
 				<i class="layui-icon layui-icon-ok"></i> 提交
 			</button>
-			<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
-				<i class="layui-icon layui-icon-return"></i> 重置
+			<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm" onclick="parent.layer.closeAll();">
+				<i class="layui-icon layui-icon-close"></i> 关闭
 			</button>
 		</div>
 	</div>
@@ -89,13 +89,9 @@ layui.use(['jquery', 'form', 'layer', 'laydate', 'laydate', 'xmSelect'], functio
 {
 	var $ = layui.jquery, layer = layui.layer, laydate = layui.laydate, form = layui.form;
 
-	laydate.render({
-		elem: '#mfgDate'
-	});
-
 	var roleSelect = xmSelect.render({
 		el: '#role-select',
-		name: 'roleId',
+		name: 'roleIds',
 		tips: '请选择角色',
 		prop: {
 			name: 'roleName',
@@ -140,6 +136,7 @@ layui.use(['jquery', 'form', 'layer', 'laydate', 'laydate', 'xmSelect'], functio
 			$("#status").val('hidden');
 		}
 	});
+	laydate.render({elem: '#mfgDate'});
 
 	ajaxform('submit', '/system/admin/insert', 'form', function(json)
 	{

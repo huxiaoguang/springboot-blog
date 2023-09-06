@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.AdminSaveDTO;
 import main.blog.dto.admin.EditPassDTO;
 import main.blog.dto.admin.AdminSearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.entity.Admin;
 
 public interface AdminService
@@ -71,4 +72,6 @@ public interface AdminService
 	 * @return
 	 */
 	Boolean deleteAdmin(Integer adminId);
+
+	Boolean updateAdminStatus(StatusDTO dto);
 }

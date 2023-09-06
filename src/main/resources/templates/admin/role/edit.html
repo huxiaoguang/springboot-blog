@@ -101,7 +101,7 @@
 			},
 		})
 
-		$.get('/admin/menu/tree', {field: 'menuId', checked: [[${menuIds}]]}, function(json)
+		$.get('/admin/menu/tree', {field: 'menuId'}, function(json)
 		{
 			if(json.code==200)
 			{
@@ -125,6 +125,7 @@
 						})
 					}
 				})
+				tree.setChecked('menuId', [[${menuIds}]]);
 			}
 		}, 'json')
 

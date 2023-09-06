@@ -33,11 +33,12 @@ public class AdminSaveDTO implements Serializable
     private Integer sex = 1;
 
     /** 密码 */
+    @NotBlank(message = "密码不能为空", groups ={ValidGroupsDTO.Insert.class})
     private String password;
 
     /** 角色Id */
     @NotBlank(message = "请选择角色！")
-    private String roleId;
+    private String roleIds;
 
     /** 用户头像 */
     private String avatar = "";

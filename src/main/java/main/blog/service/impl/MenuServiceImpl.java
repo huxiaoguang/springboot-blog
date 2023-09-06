@@ -91,9 +91,6 @@ public class MenuServiceImpl implements MenuService
             map.put("spread", true);
             map.put("field", dto.getField());
             map.put("title",  menu.getMenuName());
-            if(dto.getChecked().contains(menu.getMenuId())) {
-                map.put("checked", true);
-            }
             nodeList.add(new TreeNode<>(menu.getMenuId().toString(), menu.getParentId().toString(), menu.getMenuName(), menu.getSort()).setExtra(map));
         }
         List<Tree<String>> treeList = TreeUtil.build(nodeList, "0");

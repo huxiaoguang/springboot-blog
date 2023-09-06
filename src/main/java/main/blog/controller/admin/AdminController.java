@@ -1,13 +1,14 @@
 package main.blog.controller.admin;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.AdminSaveDTO;
 import main.blog.dto.admin.AdminSearchDTO;
+import main.blog.dto.admin.StatusDTO;
 import main.blog.dto.admin.ValidGroupsDTO;
 import main.blog.enums.BusinessType;
 import main.blog.service.AdminService;
-import main.blog.service.RoleService;
+import main.blog.service.RoleAdminService;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +25,8 @@ public class AdminController
 {
     @Resource
     private AdminService adminService;
+    @Resource
+    private RoleAdminService roleAdminService;
 
     /**
      * 账号管理
@@ -76,8 +79,29 @@ public class AdminController
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String edit(@RequestParam(value="id") Integer adminId, ModelMap map)
     {
-        map.put("info", adminService.getAdminInfo(adminId));
+        if(ObjectUtil.isNotNull(adminId))
+        {
+            map.addAttribute("roleIds", roleAdminService.getRoleAdminIds(adminId));
+            map.put("info", adminService.getAdminInfo(adminId));
+        }
         return "admin/admin/edit";
+    }
+
+    /**
+     * 编辑账号
+     */
+    @Log(title = "编辑账号", businessType = BusinessType.UPDATE)
+    @ResponseBody
+    @Validated(ValidGroupsDTO.Insert.class)
+    @RequestMapping(value = "update", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Result update(AdminSaveDTO dto)
+    {
+        if(adminService.updateAdmin(dto))
+        {
+            return Result.success("编辑成功");
+        }else{
+            return Result.failed("编辑失败");
+        }
     }
 
     /**
@@ -93,6 +117,23 @@ public class AdminController
             return Result.success("删除成功");
         }else{
             return Result.failed("删除失败");
+        }
+    }
+
+    /**
+     * 更新标签状态
+     * @return
+     */
+    @ResponseBody
+    @Log(title = "更新标签状态", businessType = BusinessType.UPDATE)
+    @RequestMapping(value = "updateStatus", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Result updateStatus(StatusDTO dto)
+    {
+        if (adminService.updateAdminStatus(dto))
+        {
+            return Result.success("操作成功");
+        } else {
+            return Result.failed("操作失败");
         }
     }
 }

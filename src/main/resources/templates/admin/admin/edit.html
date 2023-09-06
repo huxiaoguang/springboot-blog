@@ -51,7 +51,7 @@
 
 	<div class="layui-form-item">
 		<label class="layui-form-label layui-required">角色</label>
-		<div class="layui-input-block"></div>
+		<div class="layui-input-block" id="role-select"></div>
 	</div>
 
 	<div class="layui-form-item" pane="">
@@ -68,8 +68,8 @@
 			<button class="layui-btn layui-btn-normal layui-btn-sm" type="button" lay-submit="submit" lay-filter="submit">
 				<i class="layui-icon layui-icon-ok"></i> 提交
 			</button>
-			<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm">
-				<i class="layui-icon layui-icon-return"></i> 重置
+			<button type="reset" class="layui-btn layui-btn-primary layui-btn-sm" onclick="parent.layer.closeAll();">
+				<i class="layui-icon layui-icon-close"></i> 关闭
 			</button>
 		</div>
 	</div>
@@ -79,9 +79,35 @@
 <script src="/admin/js/common.js"></script>
 
 <script type="text/javascript">
-	layui.use(['jquery', 'form', 'layer', 'laydate'], function()
+	layui.config({base: '/admin/layui/modules/xmSelect/'}).extend({xmSelect:'xm-select'});
+	layui.use(['jquery', 'form', 'layer', 'laydate', 'xmSelect'], function()
 	{
 		var $ = layui.jquery, layer = layui.layer, form = layui.form, laydate = layui.laydate;
+
+		var roleSelect = xmSelect.render({
+			el: '#role-select',
+			name: 'roleIds',
+			tips: '请选择角色',
+			prop: {
+				name: 'roleName',
+				value: 'roleId',
+			},
+			size: 'small',
+			theme: {color: '#1E9FFF'},
+			layVerify: 'required',
+			layVerType: 'tips',
+			layReqText: "请选择角色",
+			data: []
+		})
+
+		$.get("/admin/role/list", function(json)
+		{
+			if(json.code==200)
+			{
+				roleSelect.update({data: json.data})
+				roleSelect.setValue([[${roleIds}]]);
+			}
+		}, "json");
 
 		// 输入框验证
 		form.verify({
@@ -108,10 +134,7 @@
 				$("#status").val('hidden');
 			}
 		});
-
-		laydate.render({
-			elem: '#mfgDate'
-		});
+		laydate.render({elem: '#mfgDate'});
 
 		ajaxform('submit', '/system/admin/update', 'form',
 		function(json)
