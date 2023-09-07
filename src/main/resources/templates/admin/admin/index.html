@@ -57,7 +57,7 @@
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
 	layui.use(['jquery', 'form', 'layer', 'table', 'upload'], function()
 	{
-		var table = layui.table, $ = layui.jquery, search = window.location.search,form = layui.form;
+		var table = layui.table, $ = layui.jquery, form = layui.form;
 
 		// 输入框验证
 		form.verify({
@@ -88,7 +88,7 @@
 		table.on('toolbar(admin)', function(obj)
 		{
 			if(obj.event==='refresh') {
-				tableData.reload();
+				tableData.reload()
 			}
 		})
 
