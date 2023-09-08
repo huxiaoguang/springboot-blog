@@ -26,3 +26,7 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+larblog:
+  upload:
+    user-avatar-file-path: "D://larblog/avatar"

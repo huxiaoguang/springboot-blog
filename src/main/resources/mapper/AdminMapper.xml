@@ -61,7 +61,7 @@
 
 	<!--查询用户-->
     <select id="getAdminByUsername" parameterType="string" resultType="main.blog.entity.Admin">
-        SELECT id, username, salt, email, nickname, login_time from fa_admin WHERE username = #{username}
+        SELECT id, username, nickname, salt, mobile, email, login_time from fa_admin WHERE username = #{username}
     </select>
 
     <!--用户账号验证-->

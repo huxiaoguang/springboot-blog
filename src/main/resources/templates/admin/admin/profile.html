@@ -34,16 +34,20 @@
 						<table class="layui-table">
 							<tbody>
 							<tr>
-								<td>登录名称：</td>
+								<td>账 号：</td>
 								<td><span th:text="${user.username}"></span></td>
 							</tr>
 							<tr>
-								<td>工 厂：</td>
+								<td>昵 称：</td>
+								<td><span th:text="${user.nickname}"></span></td>
+							</tr>
+							<tr>
+								<td>角 色：</td>
 								<td><span></span></td>
 							</tr>
 							<tr>
 								<td>状 态：</td>
-								<td><span th:text="${user.status == 1 ? '启用':'禁用'} "></span></td>
+								<td><span th:text="${user.status=='normal' ? '启用':'禁用'} "></span></td>
 							</tr>
 							<tr>
 								<td>手 机：</td>

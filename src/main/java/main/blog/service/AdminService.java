@@ -3,6 +3,7 @@ package main.blog.service;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.*;
 import main.blog.entity.Admin;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface AdminService
 {
@@ -80,4 +81,6 @@ public interface AdminService
 	Boolean updatePassWord(EditPassDTO dto);
 
 	Boolean updateProfile(ProfileDTO dto);
+
+	Boolean updateAvatar(String path, MultipartFile file);
 }

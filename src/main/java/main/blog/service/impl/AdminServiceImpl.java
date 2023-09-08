@@ -1,10 +1,14 @@
 package main.blog.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -18,6 +22,8 @@ import main.blog.mapper.AdminMapper;
 import main.blog.service.AdminService;
 import main.blog.utils.Md5Util;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -229,11 +235,48 @@ public class AdminServiceImpl implements AdminService
 	public Boolean updateProfile(ProfileDTO dto)
 	{
 		Admin admin = (Admin) session.getAttribute("admin");
+		if(ObjectUtil.isNull(admin)) {
+			throw new RuntimeException("用户不存在");
+		}
+		if(!dto.getMobile().equals(admin.getMobile())) {
+			if(adminMapper.existMobile(dto.getMobile())) {
+				throw new RuntimeException("手机号已存在");
+			}
+		}
+		if(!dto.getEmail().equals(admin.getEmail())) {
+			if(adminMapper.existEmail(dto.getEmail())) {
+				throw new RuntimeException("邮箱已存在");
+			}
+		}
+
 		Admin user = new Admin();
 		BeanCopier.create(ProfileDTO.class, Admin.class, false).copy(dto, user,  null);
 
 		user.setId(admin.getId());
 		user.setUpdateBy(admin.getUsername());
 		return adminMapper.updateAdmin(user);
+	}
+
+	@Override
+	public Boolean updateAvatar(String path, MultipartFile file)
+	{
+		try {
+			String fileName = System.currentTimeMillis() + "";
+			String destFileName = path + File.separator + fileName + ".png";
+			File destFile = new File(destFileName);
+			destFile.getParentFile().mkdirs();
+			file.transferTo(destFile);
+
+			Admin admin = (Admin) session.getAttribute("admin");
+
+			Admin user = new Admin();
+			user.setId(admin.getId());
+			user.setAvatar(destFileName);
+			user.setUpdateBy(admin.getUsername());
+			return adminMapper.updateAdmin(user);
+		} catch (IOException e)
+		{
+			return false;
+		}
 	}
 }

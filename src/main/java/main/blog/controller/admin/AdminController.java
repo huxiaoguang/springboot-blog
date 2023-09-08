@@ -10,6 +10,7 @@ import main.blog.enums.BusinessType;
 import main.blog.service.AdminService;
 import main.blog.service.RoleAdminService;
 import main.blog.utils.Result;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +39,8 @@ public class AdminController
     private AdminService adminService;
     @Resource
     private RoleAdminService roleAdminService;
+    @Value("${larblog.upload.user-avatar-file-path}")
+    private String userAvatarFilePath;
 
     /**
      * 账号管理
@@ -197,6 +202,28 @@ public class AdminController
             return Result.success();
         }else{
             return Result.failed();
+        }
+    }
+
+    @ResponseBody
+    @Log(title = "头像修改", businessType = BusinessType.UPDATE)
+    @RequestMapping(value = "avatar", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Result updateUserAvatar(@RequestParam("file") MultipartFile file)
+    {
+        // 判断文件是否为空
+        if(file.isEmpty()) {
+            return Result.failed("上传文件为空");
+        }
+        // 判断是否是图片格式
+        if(!file.getContentType().equals("image/jpeg") && !file.getContentType().equals("image/png")) {
+            return Result.failed("上传的文件不是jpg或png格式");
+        }
+        // 开始上传文件的操作
+        if(adminService.updateAvatar(this.userAvatarFilePath, file))
+        {
+            return Result.success("文件上传成功");
+        }else {
+            return Result.failed("文件上传失败");
         }
     }
 
