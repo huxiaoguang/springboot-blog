@@ -43,7 +43,7 @@ public class TagController {
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "tag/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "tag/data", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Result data(TagSearchDTO dto)
 	{
 		return Result.success(tagService.getTagPage(dto));

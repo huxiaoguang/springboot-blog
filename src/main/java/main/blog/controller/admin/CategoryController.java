@@ -41,7 +41,7 @@ public class CategoryController
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "category/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "category/data", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Result data(CategorySearchDTO dto)
 	{
 		return Result.success(categoryService.getCategoryPage(dto));

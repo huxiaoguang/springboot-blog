@@ -29,7 +29,7 @@ public class LoginLogController
      * 登录日志
      */
     @ResponseBody
-    @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "data", method = RequestMethod.GET, headers = "Accept=application/json")
     public Result data(LoginLogSearchDTO dto)
     {
         return Result.success(loginLogService.getLoginLogPage(dto));

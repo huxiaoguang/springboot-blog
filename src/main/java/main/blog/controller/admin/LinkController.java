@@ -37,7 +37,7 @@ public class LinkController {
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "link/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "link/data", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Result data(LinkSearchDTO dto)
 	{
 		return Result.success(linkService.getLinkPage(dto));

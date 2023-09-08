@@ -39,7 +39,7 @@ public class AdminController
      * 账号列表
      */
     @ResponseBody
-    @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "data", method = RequestMethod.GET, headers = "Accept=application/json")
     public Result data(AdminSearchDTO dto)
     {
         return Result.success(adminService.getAdminPage(dto));

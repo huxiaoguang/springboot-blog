@@ -1,8 +1,6 @@
 package main.blog.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import main.blog.vo.admin.BaseEntity;
 
 /**

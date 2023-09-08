@@ -47,7 +47,7 @@ public class ArticleController
 	 * @return string
 	 */
 	@ResponseBody
-	@RequestMapping(value = "article/data", method = RequestMethod.POST, headers = "Accept=application/json")
+	@RequestMapping(value = "article/data", method = RequestMethod.GET, headers = "Accept=application/json")
 	public Result data(ArticleSearchDTO dto)
 	{
 		return Result.success(articleService.getArticlePage(dto));

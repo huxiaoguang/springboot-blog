@@ -24,6 +24,9 @@
 	</form>
 
 	<script th:inline="javascript" type="text/html" id="toolbar">
+		<button class="layui-btn layui-btn-sm layui-btn-info" lay-event="refresh">
+			<i class="layui-icon layui-icon-refresh"></i> 刷新
+		</button>
 		<a href="/admin/article/add" class="layui-btn-normal layui-btn layui-btn-sm">
 			<i class="layui-icon layui-icon-addition"></i>新增文章
 		</a>
@@ -76,6 +79,13 @@
 		{
 			var status = data.elem.checked==true?'normal':'hidden';
 			updateData('/admin/article/updateStatus', data.value, status);
+		})
+
+		table.on('toolbar(article)', function(obj)
+		{
+			if(obj.event==='refresh') {
+				tableData.reload();
+			}
 		})
 
 		table.on('tool(article)', function(obj)
