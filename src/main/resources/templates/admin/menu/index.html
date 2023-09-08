@@ -27,19 +27,19 @@
 			<button class="layui-btn layui-btn-sm layui-btn-info" lay-event="refresh">
 				<i class="layui-icon layui-icon-refresh"></i> 刷新
 			</button>
-			<button href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增菜单', 700, 700, 1, '/admin/menu/add')">
+			<button class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增菜单', 700, 700, 1, '/admin/menu/add')">
 				<i class="layui-icon layui-icon-addition"></i>新增菜单
 			</button>
-			<button href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" id="show">
+			<button class="layui-btn-normal layui-btn layui-btn-sm" lay-event="btn-expand">
 				<i class="layui-icon layui-icon-down"></i> 全部展开
 			</button>
-			<button href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" id="hide">
+			<button  class="layui-btn-normal layui-btn layui-btn-sm"lay-event="btn-fold">
 				<i class="layui-icon layui-icon-up"></i> 全部收起
 			</button>
 		</div>
 	</script>
 	<div class="layui-form">
-		<table id="table" lay-filter="menu"></table>
+		<table id="menu-table" lay-filter="menu-table"></table>
 	</div>
 	<script th:inline="javascript" type="text/html" id="bartool">
 		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
@@ -53,10 +53,10 @@
 
 <script src="/admin/js/common.js"></script>
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.config({base: '/admin/layui/modules/tableTree/'}).extend({tableTreeDj: 'tableTreeDj'})
-	layui.use(['jquery', 'form', 'layer', 'table', 'tableTreeDj'], function()
+	layui.config({base: '/admin/layui/modules/tabletree/'}).extend({tabletree: 'tabletree'})
+	layui.use(['jquery', 'form', 'layer', 'table', 'tabletree'], function()
 	{
-		var table = layui.table, $ = layui.jquery, form = layui.form, tableTree = layui.tableTreeDj;
+		var table = layui.table, $ = layui.jquery, form = layui.form, tabletree = layui.tabletree;
 
 		// 输入框验证
 		form.verify({
@@ -66,95 +66,77 @@
 			}
 		})
 
-		const cols = [
-			{field: 'menuName', title: '菜单名称', templet: function(d) {
-				let id = d.menuId;
-				let title = d.menuName;
-				title = tableTree.setTitleIcon(id, title)   // 显示图标
-				title = tableTree.setTitleIndent(id, title)   // 显示缩进
-				return title
-			}},
-			{field: 'urlType', title: '菜单类型', width:'10%', templet:
-				function (row)
-				{
-					if(row.urlType==1) {
-						return "模块";
-					}
-					if(row.urlType==2) {
-						return "菜单";
-					}
-					if(row.urlType==3) {
-						return "按钮";
-					}
-				}},
-			{field: 'status', title: '状态', width:'15%', templet:
-				function (row) {
-					return row.status==1? "启用" : "禁用";
-				}},
-			{field: 'url', title: '菜单路径',  width: '15%'},
-			{field: 'sort', title: '排序',  width: '15%'},
-			{field: 'permission', title: '权限标识'},
-			{align: 'center', title: '操作', toolbar: '#bartool'},
-		];
-
-		// 表格配置
-		const tableObj = {
-			id: 'menu',
-			elem: '#table',
+		tabletree.render({
+			treeColIndex: 1,
+			treeSpid: 0,
+			treeIdName: 'menuId',
+			treePidName: 'parentId',
+			elem: '#menu-table',
 			url: '/admin/menu/data',
 			page: false,
-			limit: 100,
-			escape: false,
-			method: 'post',
-			defaultToolbar: [],
-			cols: [cols],
-			loading: true,
 			toolbar: "#toolbar",
+			defaultToolbar: [],
+			cols: [
+				[
+					{type: 'numbers'},
+					{field: 'menuName', width:'15%', title: '菜单名称'},
+					{field: 'permission', width:'15%', title: '权限标识'},
+					{field: 'url', width:'15%', title: '菜单路径'},
+					{field: 'sort', width:'15%', align: 'center', title: '排序'},
+					{field: 'urlType', title: '菜单类型', width:'15%', templet:
+						function (row) {
+							if(row.urlType==1) {
+								return "模块";
+							}
+							if(row.urlType==2) {
+								return "菜单";
+							}
+							if(row.urlType==3) {
+								return "按钮";
+							}
+						}
+					},
+					{align: 'center', title: '操作', toolbar: '#bartool'},
+				]
+			],
 			response:{
 				statusName: 'code',
 				statusCode: 200
 			},
-			parseData: function(res) {
+			parseData: function(res)
+			{
 				return {
 					"code": res.code,
 					"msg": res.msg,
 					"count": res.data.total,
 					"data": res.data.list
 				};
+			},
+			done: function () {
+				layer.closeAll('loading');
 			}
-		}
-		const treeConfig = {
-			defaultShow: true,
-			title: 'menuName',
-			keyId: "menuId",
-			keyPid: "parentId",
-			showCache: true,
-			titleUseTemplet: true
-		}
-		tableTree.render(tableObj, treeConfig);
-
-		$('#show').click(() =>
-		{
-			tableTree.showAll(tableObj);
-		});
-		$('#hide').click(() => {
-			tableTree.hideAll(tableObj);
 		});
 
-		// 数据查询
 		form.on('submit(search)', function (data)
 		{
-			tableTree.reload();
-			//layui.table.reload('table', {where: data.field});
+			tabletree.reload({where: data.field});
 		});
-		table.on('toolbar(menu)', function(obj)
+
+		table.on('toolbar(menu-table)', function(obj)
 		{
-			if(obj.event==='refresh') {
-				tableTree.reload();
+			if(obj.event==='refresh')
+			{
+				tabletree.reload();
+			}
+			if(obj.event==='btn-expand') {
+				tabletree.expandAll('#menu-table');
+			}
+			if(obj.event==='btn-fold') {
+				tabletree.foldAll('#menu-table');
 			}
 		})
 
-		table.on('tool(menu)', function(obj)
+		table.on('tool(menu-table)', function(obj)
 		{
 			var data = obj.data;
 			if(obj.event === 'del')
@@ -164,7 +146,7 @@
 					$.post("/admin/menu/delete", {id: data.menuId}, function(json) {
 						if(json.code==200) {
 							parent.layer.closeAll();
-							tableData.reload();
+							tabletree.reload();
 						}else{
 							layer.msg(json.msg);
 						}

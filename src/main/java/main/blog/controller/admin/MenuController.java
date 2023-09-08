@@ -10,7 +10,6 @@ import main.blog.dto.admin.ValidGroupsDTO;
 import main.blog.entity.Menu;
 import main.blog.enums.BusinessType;
 import main.blog.service.MenuService;
-import main.blog.service.RoleMenuService;
 import main.blog.utils.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -44,7 +43,7 @@ public class MenuController
      * 菜单列表
      */
     @ResponseBody
-    @RequestMapping(value = "data", method = RequestMethod.POST, headers = "Accept=application/json")
+    @RequestMapping(value = "data", method = RequestMethod.GET, headers = "Accept=application/json")
     public Result data(MenuSearchDTO dto)
     {
         return Result.success(menuService.getMenuPage(dto));

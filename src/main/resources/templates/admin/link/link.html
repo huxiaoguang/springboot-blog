@@ -25,9 +25,12 @@
 	</form>
 
 	<script th:inline="javascript" type="text/html" id="toolbar">
-		<a href="javascript:void(0)" class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增链接', 650, 620, 1, '/admin/link/add')">
+		<button class="layui-btn layui-btn-sm layui-btn-info" lay-event="refresh">
+			<i class="layui-icon layui-icon-refresh"></i> 刷新
+		</button>
+		<button class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增链接', 650, 620, 1, '/admin/link/add')">
 			<i class="layui-icon layui-icon-addition"></i>新增链接
-		</a>
+		</button>
 	</script>
 
 	<div class="layui-form"><table id="table" lay-filter="link"></table></div>
@@ -66,6 +69,13 @@ layui.use(['jquery', 'form', 'layer'], function()
 	{
 		layui.table.reload('table', {where: data.field});
 	});
+
+	table.on('toolbar(link)', function(obj)
+	{
+		if(obj.event==='refresh') {
+			tableData.reload();
+		}
+	})
 
 	table.on('tool(link)', function(obj)
 	{
