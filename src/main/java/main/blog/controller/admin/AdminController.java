@@ -1,12 +1,16 @@
 package main.blog.controller.admin;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.*;
+import main.blog.entity.Admin;
 import main.blog.enums.BusinessType;
 import main.blog.service.AdminService;
 import main.blog.service.RoleAdminService;
 import main.blog.utils.Result;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
@@ -15,12 +19,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 @Controller
 @RequestMapping(value = "system/admin")
 public class AdminController
 {
+    @Resource
+    private HttpSession session;
     @Resource
     private AdminService adminService;
     @Resource
@@ -158,6 +169,71 @@ public class AdminController
             return Result.success("操作成功");
         } else {
             return Result.failed("操作失败");
+        }
+    }
+
+    /**
+     * 个人资料
+     */
+    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    public String profile(HttpSession session, ModelMap map)
+    {
+        // 用户信息
+        Admin admin = (Admin) session.getAttribute("admin");
+        map.put("user", adminService.getAdminInfo(admin.getId()));
+        return "admin/admin/profile";
+    }
+
+    /**
+     * 更新用户资料
+     */
+    @Log(title = "基本资料", businessType = BusinessType.UPDATE)
+    @ResponseBody
+    @RequestMapping(value = "profile", method = RequestMethod.POST, headers = "Accept=application/json")
+    public Result update(@Validated ProfileDTO dto)
+    {
+        if(adminService.updateProfile(dto))
+        {
+            return Result.success();
+        }else{
+            return Result.failed();
+        }
+    }
+
+    @RequestMapping(value = "avatar", method = RequestMethod.GET, headers = "Accept=application/json")
+    public void getUserAvatar(HttpServletResponse response) throws IOException
+    {
+        Admin admin = (Admin) session.getAttribute("admin");
+        Admin result = adminService.getAdminInfo(admin.getId());
+
+        ServletOutputStream outputStream = null;
+        InputStream inputStream = null;
+
+        try {
+            String imgPath = result.getAvatar();
+            if(StrUtil.isEmpty(imgPath))
+            {
+                ClassPathResource classPathResource = new ClassPathResource("/static/admin/img/head.jpg");
+                inputStream = classPathResource.getInputStream();
+            }else{
+                inputStream = FileUtil.getInputStream(imgPath);
+            }
+            response.setContentType("image/jpg");
+            outputStream = response.getOutputStream();
+
+            int len = 0;
+            byte[] buffer = new byte[4096];
+            while ((len = inputStream.read(buffer)) != -1)
+            {
+                outputStream.write(buffer, 0, len);
+            }
+            outputStream.flush();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        } finally {
+            outputStream.close();
+            inputStream.close();
         }
     }
 }

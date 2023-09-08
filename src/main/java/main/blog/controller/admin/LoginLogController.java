@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("admin/loginlog")
 public class LoginLogController
 {
-    @Autowired
+    @Resource
     private LoginLogService loginLogService;
 
     /**

@@ -19,7 +19,6 @@
 		<a href="#">控制台</a><a><cite>基本资料</cite></a>
 	</div>
 	<hr />
-
 	<div class="layui-row layui-col-space15">
 		<div class="layui-col-md4">
 			<div class="layui-card box-card">
@@ -27,7 +26,7 @@
 				<div class="layui-card-body">
 					<div class="ibox-content">
 						<div class="box-img">
-							<img src="/admin/user/avatar" class="img-show img-upload">
+							<img src="/system/admin/avatar" class="img-show img-upload">
 							<div>
 								<a class="txt-upload img-upload" href="javascript:void(0)" >修改头像</a>
 							</div>
@@ -40,7 +39,7 @@
 							</tr>
 							<tr>
 								<td>工 厂：</td>
-								<td><span th:text="${siteName}"></span></td>
+								<td><span></span></td>
 							</tr>
 							<tr>
 								<td>状 态：</td>
@@ -48,7 +47,7 @@
 							</tr>
 							<tr>
 								<td>手 机：</td>
-								<td><span th:text="${user.phone}"></span></td>
+								<td><span th:text="${user.mobile}"></span></td>
 							</tr>
 							<tr>
 								<td>邮 箱：</td>
@@ -71,7 +70,7 @@
 				<div class="layui-card-body">
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
-							<form id="form" class="layui-form" method="post" lay-size="sm">
+							<form id="profile-form" class="layui-form" method="post" lay-size="sm">
 								<div class="layui-form-item">
 									<label class="layui-form-label layui-required">昵&emsp;称：</label>
 									<div class="layui-input-block">
@@ -93,7 +92,7 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label layui-required">手&emsp;机：</label>
 									<div class="layui-input-block">
-										<input type="text" th:value="${user.phone}" name="phone" id="phone" lay-verify="required|phone|number" lay-verType="tips" lay-reqText="请输入手机号码" placeholder="请输入手机号码" class="layui-input">
+										<input type="text" th:value="${user.mobile}" name="mobile" id="mobile" lay-verify="required|phone|number" lay-verType="tips" lay-reqText="请输入手机号码" placeholder="请输入手机号码" class="layui-input">
 									</div>
 								</div>
 
@@ -128,7 +127,7 @@
 <script th:inline="javascript" type="text/javascript" layout:fragment="footer">
 	layui.use(['jquery', 'form', 'layer', 'table', 'upload'], function()
 	{
-		var upload = layui.upload,form = layui.form;
+		var upload = layui.upload, form = layui.form;
 
 		// 输入框验证
 		form.verify({
@@ -146,7 +145,7 @@
 			elem: '.img-upload',
 			accept: 'images',
 			size: 5000,
-			url: '/admin/user/avatar',
+			url: '/system/admin/avatar',
 			done: function(res) {
 				if(res.code === 200) {
 					window.history.go(0);
@@ -156,7 +155,7 @@
 			}
 		})
 
-		ajaxform('submit', '/admin/user/profile', 'form',
+		ajaxform('submit', '/system/admin/profile', 'profile-form',
 		function(json) {
 			if(json.code==200) {
 				layer.msg(json.msg, {time: 1000}, function()

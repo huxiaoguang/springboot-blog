@@ -78,4 +78,6 @@ public interface AdminService
 	 * @return
 	 */
 	Boolean updatePassWord(EditPassDTO dto);
+
+	Boolean updateProfile(ProfileDTO dto);
 }

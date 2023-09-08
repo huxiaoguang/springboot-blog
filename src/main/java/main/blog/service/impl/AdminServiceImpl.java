@@ -224,4 +224,16 @@ public class AdminServiceImpl implements AdminService
 		map.put("password", Md5Util.md5(Md5Util.md5(dto.getNewpass()) + salt));
 		return adminMapper.updatePassWord(map);
 	}
+
+	@Override
+	public Boolean updateProfile(ProfileDTO dto)
+	{
+		Admin admin = (Admin) session.getAttribute("admin");
+		Admin user = new Admin();
+		BeanCopier.create(ProfileDTO.class, Admin.class, false).copy(dto, user,  null);
+
+		user.setId(admin.getId());
+		user.setUpdateBy(admin.getUsername());
+		return adminMapper.updateAdmin(user);
+	}
 }
