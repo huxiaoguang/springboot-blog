@@ -26,11 +26,6 @@ public enum BusinessType
     DELETE,
 
     /**
-     * 授权
-     */
-    GRANT,
-
-    /**
      * 导出
      */
     EXPORT,
@@ -39,26 +34,6 @@ public enum BusinessType
      * 导入
      */
     IMPORT,
-
-    /**
-     * 强退
-     */
-    FORCE,
-
-    /**
-     * 生成代码
-     */
-    GENCODE,
-
-    /**
-     * 清空数据
-     */
-    CLEAN,
-
-    /**
-     * 查询
-     */
-    SELECT,
 
     /**
      * 上传
