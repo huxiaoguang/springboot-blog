@@ -76,8 +76,14 @@ public class DeptController
         if(ObjectUtil.isNotNull(id))
         {
             Dept dept = deptService.getDeptInfo(id);
+            if(!dept.getPid().equals(0))
+            {
+                Dept parent = deptService.getDeptInfo(dept.getPid());
+                map.put("menuName", parent.getDeptName());
+            }else{
+                map.put("menuName", "选择上级部门");
+            }
             map.put("info", dept);
-            map.put("menuName", "请选择部门");
         }
         return "admin/dept/edit";
     }

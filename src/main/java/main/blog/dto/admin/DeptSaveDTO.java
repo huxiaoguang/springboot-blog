@@ -23,5 +23,5 @@ public class DeptSaveDTO implements Serializable
     @NotNull(message = "部门状态不能为空！")
     private String status;
 
-    private String remark = "";
+    private String description = "";
 }

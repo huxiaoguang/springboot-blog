@@ -35,5 +35,5 @@ public class MenuSaveDTO implements Serializable
     @NotBlank(message = "请选择菜单图标！")
     private String icon = "";
 
-    private String remarks = "";
+    private String description = "";
 }

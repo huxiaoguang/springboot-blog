@@ -43,6 +43,6 @@ public class Dept extends BaseEntity
     /**
      * 描述
      */
-    private String remark;
+    private String description;
 }
 

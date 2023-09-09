@@ -23,13 +23,13 @@
 
 	<!--新增部门-->
 	<insert id="insertDept" parameterType="main.blog.entity.Dept">
-		insert into fa_dept (`dept_name`, `dept_code`, `sort`, `status`, `pid`, `remark`, `create_by`, `update_by`, `create_time`, `update_time`
-		) VALUES (#{deptName}, #{deptCode}, #{sort}, #{status}, #{pid}, #{remark}, #{createBy}, #{updateBy}, now(), now())
+		insert into fa_dept (`dept_name`, `dept_code`, `sort`, `status`, `pid`, `description`, `create_by`, `update_by`, `create_time`, `update_time`
+		) VALUES (#{deptName}, #{deptCode}, #{sort}, #{status}, #{pid}, #{description}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
 	<!--编辑部门-->
 	<update id="updateDept" parameterType="main.blog.entity.Dept">
-		update fa_dept set dept_name = #{deptName}, sort = #{sort}, status = #{status}, pid = #{pid}, remark = #{remark}, update_by = #{updateBy}, update_time = now() where dept_id = #{deptId}
+		update fa_dept set dept_name = #{deptName}, sort = #{sort}, status = #{status}, pid = #{pid}, description = #{description}, update_by = #{updateBy}, update_time = now() where dept_id = #{deptId}
 	</update>
 
 	<!--更新部门状态-->

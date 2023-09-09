@@ -56,5 +56,5 @@ public class Menu extends BaseEntity
     /**
      * 备注说明
      */
-    private String remarks;
+    private String description;
 }

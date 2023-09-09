@@ -28,13 +28,13 @@
 
 	<!--新增菜单-->
 	<insert id="insertMenu" parameterType="main.blog.entity.Menu">
-		insert into fa_menu (`menu_name`, `url`, `sort`, `icon`, `status`, `url_type`, `parent_id`, `permission`, `remarks`, `create_by`, `update_by`, `create_time`, `update_time`
-		) VALUES (#{menuName}, #{url}, #{sort}, #{icon}, #{status}, #{urlType}, #{parentId}, #{permission}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
+		insert into fa_menu (`menu_name`, `url`, `sort`, `icon`, `status`, `url_type`, `parent_id`, `permission`, `description`, `create_by`, `update_by`, `create_time`, `update_time`
+		) VALUES (#{menuName}, #{url}, #{sort}, #{icon}, #{status}, #{urlType}, #{parentId}, #{permission}, #{description}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
 	<!--编辑菜单-->
 	<update id="updateMenu" parameterType="main.blog.entity.Menu">
-		update fa_menu set menu_name = #{menuName}, url = #{url}, sort = #{sort}, icon = #{icon}, status = #{status}, url_type = #{urlType}, parent_id = #{parentId}, permission = #{permission}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now(), remarks = #{remarks} where menu_id = #{menuId}
+		update fa_menu set menu_name = #{menuName}, url = #{url}, sort = #{sort}, icon = #{icon}, status = #{status}, url_type = #{urlType}, parent_id = #{parentId}, permission = #{permission}, description = #{description}, update_by = #{updateBy}, update_time = now() where menu_id = #{menuId}
 	</update>
 
 	<!--删除菜单-->
