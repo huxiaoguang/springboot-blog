@@ -86,7 +86,7 @@ public class RoleController
     @Validated(ValidGroupsDTO.Insert.class)
     @Log(title = "新增角色", businessType = BusinessType.INSERT)
     @RequestMapping(value = "insert", method = RequestMethod.POST, headers = "Accept=application/json")
-    public Result insert(@Validated RoleSaveDTO dto)
+    public Result insert(RoleSaveDTO dto)
     {
         if(roleService.insertRole(dto))
         {
@@ -103,7 +103,7 @@ public class RoleController
     @Validated(ValidGroupsDTO.Update.class)
     @Log(title = "更新角色", businessType = BusinessType.UPDATE)
     @RequestMapping(value = "update", method = RequestMethod.POST, headers = "Accept=application/json")
-    public Result update(@Validated RoleSaveDTO dto)
+    public Result update(RoleSaveDTO dto)
     {
         if(roleService.updateRole(dto))
         {

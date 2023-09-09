@@ -63,7 +63,7 @@
 		let cols = [
 			{type: 'numbers', title: '序号', width:'5%'},
 			{field: 'roleName', title: '角色名称',  width: '20%'},
-			{field: 'roleSort', title: '排序',  width: '10%'},
+			{field: 'sort', title: '排序',  width: '10%'},
 			{field: 'status', title: '状态', width:'20%', templet:
 				function (row) {
 					return row.status==1 ? "启用" : "禁用";
@@ -71,7 +71,7 @@
 			},
 			{field: 'createBy', title: '创建人',  width:'15%'},
 			{field: 'createTime', title: '创建时间'},
-			{align: 'center', title: '操作', toolbar: '#bartool', hide: toolbar},
+			{align: 'center', title: '操作', toolbar: '#bartool'},
 		];
 		let tableData = table.render(renderOptions('/admin/role/data', cols));
 

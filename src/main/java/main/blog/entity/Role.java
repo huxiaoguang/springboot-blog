@@ -20,7 +20,7 @@ public class Role extends BaseEntity
     private String roleName;
 
     /** 角色排序 */
-    private Integer roleSort;
+    private Integer sort;
 
     /** 角色状态（1正常 2停用） */
     private Integer status;
@@ -29,5 +29,5 @@ public class Role extends BaseEntity
     private Integer isDelete;
 
     /** 备注说明 */
-    private String remarks;
+    private String description;
 }

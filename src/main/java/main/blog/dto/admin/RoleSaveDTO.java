@@ -19,7 +19,7 @@ public class RoleSaveDTO implements Serializable
     private String roleName;
 
     @NotNull(message = "角色排序不能为空！")
-    private Integer roleSort;
+    private Integer sort;
 
     @NotNull(message = "角色状态不能为空！")
     private Integer status = 1;
@@ -28,7 +28,7 @@ public class RoleSaveDTO implements Serializable
     private Integer isDelete = 0;
 
     /** 备注说明 */
-    private String remarks = "";
+    private String description = "";
 
     @Valid
     @NotEmpty(message = "请选择角色权限")

@@ -26,18 +26,18 @@
 	</select>
 
 	<!--判断角色是否存在-->
-	<select id="existRoleByName" parameterType="main.blog.dto.admin.RoleSearchDTO" resultType="boolean">
+	<select id="existRoleByName" parameterType="string" resultType="boolean">
 		SELECT COUNT(`role_id`) FROM fa_role WHERE `role_Name` = #{roleName}
 	</select>
 
 	<!--新增角色-->
 	<insert id="insertRole" parameterType="main.blog.entity.Role" useGeneratedKeys="true" keyProperty="roleId">
-		INSERT INTO fa_role (role_name, status, role_sort, remarks, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{roleSort}, #{remarks}, #{createBy}, #{updateBy}, now(), now())
+		INSERT INTO fa_role (role_name, status, sort, description, create_by, update_by, create_time, update_time) VALUES (#{roleName}, #{status}, #{sort}, #{description}, #{createBy}, #{updateBy}, now(), now())
 	</insert>
 
 	<!--编辑角色-->
 	<update id="updateRole" parameterType="main.blog.entity.Role">
-		UPDATE fa_role SET role_name = #{roleName}, status = #{status}, role_sort = #{roleSort}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now() WHERE role_id = #{roleId}
+		UPDATE fa_role SET role_name = #{roleName}, status = #{status}, sort = #{sort}, description = #{description}, update_by = #{updateBy}, update_time = now() WHERE role_id = #{roleId}
 	</update>
 
 	<!--删除角色-->
