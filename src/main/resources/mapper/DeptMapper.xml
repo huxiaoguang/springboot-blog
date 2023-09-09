@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.blog.mapper.DeptMapper">
+
+	<!--部门查询-->
+	<select id="getDeptPage" parameterType="main.blog.dto.admin.DeptSearchDTO" resultType="main.blog.entity.Dept">
+    	SELECT * FROM fa_dept
+    	<where>
+	       	 <if test="keywords!='' and keywords!=null">
+				 dept_name LIKE concat('%',#{keywords},'%')
+	       	 </if>
+			<if test="status!='' and status!=null">
+				status = #{status}
+			</if>
+		</where>
+    	ORDER BY sort DESC
+    </select>
+
+	<!--获取菜单-->
+	<select id="getDeptInfo" parameterType="int" resultType="main.blog.entity.Dept">
+		select * from fa_dept where dept_id = #{deptId} limit 1
+	</select>
+
+	<!--新增部门-->
+	<insert id="insertDept" parameterType="main.blog.entity.Dept">
+		insert into fa_dept (`dept_name`, `dept_code`, `sort`, `status`, `pid`, `remark`, `create_by`, `update_by`, `create_time`, `update_time`
+		) VALUES (#{deptName}, #{deptCode}, #{sort}, #{status}, #{pid}, #{remark}, #{createBy}, #{updateBy}, now(), now())
+	</insert>
+
+	<!--编辑部门-->
+	<update id="updateDept" parameterType="main.blog.entity.Dept">
+		update fa_dept set dept_name = #{deptName}, sort = #{sort}, status = #{status}, pid = #{pid}, remark = #{remark}, update_by = #{updateBy}, update_time = now() where dept_id = #{deptId}
+	</update>
+
+	<!--更新部门状态-->
+	<update id="updateDeptStatus" parameterType="main.blog.dto.admin.StatusDTO">
+		UPDATE fa_dept SET status = #{status} WHERE dept_id = #{id}
+	</update>
+
+	<!--删除部门-->
+	<delete id="deleteDept" parameterType="int">
+		delete from fa_dept where dept_id = #{deptId}
+	</delete>
+
+	<!--获取部门信息-->
+	<select id="getLastDept" parameterType="int" resultType="main.blog.entity.Dept">
+		select * from fa_dept ORDER BY dept_code DESC limit 1
+	</select>
+</mapper>

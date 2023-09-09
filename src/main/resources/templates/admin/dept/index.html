@@ -1,20 +1,21 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorate="~{admin/layout}">
 <head>
-	<title>菜单管理</title>
+	<title>部门管理</title>
 </head>
 
 <body>
 <div class="layui-body p-15" layout:fragment="content">
 	<div class="layui-breadcrumb">
-		<a href="#">基础资料</a><a><cite>菜单管理</cite></a>
+		<a href="#">系统管理</a><a><cite>部门管理</cite></a>
 	</div>
 	<hr />
+
 	<form class="layui-form" lay-size="sm">
 		<div class="layui-panel-search">
 			<div class="layui-input-inline">
-				<label class="layui-form-label">菜单名称：</label>
+				<label class="layui-form-label">部门名称：</label>
 				<div class="layui-input-block">
-					<input lay-verify="verifInput" name="keywords" placeholder="请输入菜单名称" autocomplete="off" class="layui-input" type="text">
+					<input lay-verify="verifInput" name="keywords" placeholder="请输入部门名称" autocomplete="off" class="layui-input" type="text">
 				</div>
 			</div>
 			<button class="layui-btn layui-btn-normal layui-btn-search layui-btn-sm" type="button" lay-submit lay-filter="search">
@@ -22,13 +23,14 @@
 			</button>
 		</div>
 	</form>
+
 	<script type="text/html" id="toolbar">
 		<div class="layui-btn-container">
 			<button class="layui-btn layui-btn-sm layui-btn-info" lay-event="refresh">
 				<i class="layui-icon layui-icon-refresh"></i> 刷新
 			</button>
-			<button class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增菜单', 700, 700, 1, '/admin/menu/add')">
-				<i class="layui-icon layui-icon-addition"></i>新增菜单
+			<button class="layui-btn-normal layui-btn layui-btn-sm" onclick="showBox('新增部门', 700, 700, 1, '/admin/dept/add')">
+				<i class="layui-icon layui-icon-addition"></i>新增部门
 			</button>
 			<button class="layui-btn-normal layui-btn layui-btn-sm" lay-event="btn-expand">
 				<i class="layui-icon layui-icon-down"></i> 全部展开
@@ -38,9 +40,15 @@
 			</button>
 		</div>
 	</script>
+
 	<div class="layui-form">
-		<table id="menu-table" lay-filter="menu-table"></table>
+		<table id="dept-table" lay-filter="dept-table"></table>
 	</div>
+
+	<script id="switchTpl" type="text/html">
+		<input type="checkbox" name="status" value={{d.id}} lay-skin="switch" lay-text="开启|关闭" lay-filter="is_status" {{d.status=='normal'?'checked':''}}>
+	</script>
+
 	<script th:inline="javascript" type="text/html" id="bartool">
 		<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="edit">
 			<i class="layui-icon layui-icon-edit"></i>编辑
@@ -69,33 +77,20 @@
 		tabletree.render({
 			treeColIndex: 1,
 			treeSpid: 0,
-			treeIdName: 'menuId',
-			treePidName: 'parentId',
-			elem: '#menu-table',
-			url: '/admin/menu/data',
+			treeIdName: 'deptId',
+			treePidName: 'pid',
+			elem: '#dept-table',
+			url: '/admin/dept/data',
 			page: false,
 			toolbar: "#toolbar",
 			defaultToolbar: [],
 			cols: [
 				[
 					{type: 'numbers'},
-					{field: 'menuName', width:'15%', title: '菜单名称'},
-					{field: 'permission', width:'15%', title: '权限标识'},
-					{field: 'url', width:'15%', title: '菜单路径'},
-					{field: 'sort', width:'15%', align: 'center', title: '排序'},
-					{field: 'urlType', title: '菜单类型', width:'15%', templet:
-						function (row) {
-							if(row.urlType==1) {
-								return "模块";
-							}
-							if(row.urlType==2) {
-								return "菜单";
-							}
-							if(row.urlType==3) {
-								return "按钮";
-							}
-						}
-					},
+					{field: 'deptName', width:'20%', title: '部门名称'},
+					{field: 'deptCode', width:'20%', title: '部门编码'},
+					{field: 'status', title: '状态', width:'10%',templet:"#switchTpl"},
+					{field: 'sort', width:'20%', align: 'center', title: '排序'},
 					{align: 'center', title: '操作', toolbar: '#bartool'},
 				]
 			],
@@ -109,28 +104,28 @@
 			tabletree.reload({where: data.field});
 		});
 
-		table.on('toolbar(menu-table)', function(obj)
+		table.on('toolbar(dept-table)', function(obj)
 		{
 			if(obj.event==='refresh')
 			{
 				tabletree.reload();
 			}
 			if(obj.event==='btn-expand') {
-				tabletree.expandAll('#menu-table');
+				tabletree.expandAll('#dept-table');
 			}
 			if(obj.event==='btn-fold') {
-				tabletree.foldAll('#menu-table');
+				tabletree.foldAll('#dept-table');
 			}
 		})
 
-		table.on('tool(menu-table)', function(obj)
+		table.on('tool(dept-table)', function(obj)
 		{
 			var data = obj.data;
 			if(obj.event === 'del')
 			{
 				layer.confirm('确定要删除吗？', function(index)
 				{
-					$.post("/admin/menu/delete", {id: data.menuId}, function(json) {
+					$.post("/admin/dept/delete", {id: data.deptId}, function(json) {
 						if(json.code==200) {
 							parent.layer.closeAll();
 							tabletree.reload();
@@ -141,9 +136,15 @@
 				});
 			} else if(obj.event === 'edit')
 			{
-				showBox('编辑菜单', 700, 700, 1, '/admin/menu/edit?id='+data.menuId);
+				showBox('编辑部门', 700, 700, 1, '/admin/dept/edit?id=' + data.deptId);
 			}
 		});
+
+		form.on('switch(is_status)', function(data)
+		{
+			var status = data.elem.checked==true?'normal':'hidden';
+			updateData('/admin/dept/updateStatus', data.value, status);
+		})
 	})
 </script>
 </body>

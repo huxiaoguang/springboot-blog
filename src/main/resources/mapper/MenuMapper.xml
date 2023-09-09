@@ -34,7 +34,7 @@
 
 	<!--编辑菜单-->
 	<update id="updateMenu" parameterType="main.blog.entity.Menu">
-		update fa_menu set menu_name = #{menuName}, url = #{url}, sort = #{sort}, icon = #{icon}, status = #{status}, url_type = #{urlType}, parent_id = #{parentId}, permission = #{permission}, remarks = #{menuId}, update_by = #{updateBy}, update_time = now(), remarks = #{remarks} where menu_id = #{menuId}
+		update fa_menu set menu_name = #{menuName}, url = #{url}, sort = #{sort}, icon = #{icon}, status = #{status}, url_type = #{urlType}, parent_id = #{parentId}, permission = #{permission}, remarks = #{remarks}, update_by = #{updateBy}, update_time = now(), remarks = #{remarks} where menu_id = #{menuId}
 	</update>
 
 	<!--删除菜单-->
