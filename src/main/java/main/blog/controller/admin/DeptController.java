@@ -42,6 +42,16 @@ public class DeptController
     }
 
     /**
+     * 部门列表
+     */
+    @ResponseBody
+    @RequestMapping(value = "list", method = RequestMethod.GET, headers = "Accept=application/json")
+    public Result list()
+    {
+        return Result.success(deptService.getDeptList());
+    }
+
+    /**
      * 新增部门
      */
     @RequestMapping(value = "add", method = RequestMethod.GET)
@@ -79,9 +89,9 @@ public class DeptController
             if(!dept.getPid().equals(0))
             {
                 Dept parent = deptService.getDeptInfo(dept.getPid());
-                map.put("menuName", parent.getDeptName());
+                map.put("deptName", parent.getDeptName());
             }else{
-                map.put("menuName", "选择上级部门");
+                map.put("deptName", "选择上级部门");
             }
             map.put("info", dept);
         }

@@ -37,6 +37,12 @@ public class DeptServiceImpl implements DeptService
     }
 
     @Override
+    public List<Dept> getDeptList()
+    {
+        return deptMapper.getDeptList();
+    }
+
+    @Override
     public Dept getDeptInfo(Integer deptId)
     {
         return deptMapper.getDeptInfo(deptId);

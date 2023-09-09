@@ -15,8 +15,8 @@
 
     <!--新增账号-->
     <insert id="insertAdmin" parameterType="main.blog.entity.Admin" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO fa_admin (`username`, `mobile`, `nickname`, `sex`, `password`, `salt`, `avatar`, `email`, `error_num`, `status`, `login_time`, `create_by`, `update_by`, `create_time`, `update_time`)
-        VALUES (#{username}, #{mobile}, #{nickname}, #{sex}, #{password}, #{salt}, #{avatar}, #{email}, #{errorNum}, #{status}, now(), #{createBy}, #{updateBy}, now(), now())
+        INSERT INTO fa_admin (`username`, `mobile`, `nickname`, `sex`, `dept_id`, `password`, `salt`, `avatar`, `email`, `error_num`, `status`, `login_time`, `create_by`, `update_by`, `create_time`, `update_time`)
+        VALUES (#{username}, #{mobile}, #{nickname}, #{sex},  #{deptId}, #{password}, #{salt}, #{avatar}, #{email}, #{errorNum}, #{status}, now(), #{createBy}, #{updateBy}, now(), now())
     </insert>
 
     <!--账号更新 -->
@@ -34,6 +34,9 @@
             </if>
             <if test="sex!='' and sex!=null">
                 `sex`=#{sex},
+            </if>
+            <if test="deptId!='' and deptId!=null">
+                `dept_id`=#{deptId},
             </if>
             <if test="avatar!='' and avatar!=null">
                 `avatar`=#{avatar},

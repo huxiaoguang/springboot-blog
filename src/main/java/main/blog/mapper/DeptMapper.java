@@ -20,6 +20,12 @@ public interface DeptMapper
     List<Dept> getDeptPage(DeptSearchDTO dto);
 
     /**
+     * 部门列表
+     * @return
+     */
+    List<Dept> getDeptList();
+
+    /**
      * 部门查询
      * @param deptId
      * @return

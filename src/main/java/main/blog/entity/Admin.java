@@ -24,6 +24,8 @@ public class Admin extends BaseEntity
 
 	private Integer sex;
 
+	private Integer deptId;
+
 	private String status;
 
 	private String avatar;

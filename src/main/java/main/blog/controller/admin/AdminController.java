@@ -6,8 +6,10 @@ import cn.hutool.core.util.StrUtil;
 import main.blog.annotation.Log;
 import main.blog.dto.admin.*;
 import main.blog.entity.Admin;
+import main.blog.entity.Dept;
 import main.blog.enums.BusinessType;
 import main.blog.service.AdminService;
+import main.blog.service.DeptService;
 import main.blog.service.RoleAdminService;
 import main.blog.utils.Result;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,8 @@ public class AdminController
 {
     @Resource
     private HttpSession session;
+    @Resource
+    private DeptService deptService;
     @Resource
     private AdminService adminService;
     @Resource
@@ -94,8 +98,12 @@ public class AdminController
     {
         if(ObjectUtil.isNotNull(adminId))
         {
+            Admin admin = adminService.getAdminInfo(adminId);
+            Dept dept = deptService.getDeptInfo(admin.getDeptId());
+
+            map.put("info", admin);
+            map.put("deptName", dept.getDeptName());
             map.addAttribute("roleIds", roleAdminService.getRoleAdminIds(adminId));
-            map.put("info", adminService.getAdminInfo(adminId));
         }
         return "admin/admin/edit";
     }

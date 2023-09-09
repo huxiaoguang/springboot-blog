@@ -4,7 +4,6 @@ import cn.hutool.core.lang.tree.Tree;
 import com.github.pagehelper.PageInfo;
 import main.blog.dto.admin.*;
 import main.blog.entity.Dept;
-
 import java.util.List;
 
 public interface DeptService
@@ -14,6 +13,8 @@ public interface DeptService
      * @return
      */
     PageInfo<Dept> getDeptPage(DeptSearchDTO dto);
+
+    List<Dept> getDeptList();
 
     Dept getDeptInfo(Integer deptId);
 

@@ -16,6 +16,10 @@
     	ORDER BY sort DESC
     </select>
 
+	<select id="getDeptList" resultType="main.blog.entity.Dept">
+		SELECT * FROM fa_dept WHERE status = 1 ORDER BY sort DESC
+	</select>
+
 	<!--获取菜单-->
 	<select id="getDeptInfo" parameterType="int" resultType="main.blog.entity.Dept">
 		select * from fa_dept where dept_id = #{deptId} limit 1

@@ -14,7 +14,7 @@
 		<div class="layui-input-block">
 			<div class="layui-unselect layui-form-select treeSelect">
 				<div class="layui-select-title">
-					<span  class="layui-input layui-unselect" th:text="${menuName}">选择上级部门</span>
+					<span  class="layui-input layui-unselect" th:text="${deptName}">选择上级部门</span>
 					<input class="layui-select" th:value="${info.pid}" type="hidden" name="pid" lay-verify="required" lay-reqText="请选择上级部门">
 					<i class="layui-edge"></i>
 				</div>
@@ -128,7 +128,6 @@
 			if(json.code==200)
 			{
 				tree.render({
-					id: 'menuId',
 					elem: '#treeUl',
 					data: json.data,
 					click: function(node)

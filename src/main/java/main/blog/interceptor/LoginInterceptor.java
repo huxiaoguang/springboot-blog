@@ -12,7 +12,6 @@ import main.blog.entity.Admin;
 @Component
 public class LoginInterceptor implements HandlerInterceptor
 {
-    //进入 Handler方法之前执行,比如身份认证，如果认证通过表示当前用户没有登陆，需要此方法拦截不再向下执行
 	@Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception
     {

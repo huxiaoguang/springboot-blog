@@ -17,7 +17,7 @@
     </select>
 
 	<select id="getRoleList" resultType="main.blog.entity.Role">
-		SELECT * FROM fa_role WHERE status = 1 ORDER BY role_id DESC
+		SELECT * FROM fa_role WHERE status = 1 ORDER BY sort DESC
 	</select>
 
 	<!--获取角色-->

@@ -36,6 +36,24 @@
 	</div>
 
 	<div class="layui-form-item">
+		<label class="layui-form-label layui-required">部门</label>
+		<div class="layui-input-block">
+			<div class="layui-unselect layui-form-select treeSelect">
+				<div class="layui-select-title">
+					<span  class="layui-input layui-unselect" th:text="${deptName}">选择部门</span>
+					<input class="layui-select" th:value="${info.deptId}" type="hidden" name="deptId" lay-verify="required" lay-reqText="选择部门">
+					<i class="layui-edge"></i>
+				</div>
+				<dl class="layui-anim layui-anim-upbit">
+					<dd>
+						<ul id="treeUl"></ul>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+
+	<div class="layui-form-item">
 		<label class="layui-form-label layui-required">手机</label>
 		<div class="layui-input-block">
 			<input type="text" th:value="${info.mobile}" name="mobile" id="mobile" lay-verify="required|phone|number" lay-verType="tips" lay-reqText="请输入手机号码" placeholder="请输入手机号码" class="layui-input">
@@ -74,15 +92,22 @@
 		</div>
 	</div>
 </form>
-
+<style type="text/css">
+	.treeSelect .layui-select-title span {
+		line-height: 30px;
+	}
+	.layui-form-select dl{
+		padding: 0;
+	}
+</style>
 <script src="/admin/layui/layui.js"></script>
 <script src="/admin/js/common.js"></script>
 
 <script type="text/javascript">
 	layui.config({base: '/admin/layui/modules/xmSelect/'}).extend({xmSelect: 'xm-select'})
-	.use(['jquery', 'form', 'layer', 'laydate', 'xmSelect'], function()
+	.use(['jquery', 'form', 'layer', 'laydate', 'tree', 'xmSelect'], function()
 	{
-		var $ = layui.jquery, layer = layui.layer, form = layui.form, laydate = layui.laydate;
+		var $ = layui.jquery, layer = layui.layer, form = layui.form, tree = layui.tree, laydate = layui.laydate;
 
 		var roleSelect = xmSelect.render({
 			el: '#role-select',
@@ -108,6 +133,32 @@
 				roleSelect.setValue([[${roleIds}]]);
 			}
 		}, "json");
+
+		$.get('/admin/dept/tree', {field: 'pid'}, function(json)
+		{
+			if(json.code==200)
+			{
+				tree.render({
+					elem: '#treeUl',
+					data: json.data,
+					click: function(node)
+					{
+						var that = $(this)[0].elem.parents(".layui-form-select");
+						that.removeClass("layui-form-selected").find(".layui-select-title span").html(node.data.name).end().find("input:hidden[name='deptId']").val(node.data.id);
+					}
+				})
+			}
+		}, 'json')
+
+		$(".treeSelect").on("click", ".layui-select-title", function(e)
+		{
+			$(".layui-form-select").not($(this).parents(".layui-form-select")).removeClass("layui-form-selected");
+			$(this).parents(".treeSelect").toggleClass("layui-form-selected");
+			layui.stope(e);
+		}).on("click", "dl i", function(e)
+		{
+			layui.stope(e);
+		});
 
 		// 输入框验证
 		form.verify({

@@ -15,19 +15,19 @@ public class AdminSaveDTO implements Serializable
     private Integer id;
 
     /** 用户账号 */
-    @NotBlank(message = "用户账号不能为空！")
+    @NotBlank(message = "用户账号不能为空")
     private String username;
 
     /** 用户昵称 */
-    @NotBlank(message = "用户昵称不能为空！")
+    @NotBlank(message = "用户昵称不能为空")
     private String nickname;
 
     /** 邮箱 */
-    @NotBlank(message = "邮箱不能为空！")
+    @NotBlank(message = "邮箱不能为空")
     private String email;
 
     /** 手机号码 */
-    @NotBlank(message = "手机号码不能为空！")
+    @NotBlank(message = "手机号码不能为空")
     private String mobile;
 
     /** 性别 */
@@ -38,8 +38,12 @@ public class AdminSaveDTO implements Serializable
     @NotBlank(message = "登录密码不能为空", groups ={ValidGroupsDTO.Insert.class})
     private String password;
 
+    /** 部门ID */
+    @NotBlank(message = "请选择所在部门")
+    private Integer deptId;
+
     /** 角色Id */
-    @NotBlank(message = "请选择角色！")
+    @NotBlank(message = "请选择角色")
     private String roleIds;
 
     /** 用户头像 */
