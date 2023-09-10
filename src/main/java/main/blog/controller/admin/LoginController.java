@@ -3,7 +3,6 @@ package main.blog.controller.admin;
 import java.io.IOException;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import cn.hutool.captcha.LineCaptcha;
 import main.blog.dto.admin.LoginDTO;
 import main.blog.utils.Result;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.alibaba.fastjson.JSONObject;
-
 import main.blog.entity.Admin;
 import main.blog.service.AdminService;
-import main.blog.utils.CaptchaUtil;
 
 @Controller("Login")
 @SessionAttributes("admin")
@@ -42,7 +37,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String index() {
-		return "admin/login";
+		return "admin/login/index";
 	}
 
 	/**

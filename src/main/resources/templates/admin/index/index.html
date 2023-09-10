@@ -1,16 +1,18 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<title>LayBlog博客系统</title>
+	<title>首页</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/admin/css/main.css" />
 </head>
 
 <body>
-	<div class="layui-body p-15" layout:fragment="content">
-		<blockquote class="layui-elem-quote">欢迎使用WeAdmin 后台模版！</blockquote>			
+	<div class="p-15">
+		<blockquote class="layui-elem-quote">欢迎使用WeAdmin 后台模版！</blockquote>
 		<div class="layui-col-lg12 layui-collapse" style="border: none;">
 			<div class="layui-col-lg6 layui-col-md12">
-				<!--统计信息展示-->
 				<fieldset class="layui-elem-field" style="padding:10px 10px 0 10px;">
-					<!--<legend>信息统计</legend>-->
 					<blockquote class="layui-elem-quote font16">信息统计</blockquote>
 					<div class="">
 						<table class="layui-table" lay-even="">
@@ -70,7 +72,7 @@
 					</div>
 				</fieldset>
 			</div>
-			
+
 			<div class="layui-col-lg6 layui-col-md12">
 				<fieldset class="layui-elem-field we-changelog" style="padding:10px 10px 0 10px;">
 					<!--更新日志-->

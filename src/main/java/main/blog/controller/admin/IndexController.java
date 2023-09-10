@@ -31,12 +31,22 @@ public class IndexController {
 	 * 系统首页
 	 * @return string
 	 */
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(Model model)
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String index()
+	{
+		return "admin/layout";
+	}
+
+	/**
+	 * 系统首页
+	 * @return string
+	 */
+	@RequestMapping(value = "index", method = RequestMethod.GET)
+	public String console(Model model)
 	{
 		model.addAttribute("article",  countArticle());
 		model.addAttribute("category", countCategory());
-		return "admin/index";
+		return "admin/index/index";
 	}
 
 	/**

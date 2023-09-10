@@ -1,3 +1,100 @@
 <script src="/admin/layui/layui.js"></script>
 <script src="/admin/js/common.js"></script>
-<div layout:fragment="footer"></div>
+<script type="text/javascript">
+layui.use(['jquery', 'form', 'layer', 'util', 'element'], function()
+{
+    var $ = layui.jquery, util = layui.util, element = layui.element;;
+    var isShow = true;
+
+    util.event('lay-header-event', {
+        // 左侧菜单事件
+        menuLeft: function (othis)
+        {
+            $('.layui-nav-item span').each(function () {
+                if ($(this).is(':hidden')) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                };
+            });
+            $('.layui-header span').each(function () {
+                if ($(this).is(':hidden')) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                };
+            });
+
+            if (isShow) {
+                $('.layui-side.layui-side-menu').width(60); //设置宽度
+                $('.layui-logo').width(60);
+                $('.kit-side-fold i').css('margin-right', '70%');  //修改图标的位置
+
+                // 将footer和body的宽度修改
+                $('.layui-layout-left').css('left', 60 + 'px');
+                $('.layui-body').css('left', 60 + 'px');
+                $('.layui-footer').css('left', 60 + 'px');
+
+                //将二级导航栏隐藏
+                $('dd span').each(function () {
+                    $(this).hide();
+                });
+                //修改标志位
+                isShow = false;
+            } else {
+                $('.layui-side.layui-side-menu').width(220);
+                $('.layui-logo').width(220);
+                $('.kit-side-fold i').css('margin-right', '10%');
+                $('.layui-layout-left').css('left', 220 + 'px');
+                $('.layui-body').css('left', 220 + 'px');
+                $('.layui-footer').css('left', 220 + 'px');
+                $('dd span').each(function () {
+                    $(this).show();
+                });
+                isShow = true;
+            };
+        }
+    })
+
+    // 左侧菜单点击事件
+    $('.link-active').on('click', function ()
+    {
+        var that = $(this);
+        if ($('.layui-tab-title li[lay-id]').length <= 0)
+        {
+            tabPage.tabAdd(that.attr('lay-href'), that.data('id'), '<span>'+that.data('title')+'</span>');
+        } else {
+            var isExist = false;
+            $.each($('.layui-tab-title li[lay-id]'), function () {
+                if ($(this).attr('lay-id') == that.data('id')) {
+                    isExist = true;
+                }
+            });
+            if (isExist == false) {
+                tabPage.tabAdd(that.attr('lay-href'), that.data('id'), '<span>'+that.data('title')+'</span>');
+            }
+        }
+        tabPage.tabChange(that.data('id'));
+    });
+
+    var tabPage = {
+        tabAdd: function (url, id, name) {
+            element.tabAdd('iframe-page', {
+                title: name,
+                content: '<iframe data-frameid="' + id + '" scrolling="auto" frameborder="0" border="0" src="' + url + '" marginwidth="0" marginheight="0" width="100%" height="800"></iframe>',
+                id: id
+            });
+        },
+        // 根据id切换tab
+        tabChange: function (id) {
+            element.tabChange('iframe-page', id)
+        },
+        // 关闭指定的tab
+        tabDelete: function (id) {
+            element.tabDelete('iframe-page', id)
+        }
+    }
+    tabPage.tabAdd('/admin/index', 0, '<span class="disable">首页</span>');
+    tabPage.tabChange(0);
+})
+</script>

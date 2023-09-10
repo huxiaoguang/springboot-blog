@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>LayBlog博客系统</title>
 	<meta charset="utf-8">
@@ -12,7 +12,12 @@
 <div class="layui-layout layui-layout-admin">
 	<div th:replace="/admin/public/header"></div>
 	<div th:replace="/admin/public/left.html"></div>
-	<div layout:fragment="content"></div>
+	<div class="layui-body">
+		<div class="layui-tab" lay-filter="iframe-page" lay-allowclose="true">
+			<ul class="layui-tab-title"></ul>
+			<div class="layui-tab-content"></div>
+		</div>
+	</div>
 	<div class="layui-footer">© huxiaoguang.com - 博客系统</div>
 </div>
 <div th:replace="/admin/public/footer"></div>

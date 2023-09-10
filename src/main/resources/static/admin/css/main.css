@@ -101,7 +101,6 @@ body{font:14px Microsoft Yahei,sans-serif}
 
 /*导航设置*/
 .layui-nav .layui-nav-item>a{color:#fff}
-.layui-layout-left{padding:0}
 .layui-layout-left .layui-this{background-color:#3385ff!important;color:#fff}
 .layui-layout-left .layui-nav-item{min-width:125px;cursor:pointer}
 .layui-layout-left .layui-nav-item a{padding:0 10px}
@@ -133,3 +132,11 @@ body{font:14px Microsoft Yahei,sans-serif}
 .layui-panel-search .layui-form-label{display:  inline-block}
 .layui-panel-search .layui-input-block{display: inline-block; margin-left:0px}
 .layui-panel-search .layui-btn-sm{margin-top: -2px;}
+
+/**选项卡*/
+.layui-tab{margin: 0}
+.layui-tab-content{padding: 0}
+.layui-tab-title li{border-right: 1px solid whitesmoke;color: #acafb1;}
+.layui-tab-title .layui-this{background: #FAFAFA}
+.layui-tab-title .layui-this .layui-tab-close{color: #000000}
+.layui-tab-title .disable + .layui-tab-close {display: none;}

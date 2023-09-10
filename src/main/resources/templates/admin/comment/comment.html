@@ -1,73 +1,69 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" layout:decorator="admin/layout">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<title>评论管理</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="/admin/layui/css/layui.css" />
+	<link rel="stylesheet" href="/admin/css/main.css" />
 </head>
 
 <body>
-<div class="layui-body p-15" layout:fragment="content">
-		<div class="layui-breadcrumb">
-		  <a href="/admin/comment/list">内容管理</a>
-		  <a><cite>评论管理</cite></a>
-		</div>
-		<hr />
-		<form class="layui-form" lay-size="sm">
-			<div class="layui-inline fr mb-10">
-				<div class="layui-input-inline">
-					<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input"  th:value="${keywords}" type="text">
-				</div>
-				<button class="layui-btn layui-btn-sm">搜 索</button>
+<div class="p-15">
+	<form class="layui-form" lay-size="sm">
+		<div class="layui-inline fr mb-10">
+			<div class="layui-input-inline">
+				<input name="keywords" placeholder="请输入搜索关键词" autocomplete="off" class="layui-input"  th:value="${keywords}" type="text">
 			</div>
-		</form>
-
-		<div class="layui-form">
-		  <table class="layui-table">
-		    <thead>
-		      <tr>
-		        <td width="5%">编号</td>
-		        <td width="15%">评论文章</td>
-		        <td width="40%">评论内容</td>
-		        <td>评论人</td>
-		        <td>评论时间</td>
-		        <td>操作</td>
-		      </tr>
-		    </thead>
-		    <tbody>
-				<th:block th:each="vo:(${list})">
-				<tr>
-					 <td th:text="${vo.cid}"></td>
-					 <td>
-					 	<a th:text="${vo.title}" th:href="@{'/article/'+${vo.aid}+'.html'}" target="_blank"></a>
-					 </td>
-					 <td th:text="${vo.comment}"></td>
-					 <td th:text="${vo.username}"></td>
-					 <td th:text="${#dates.format(vo.createTime,'yyyy-MM-dd HH:mm')}"></td>
-					 <td>
-					 	<a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/comment/delete}+'\','+${vo.cid}+')'">删除</a>&emsp;
-					 	<a href="#">回复</a>
-					 </td>
-				</tr>
-				</th:block>
-		    </tbody>
-		  </table>
+			<button class="layui-btn layui-btn-sm">搜 索</button>
 		</div>
-
-		<div class="layui-center">
-			<div th:replace="admin/public/page::show('/admin/comment/index')"></div>
-		</div>
+	</form>
+	<div class="layui-form">
+	  <table class="layui-table">
+		<thead>
+		  <tr>
+			<td width="5%">编号</td>
+			<td width="15%">评论文章</td>
+			<td width="40%">评论内容</td>
+			<td>评论人</td>
+			<td>评论时间</td>
+			<td>操作</td>
+		  </tr>
+		</thead>
+		<tbody>
+			<th:block th:each="vo:(${list})">
+			<tr>
+				 <td th:text="${vo.cid}"></td>
+				 <td>
+					<a th:text="${vo.title}" th:href="@{'/article/'+${vo.aid}+'.html'}" target="_blank"></a>
+				 </td>
+				 <td th:text="${vo.comment}"></td>
+				 <td th:text="${vo.username}"></td>
+				 <td th:text="${#dates.format(vo.createTime,'yyyy-MM-dd HH:mm')}"></td>
+				 <td>
+					<a href="javascript:void(0)" th:onclick="'deleteData(\''+@{/admin/comment/delete}+'\','+${vo.cid}+')'">删除</a>&emsp;
+					<a href="#">回复</a>
+				 </td>
+			</tr>
+			</th:block>
+		</tbody>
+	  </table>
 	</div>
+</div>
 
-	<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
-	layui.use(['jquery', 'form', 'layer'], function()
+<script src="/admin/layui/layui.js"></script>
+<script src="/admin/js/common.js"></script>
+<script th:inline="javascript" type="text/javascript" layout:fragment="footer">
+layui.use(['jquery', 'form', 'layer'], function()
+{
+	var form = layui.form;
+
+	form.on('switch(is_status)', function(data)
 	{
-		var form = layui.form;
-
-		form.on('switch(is_status)', function(data)
-		{
-			var id = data.value;
-			var status = data.elem.checked==true?'normal':'hidden';
-			updateData('/admin/link/updateStatus', id, status);
-		})
+		var id = data.value;
+		var status = data.elem.checked==true?'normal':'hidden';
+		updateData('/admin/link/updateStatus', id, status);
 	})
-	</script>
+})
+</script>
 </body>
 </html>

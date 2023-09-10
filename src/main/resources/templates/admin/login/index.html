@@ -77,7 +77,7 @@
 					$('button[type="button"]').removeAttr("disabled").text("登录");
 					if(json.code==200)
 					{
-						window.location.href = '/admin/index'
+						window.location.href = '/admin'
 					}else if(json.code==401)
 					{
 						layer.msg(json.msg, {time: 1000}, function() {
