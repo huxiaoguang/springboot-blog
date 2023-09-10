@@ -52,7 +52,7 @@
 				    <section class="post-content widget">
 				    	<div class="tag-cloud">
 				            <th:block th:each="vo:${list}">
-							<a th:href="@{'/tag/'+${vo.tagname}+'/'}" th:text="${vo.tagname}" th:title="${vo.tagname}" target="_blank"></a>
+							<a th:href="@{'/tag/'+${vo.tagName}+'/'}" th:text="${vo.tagName}" th:title="${vo.tagName}" target="_blank"></a>
 							</th:block>
 				        </div>
 				    </section>
